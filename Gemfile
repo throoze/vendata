@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
+# Load environment variables from .env file
+gem 'dotenv-rails', :groups => [:development, :test, :production], :require => 'dotenv/rails-now'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -47,6 +49,9 @@ gem 'browserify-rails', '~> 0.9.1'
 
 # DocumentCloud
 gem 'documentcloud'
+
+# Bulk insertion
+gem 'activerecord-import'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

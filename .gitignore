@@ -16,5 +16,9 @@
 !/log/.keep
 /tmp
 
-# ignore npm packages
+# Ignore npm packages
 node_modules
+
+# Ignore .env files
+.env
+.env.*
