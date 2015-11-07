@@ -1,0 +1,20 @@
+{
+    "name": "vendata",
+    "description" : "Vendata is an opensource platform for browsing and querying Venezuelan official documents.",
+    "version": "0.0.1",
+    "dependencies": {},
+    "devDependencies" : {
+        "browserify": "~9.0.8",
+        "browserify-incremental": "^3.0.0",
+        "react": "^0.14.2",
+        "reactify": "^1.1.0"
+    },
+    "repository": { 
+        "type": "git",
+        "url": "git+https://github.com/throoze/vendata.git"
+    },
+    "license": "MIT",
+    "engines": {
+        "node": ">= 0.10"
+    }
+}
