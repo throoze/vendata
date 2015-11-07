@@ -5,6 +5,10 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+Dotenv::Railtie.load
+
+DOCUMENTCLOUD_EMAIL = ENV['DOCUMENTCLOUD_EMAIL'].dup
+DOCUMENTCLOUD_PASSWORD = CGI.escape ENV['DOCUMENTCLOUD_PASSWORD'].dup
 
 module Vendata
   class Application < Rails::Application
@@ -28,8 +32,8 @@ module Vendata
     config.browserify_rails.commandline_options = "-t reactify --extension=\".js.jsx\""
 
     DocumentCloud.configure do |config|
-        config.email    = 'my_email@somedomain.com'
-        config.password = 'my_secret_password'
+        config.email    = DOCUMENTCLOUD_EMAIL
+        config.password = DOCUMENTCLOUD_PASSWORD
     end
   end
 end
