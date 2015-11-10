@@ -2,7 +2,7 @@
 var ServerActionCreators = require('../actions/ServerActionCreators.react.jsx');
 var VendataConstants = require('../constants/VendataConstants.js');
 var Auth = require('j-toker');
-var request = require('superagent');
+//var request = require('superagent');
 
 var APIEndpoints = VendataConstants.APIEndpoints;
 

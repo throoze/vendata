@@ -79,4 +79,5 @@ Rails.application.configure do
 
   # React
   config.react.variant = :production
+  config.react.addons  = true
 end

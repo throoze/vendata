@@ -5,10 +5,9 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-Dotenv::Railtie.load
 
-DOCUMENTCLOUD_EMAIL = ENV['DOCUMENTCLOUD_EMAIL'].dup
-DOCUMENTCLOUD_PASSWORD = CGI.escape ENV['DOCUMENTCLOUD_PASSWORD'].dup
+DOCUMENTCLOUD_EMAIL = ENV['DOCUMENTCLOUD_EMAIL']
+DOCUMENTCLOUD_PASSWORD = CGI.escape ENV['DOCUMENTCLOUD_PASSWORD']
 
 module Vendata
   class Application < Rails::Application

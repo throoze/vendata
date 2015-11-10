@@ -3,19 +3,9 @@
   "description": "Vendata is an opensource platform for browsing and querying Venezuelan official documents.",
   "version": "0.0.1",
   "dependencies": {
-    "browserify": "~9.0.8",
-    "browserify-incremental": "^3.0.0",
-    "flux": "^2.1.1",
-    "j-toker": "0.0.6",
-    "keymirror": "^0.1.1",
-    "lodash": "^3.10.1",
-    "react": "^0.14.2",
-    "react-bootstrap": "^0.27.3",
-    "react-dom": "^0.14.2",
-    "react-router": "^0.13.5",
-    "reactify": "^1.1.0"
   },
   "devDependencies": {
+    "babel": "^6.0.15",
     "browserify": "~9.0.8",
     "browserify-incremental": "^3.0.0",
     "flux": "^2.1.1",
@@ -26,6 +16,7 @@
     "react-bootstrap": "^0.27.3",
     "react-dom": "^0.14.2",
     "react-router": "^0.13.5",
+    "react-tools": "^0.12.1",
     "reactify": "^1.1.0"
   },
   "repository": {

@@ -1,10 +1,6 @@
-// ./components/Navigation.react.jsx
-var BS                 = require('react-bootstrap'),
-    Auth               = require('j-toker'),
-    _                  = require('lodash'),
-    RouteHandler       = require('react-router').RouteHandler,
-    RouteStore         = require('../stores/RouteStore.react.jsx'),
-    SessionStore       = require('../stores/SessionStore.react.jsx');
+// ./components/NavigationBar.js.jsx
+var BS             = require('react-bootstrap'),
+    SessionStore   = require('../../stores/SessionStore.react.jsx');
 // react-bootstrap components:
 var Navbar         = BS.Navbar,
     NavBrand       = BS.NavBrand,
@@ -23,7 +19,7 @@ function getStateFromStores() {
     };
 }
 
-Navigation = React.createClass({
+NavigationBar = React.createClass({
     getInitialState: function() {
         return getStateFromStores();
     },
@@ -62,4 +58,4 @@ Navigation = React.createClass({
     }
 });
 
-module.exports = Navigation;
+module.exports = NavigationBar;

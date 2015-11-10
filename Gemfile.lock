@@ -78,10 +78,6 @@ GEM
     documentcloud (0.3.1)
       multi_json (~> 1.8)
       rest-client (~> 1.6.7)
-    dotenv (2.0.2)
-    dotenv-rails (2.0.2)
-      dotenv (= 2.0.2)
-      railties (~> 4.0)
     erubis (2.7.0)
     execjs (2.6.0)
     globalid (0.3.6)
@@ -217,7 +213,6 @@ DEPENDENCIES
   devise (>= 3.5.2)
   devise_token_auth (>= 0.1.36)
   documentcloud (>= 0.3.1)
-  dotenv-rails
   hashie (>= 3.4.3)
   jbuilder (~> 2.0)
   jquery-rails

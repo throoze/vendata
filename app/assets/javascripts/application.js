@@ -13,6 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//  require react
+//  require react_ujs
 //= require bootstrap-sprockets
-//= require react
-//= require react_ujs
+
+// Pull in our top-level components in the main javascript entry point
+require('./components.js');

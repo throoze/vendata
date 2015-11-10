@@ -30,7 +30,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= react_component('Navigation', {}, { prerender: params[:noprerender].nil? }) %>
+<%= react_component('NavigationBar', {}, { prerender: params[:noprerender].nil? }) %>
 <%= yield %>
 </body>
 </html>

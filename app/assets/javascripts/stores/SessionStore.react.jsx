@@ -1,12 +1,12 @@
 // ./stores/SessionStore.react.jsx
-var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
-var VendataConstants = require('../constants/VendataConstants.js');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
-var Auth = require('j-toker');
+var EventEmitter         = require('events').EventEmitter,
+    assign               = require('object-assign'),
+    Auth                 = require('j-toker');
+var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js'),
+    VendataConstants     = require('../constants/VendataConstants.js');
 
-var ActionTypes = VendataConstants.ActionTypes;
-var CHANGE_EVENT = 'change';
+var ActionTypes          = VendataConstants.ActionTypes;
+var CHANGE_EVENT         = 'change';
 
 // Load an access token from the session storage, you might want to implement
 // a 'remember me' using localSgorage
