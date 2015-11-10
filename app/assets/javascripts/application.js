@@ -13,11 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_self
+//= require bootstrap-sprockets
+//= require react
 //= require react_ujs
-
-// Require React as a module and make it available globally instead of using the one provided by react-rails
-React = require('react');
-
-// Pull in our top-level components in the main javascript entry point
-require('./components');
