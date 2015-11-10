@@ -3,7 +3,7 @@ var keyMirror = require('keymirror');
 
 var APIRoot = "http://localhost:3000/api/";
 var APIVersion = "v1";
-var Root = APIRoot + APIVersion
+var Root = APIRoot + APIVersion;
 
 module.exports = {
 

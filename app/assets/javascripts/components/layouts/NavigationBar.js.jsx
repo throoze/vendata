@@ -6,7 +6,7 @@ var Navbar         = BS.Navbar,
     NavBrand       = BS.NavBrand,
     Nav            = BS.Nav,
     NavDropdown    = BS.NavDropdown,
-    MenuItem       = BS.MenuItem
+    MenuItem       = BS.MenuItem,
     CollapsibleNav = BS.CollapsibleNav;
 
 
