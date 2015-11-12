@@ -3,8 +3,6 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
-# Load environment variables from .env file
-gem 'dotenv-rails', :groups => [:development, :test, :production], :require => 'dotenv/rails-now'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -26,32 +24,17 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Unicorn as the app server
-# gem 'unicorn'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-# Authentication
-gem 'hashie', '>= 3.4.3'
-gem 'omniauth', '>= 1.2.2'
-gem 'devise', '>= 3.5.2'
-gem 'devise_token_auth', '>= 0.1.36'
-
-# Authorization
-gem 'cancan', '>= 1.6.10'
-
-# React server-side rendering
-gem 'react-rails', '~> 1.0'
-gem 'browserify-rails', '~> 0.9.1'
-
-# DocumentCloud
-gem 'documentcloud'
-
-# Bulk insertion
-gem 'activerecord-import'
+group :production do
+  # PostgreSQL access
+  gem 'pg'
+  # Use Unicorn as the app server
+  gem 'unicorn'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -64,3 +47,26 @@ group :development, :test do
   gem 'spring'
 end
 
+# Authentication
+gem 'hashie', '>= 3.4.3'
+gem 'omniauth', '>= 1.2.2'
+gem 'devise', '>= 3.5.2'
+gem 'devise_token_auth', '>= 0.1.36'
+
+# Authorization
+gem 'cancan', '>= 1.6.10'
+
+# React server-side rendering
+gem 'react-rails', '~> 1.4.2'
+gem 'react-router-rails', '~>0.13.3.1'
+gem 'browserify-rails', '~> 0.9.1'
+
+# DocumentCloud
+gem 'documentcloud', '>= 0.3.1'
+
+# Bulk insertion
+gem 'activerecord-import'
+
+# Twitter Bootstrap
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'
