@@ -1,29 +1,23 @@
 // ./utils/WebAPIUtils.js
-var ServerActionCreators = require('../actions/ServerActionCreators.react.jsx');
-var VendataConstants = require('../constants/VendataConstants.js');
-var Auth = require('j-toker');
+var ServerActionCreators = require('../actions/ServerActionCreators.js.jsx');
 //var request = require('superagent');
 
 var APIEndpoints = VendataConstants.APIEndpoints;
 
-Auth.configure({
-  apiUrl:  VendataConstants.API_URL
-});
-
 module.exports = {
 
   login: function(email, password) {
-    Auth.emailSignIn({
-      email:    email,
-      password: password,
-    })
-      .then(function(resp) {
-        json = JSON.parse(resp);
-        ServerActionCreators.receiveLogin(json, null);
-      }.bind(this))
-      .fail(function(resp) {
-        ServerActionCreators.receiveLogin(null, resp.data.errors);
-      }.bind(this));
+    // Auth.emailSignIn({
+    //   email:    email,
+    //   password: password,
+    // })
+    //   .then(function(resp) {
+    //     json = JSON.parse(resp);
+    //     ServerActionCreators.receiveLogin(json, null);
+    //   }.bind(this))
+    //   .fail(function(resp) {
+    //     ServerActionCreators.receiveLogin(null, resp.data.errors);
+    //   }.bind(this));
   },
 };
 

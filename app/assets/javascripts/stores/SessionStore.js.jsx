@@ -1,10 +1,7 @@
 // ./stores/SessionStore.react.jsx
 var EventEmitter         = require('events').EventEmitter,
-    assign               = require('object-assign'),
-    Auth                 = require('j-toker');
-var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js'),
-    VendataConstants     = require('../constants/VendataConstants.js');
-
+    assign               = require('object-assign');
+var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
 var ActionTypes          = VendataConstants.ActionTypes;
 var CHANGE_EVENT         = 'change';
 
@@ -29,11 +26,11 @@ var SessionStore = assign({}, EventEmitter.prototype, {
   },
 
   isLoggedIn: function() {
-    return Auth.user.signedIn;    
+    return false;// Auth.user.signedIn;
   },
 
   getUser: function() {
-    return Auth.user;
+    return { email : 'example@example.com' };// Auth.user;
   },
 
   getErrors: function() {

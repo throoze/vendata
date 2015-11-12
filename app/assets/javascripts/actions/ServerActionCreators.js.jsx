@@ -1,6 +1,5 @@
 // ./actions/ServerActionCreators.react.jsx
 var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
-var VendataConstants = require('../constants/VendataConstants.js');
 
 var ActionTypes = VendataConstants.ActionTypes;
 

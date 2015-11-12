@@ -1,6 +1,6 @@
 // ./scripts/component/session/Login.js.jsx
-var SessionActionCreators = require('../../actions/SessionActionCreators.react.jsx'),
-    SessionStore          = require('../../stores/SessionStore.react.jsx'),
+var SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx'),
+    SessionStore          = require('../../stores/SessionStore.js.jsx'),
     ErrorNotice           = require('../common/ErrorNotice.js.jsx');
 
 var Login = React.createClass({

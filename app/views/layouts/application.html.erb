@@ -30,7 +30,8 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= react_component('NavigationBar', {}, { prerender: params[:noprerender].nil? }) %>
-<%= yield %>
+  <div id="vendata">
+  <%= yield %>
+  </div>
 </body>
 </html>

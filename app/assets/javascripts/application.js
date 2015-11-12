@@ -10,12 +10,19 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
+//  require jquery
+//  require jquery_ujs
 //= require turbolinks
 //  require react
 //  require react_ujs
+//  require react_router
+//  require react_router.min
+//  require react_router_ujs
+//= require_self
 //= require bootstrap-sprockets
+
+
+$ = jQuery = global.$ = global.jQuery = window.$ = window.jQuery = require('jquery');
 
 // Pull in our top-level components in the main javascript entry point
 require('./components.js');

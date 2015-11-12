@@ -58,6 +58,7 @@ gem 'cancan', '>= 1.6.10'
 
 # React server-side rendering
 gem 'react-rails', '~> 1.4.2'
+gem 'react-router-rails', '~>0.13.3.1'
 gem 'browserify-rails', '~> 0.9.1'
 
 # DocumentCloud
