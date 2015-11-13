@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/v1/auth'
   root 'application#index'
 
-  get 'login' => 'session#new', as: 'login'
+  get 'login' => 'session#index', as: 'login'
+  get 'scrapping' => 'scrapping#index', as: 'scrapping'
 
   namespace :api do
     namespace :v1 do

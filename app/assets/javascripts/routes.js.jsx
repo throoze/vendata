@@ -6,7 +6,7 @@ var Scrapping    = require('./components/scrapping/Scrapping');
 
 var Router = (
   <Route name="app" path="/" handler={Vendata}>
-    <DefaultRoute handler={Login} />
+    <DefaultRoute handler={Scrapping} />
     <Route name="login" path="login" handler={Login}/>
     <Route name="scrapping" path="scrapping" handler={Scrapping}/>
   </Route>
