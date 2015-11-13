@@ -1,4 +1,4 @@
-class Api::V1::SchemaeController < ApplicationController
+class Api::V1::SchemataController < ApplicationController
     def index
         render status: 200, json: Schema.first
     end

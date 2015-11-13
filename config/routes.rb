@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :schemae, only: [:index] do
+      resources :schemata, only: [:index] do
         post 'collections/new', on: :collection, action: 'add_collection', as: 'add_collection_to_schema'
         get 'collections', on: :collection, action: 'get_collections', as: 'get_collections_from_schema'
         get 'descriptions', on: :collection, action: 'get_descriptions', as: 'get_descriptions_from_schema'
