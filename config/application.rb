@@ -7,7 +7,13 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 DOCUMENTCLOUD_EMAIL = ENV['DOCUMENTCLOUD_EMAIL']
-DOCUMENTCLOUD_PASSWORD = CGI.escape ENV['DOCUMENTCLOUD_PASSWORD']
+DOCUMENTCLOUD_PASSWORD = ENV['DOCUMENTCLOUD_PASSWORD']
+
+# puts "==================================="
+# puts "DOCUMENTCLOUD_EMAIL = #{DOCUMENTCLOUD_EMAIL}"
+# puts "DOCUMENTCLOUD_PASSWORD = #{DOCUMENTCLOUD_PASSWORD}"
+# puts "==================================="
+
 
 module Vendata
   class Application < Rails::Application

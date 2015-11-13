@@ -16,10 +16,10 @@ NavigationBar = React.createClass({
         var rightItem = this.props.isLoggedIn ? (
             <NavDropdown eventKey={3} title={this.props.email} id="collapsible-nav-dropdown">
                 <MenuItem eventKey={1}>Perfil</MenuItem>
-                <MenuItem eventKey={2}><Link to="/logout">Logout</Link></MenuItem>
+                <MenuItem eventKey={2} href="/logout">Logout</MenuItem>
             </NavDropdown>
             ) : (
-            <Link to="/login" eventKey={1}>Login</Link>
+            <li data-role="presentation" eventKey={1}><Link to="login">Login</Link></li>
             );
         return (
             <Navbar fixedTop toggleNavKey={0}>

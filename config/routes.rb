@@ -4,6 +4,21 @@ Rails.application.routes.draw do
 
   get 'login' => 'session#new', as: 'login'
 
+  namespace :api do
+    namespace :v1 do
+      resources :schemae, only: [:index] do
+        post 'collections/new', on: :collection, action: 'add_collection', as: 'add_collection_to_schema'
+        get 'collections', on: :collection, action: 'get_collections', as: 'get_collections_from_schema'
+        get 'descriptions', on: :collection, action: 'get_descriptions', as: 'get_descriptions_from_schema'
+        get 'parenthood', on: :collection, action: 'get_parenthood', as: 'get_parenthood_from_schema'
+        get 'inheritance', on: :collection, action: 'get_inheritance', as: 'get_inheritance_from_schema'
+        get 'constraints', on: :collection, action: 'get_constraints', as: 'get_constraints_from_schema'
+        #get 'all', on: :collection, action: 'all'
+        #get 'first', on: :collection, action: 'first'
+      end
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

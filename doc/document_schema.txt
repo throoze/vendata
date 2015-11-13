@@ -1,8 +1,13 @@
+# Look in seeds.rb for a mongoized, more structured, version.
+
 Documento
 | numero : int
 | fecha : date
 | tipo : ["ordinario", "extraordinario"]
 | listo : boolean
+
+Gaceta << Documento
+| documentos : [ActoNormativo]
 
 
 Restricciones: {
@@ -56,9 +61,11 @@ ActoNormativo << Documento
 
 Pais
 | nombre : string
+| nacionalidad : string
 
 Nacionalidad
 | nacionalidad : string
+| pais : string
 
 
 Ciudadano
@@ -108,6 +115,13 @@ Efecto
 | fecha : date
 
 
+Cargo
+| nombre : string
+
+Rango
+| nombre : string
+
+
 IntervencionDeInstitucion << Efecto
 | institucion : Institucion
 | motivo : string
@@ -125,13 +139,6 @@ Designacion << Efecto
 | status : ["fijo", "encargado", "ratificado"]
 | cargo : Cargo
 | fecha_fin : date : nullable if status == "encargado"
-
-
-Cargo
-| nombre : string
-
-Rango
-| nombre : string
 
 
 Expropiacion << Efecto

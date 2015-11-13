@@ -15,7 +15,16 @@ window.VendataConstants = require('./constants/VendataConstants.js');
 
 
 // Components:
-window.Vendata = require('./components/Vendata');
-window.Login   = require('./components/session/Login');
+window.Vendata   = require('./components/Vendata');
+window.Login     = require('./components/session/Login');
+window.Scrapping = require('./components/scrapping/Scrapping');
 // Routing
 window.Router  = require('./routes');
+// window.StaticRouter= React.createClass({
+//     render: function(){
+//         var RouteHandler = ReactRouter.run(Router, this.props.path, function(){});
+//         return (
+//             <RouteHandler {...this.props} path={undefined} />
+//         );
+//     }
+// });

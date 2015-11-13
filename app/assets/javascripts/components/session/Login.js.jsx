@@ -1,7 +1,7 @@
 // ./scripts/component/session/Login.js.jsx
 var SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx'),
     SessionStore          = require('../../stores/SessionStore.js.jsx'),
-    ErrorNotice           = require('../common/ErrorNotice.js.jsx');
+    ErrorNotice           = require('../common/ErrorNotice');
 
 var Login = React.createClass({
   getInitialState: function() {
@@ -30,7 +30,9 @@ var Login = React.createClass({
 
   render: function() {
     return (
-      <div>LoginPage</div>
+      <div>
+        <div>LoginPage</div>
+      </div>
     );
   }
 });

@@ -12,3 +12,9 @@ VENDATA_DATABASE_PASSWORD=prod_db_pass
 # DocumentCloud authentication
 DOCUMENTCLOUD_EMAIL = 'your DocumentCloud email'
 DOCUMENTCLOUD_PASSWORD = 'your DocumentCloud password'
+
+# Debugging ExecJS
+# EXECJS_DEBUG=true
+
+# MongoDB password:
+VENDATA_MONGODB_PASSWORD=your_mongo_passwd

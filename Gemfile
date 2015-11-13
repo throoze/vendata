@@ -70,3 +70,6 @@ gem 'activerecord-import'
 # Twitter Bootstrap
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'
+
+# MongoDB ODM:
+gem 'mongoid', '~> 5.0.0'
