@@ -8,14 +8,20 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :schemata, only: [:index] do
-        post 'collections/new', on: :collection, action: 'add_collection', as: 'add_collection_to_schema'
-        get 'collections', on: :collection, action: 'get_collections', as: 'get_collections_from_schema'
-        get 'descriptions', on: :collection, action: 'get_descriptions', as: 'get_descriptions_from_schema'
-        get 'parenthood', on: :collection, action: 'get_parenthood', as: 'get_parenthood_from_schema'
-        get 'inheritance', on: :collection, action: 'get_inheritance', as: 'get_inheritance_from_schema'
-        get 'constraints', on: :collection, action: 'get_constraints', as: 'get_constraints_from_schema'
-        #get 'all', on: :collection, action: 'all'
-        #get 'first', on: :collection, action: 'first'
+        collection do
+          post 'collections/new', action: 'add_collection', as: 'add_collection_to_schema'
+          get 'collections', action: 'get_collections', as: 'get_collections_from_schema'
+          get 'descriptions', action: 'get_descriptions', as: 'get_descriptions_from_schema'
+          get 'parenthood', action: 'get_parenthood', as: 'get_parenthood_from_schema'
+          get 'inheritance', action: 'get_inheritance', as: 'get_inheritance_from_schema'
+          get 'constraints', action: 'get_constraints', as: 'get_constraints_from_schema'
+        end
+      end
+      namespace :scrapping do
+        get 'new', controller: 'scrapping', action: 'get_new_scrapping', as: 'get_new_scrapping'
+        get 'validation/new', controller: 'scrapping', action: 'get_new_validation', as: 'get_new_validation'
+        post 'new', controller: 'scrapping', action: 'new_scrapping', as: 'new_scrapping'
+        post 'validation/new', controller: 'scrapping', action: 'new_validation', as: 'new_validation'
       end
     end
   end

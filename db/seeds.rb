@@ -61,7 +61,7 @@ Schema.create([
                 classname: "Documento",
                 human_readable: "Documento",
                 fields: {
-                    numero: { type: "int" },
+                    numero: { type: "string" },
                     fecha:  { type: "date" },
                     listo:  { type: "boolean" },
                 }
