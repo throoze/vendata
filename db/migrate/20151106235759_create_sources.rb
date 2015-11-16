@@ -4,7 +4,9 @@ class CreateSources < ActiveRecord::Migration
       t.string :dc_id, null: false
       t.string :canonical_url, null: false
       t.boolean :is_extraordinary, :default => false
-      t.string :status, :default => :pending
+      t.string :status, :default => :pending # Other values: [:scrapped, :validated]
+      t.integer :validation_counter, :default => 0
+      t.string :flag, :default => nil
 
       t.timestamps null: false
     end

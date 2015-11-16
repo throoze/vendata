@@ -10,9 +10,23 @@ module.exports = {
   API_URL: Root,
 
   APIEndpoints: {
-    LOGIN:          Root + "/auth/sign_in",
-    REGISTRATION:   Root + "/auth"
-    // STORIES:        Root + "/auth/stories"
+    // Auth
+    LOGIN:        Root + "/auth/sign_in",
+    REGISTRATION: Root + "/auth",
+
+    // Schemata
+    SCHEMATA:              Root + "/schemata",              // GET
+    SCHEMATA_COLLECTIONS:  Root + "/schemata/collections",  // GET
+    SCHEMATA_DESCRIPTIONS: Root + "/schemata/descriptions", // GET
+    SCHEMATA_PARENTHOOD:   Root + "/schemata/parenthood",   // GET
+    SCHEMATA_INHERITANCE:  Root + "/schemata/inheritance",  // GET
+    SCHEMATA_CONSTRAINTS:  Root + "/schemata/constraints",  // GET
+
+    // Scrapping
+    SCRAPPING_GET_DOC_FOR_SCRAPPING:  Root + "/scrapping/new",          // GET
+    SCRAPPING_POST_SCRAPPED_DOC:      Root + "/scrapping/new",          // POST
+    SCRAPPING_GET_DOC_FOR_VALIDATING: Root + "/scrapping/validate/new", // GET
+    SCRAPPING_POST_VALIDATED_DOC:     Root + "/scrapping/validate/new"  // POST
   },
 
   PayloadSources: keyMirror({
@@ -27,14 +41,24 @@ module.exports = {
     LOGOUT: null,
 
     // Routes
-    REDIRECT: null
+    REDIRECT: null,
 
-    // LOAD_STORIES: null,
-    // RECEIVE_STORIES: null,
-    // LOAD_STORY: null,
-    // RECEIVE_STORY: null,
-    // CREATE_STORY: null,
-    // RECEIVE_CREATED_STORY: null
-  })
+    // Scrapping
+    LOAD_SCHEMATA: null,
+    RECEIVE_SCHEMATA: null,
+    LOAD_DOC_FOR_SCRAPPING: null,
+    RECEIVE_DOC_FOR_SCRAPPING: null,
+    LOAD_DOC_FOR_VALIDATION: null,
+    RECEIVE_DOC_FOR_VALIDATION: null,
+    CREATE_DOC: null,
+    RECEIVE_CREATED_DOC: null,
+    VALIDATE_DOC: null,
+    RECEIVE_VALIDATED_DOC: null
+  }),
+
+  Strings: {
+    SCRAP_NEW: "Scrappear nuevo...",
+    VALIDATE_NEW: "Validar nuevo..."
+  }
 
 };

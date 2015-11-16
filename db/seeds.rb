@@ -7,9 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Schema definition. Describes how documents are expected to be:
-
-# DUDA: Jubilacion[:institucion]: Institucion u Organismo????
-
 Schema.create([
     {
         name: "schema",
@@ -66,12 +63,6 @@ Schema.create([
                 fields: {
                     numero: { type: "int" },
                     fecha:  { type: "date" },
-                    tipo:   {
-                        type: "string",
-                        constraints: {
-                            valueIn: ["ordinario", "extraordinario"]
-                        }
-                    },
                     listo:  { type: "boolean" },
                 }
             },
@@ -80,6 +71,14 @@ Schema.create([
                 human_readable: "Gaceta Oficial",
                 extends: ["Documento"],
                 fields: {
+                    tipo:   {
+                        type: "string",
+                        constraints: {
+                            valueIn: ["ordinario", "extraordinario"]
+                        }
+                    },
+                    ano: { type: "string" },
+                    mes: { type: "string" },
                     documentos: { type: "[ActoNormativo]" }
                 }
             },
@@ -228,6 +227,10 @@ Schema.create([
                     accionista_de: { type: "[Empresa]" },
                     adscrita_a: {
                         type: "Organismo",
+                        nullable: true
+                    },
+                    filial_de: {
+                        type: "Institucion",
                         nullable: true
                     }
                 }
@@ -522,7 +525,7 @@ Schema.create([
                     ]
                 }
             },
-            Acuerdo: {
+            AcuerdoActoNormativo: {
                 efecto: {
                     typeIn: [
                         "CreditoAdicional",

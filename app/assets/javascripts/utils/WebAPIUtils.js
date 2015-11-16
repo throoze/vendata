@@ -1,10 +1,39 @@
 // ./utils/WebAPIUtils.js
 var ServerActionCreators = require('../actions/ServerActionCreators.js.jsx');
-//var request = require('superagent');
+var request = require('superagent');
 
 var APIEndpoints = VendataConstants.APIEndpoints;
 
+function _getErrors(res) {
+  var errorMsgs = ["Se produjo un error, por favor intente de nuevo"];
+  if ((json = JSON.parse(res.text))) {
+    if (json['errors']) {
+      errorMsgs = json['errors'];
+    } else if (json['error']) {
+      errorMsgs = [json['error']];
+    }
+  }
+  return errorMsgs;
+}
+
 module.exports = {
+  
+  loadSchemata: function(){
+    request.get(APIEndpoints.SCHEMATA)
+      .send()
+      .set('Accept', 'application/json')
+      .end(function(error, res){
+        if (res) {
+          if (res.error) {
+            var errorMsgs = _getErrors(res);
+            ServerActionCreators.receiveSchemata(null, errorMsgs);
+          } else {
+            json = JSON.parse(res.text);
+            ServerActionCreators.receiveSchemata(json, null);
+          }
+        }
+      });
+  },
 
   login: function(email, password) {
     // Auth.emailSignIn({
