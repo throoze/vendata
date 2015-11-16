@@ -18,10 +18,10 @@ Rails.application.routes.draw do
         end
       end
       namespace :scrapping do
-        get 'new', controller: 'scrapping', action: 'get_new_scrapping', as: 'get_new_scrapping'
-        get 'validation/new', controller: 'scrapping', action: 'get_new_validation', as: 'get_new_validation'
-        post 'new', controller: 'scrapping', action: 'new_scrapping', as: 'new_scrapping'
-        post 'validation/new', controller: 'scrapping', action: 'new_validation', as: 'new_validation'
+        get 'new', action: 'get_new_scrapping', as: 'get_new_scrapping'
+        get 'validation/new', action: 'get_new_validation', as: 'get_new_validation'
+        post 'new', action: 'new_scrapping', as: 'new_scrapping'
+        post 'validation/new', action: 'new_validation', as: 'new_validation'
       end
     end
   end
