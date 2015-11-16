@@ -6,11 +6,11 @@ class User < ActiveRecord::Base
     include DeviseTokenAuth::Concerns::User
 
     has_many :scrappings
-    has_many :scrapped, through: :scrappings, class_name: 'Source'
+    has_many :scrapped, through: :scrappings, source: :source
     has_many :validations
-    has_many :validated, through: :validations, class_name: 'Source'
+    has_many :validated, through: :validations, source: :source
     has_many :flags
-    has_many :flagged, through: :flags, class_name: 'Source'
+    has_many :flagged, through: :flags, source: :source
 
     ROLES = [:banned, :scrapper, :validator, :admin]
 

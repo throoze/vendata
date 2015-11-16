@@ -10,7 +10,7 @@ class Api::V1::ScrappingController < ApplicationController
     end
 
     def get_new_validation
-        sources = Source.where(:status => :scrapped).joins(:scrappers)#.where.not(scrappers: { user_id: current_user})
+        sources = Source.where(:status => :scrapped).joins(:scrappers).where.not(scrappings: { user: current_user})
         offset = rand(sources.count)
         rand_record = sources.offset(offset).first
         render status: :ok, json: { :source => rand_record }
