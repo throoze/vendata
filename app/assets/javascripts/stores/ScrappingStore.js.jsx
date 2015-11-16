@@ -8,7 +8,9 @@ var CHANGE_EVENT         = 'change';
 // Inner state inicialization
 var _state = {
   errors: [],
-  schemata: {}
+  schemata: null,
+  doc: null,
+  scrapping: null
 }
 
 var ScrappingStore = assign({}, EventEmitter.prototype, {
@@ -27,7 +29,7 @@ var ScrappingStore = assign({}, EventEmitter.prototype, {
 
   getErrors: function() {
     return _state.errors;
-  }
+  },
 
   /////////////////////////////////////////////////
 
@@ -53,6 +55,12 @@ var ScrappingStore = assign({}, EventEmitter.prototype, {
 
   getConstraints: function(){
     return _state.schemata.constraints;
+  },
+
+  getDocument: function(){
+    console.log("Document for scrapping:");
+    console.log(_state.doc);
+    return _state.doc;
   }
 
 });
@@ -74,7 +82,14 @@ ScrappingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       break;
 
     case ActionTypes.RECEIVE_DOC_FOR_SCRAPPING:
-      //ScrappingStore.emitChange();
+      if (action.json) {
+        _state.doc = action.json;
+        _state.errors = [];
+      }
+      if (action.errors) {
+        _state.errors = action.errors;
+      };
+      ScrappingStore.emitChange();
       break;
 
     case ActionTypes.RECEIVE_DOC_FOR_VALIDATION:

@@ -1,8 +1,6 @@
 var ScrappingForm = React.createClass({
     render: function(){
-        return {
-            
-        }
+        return (<div className="scrapping-form"></div>);
     }
 });
 

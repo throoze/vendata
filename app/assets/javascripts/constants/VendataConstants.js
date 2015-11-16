@@ -1,9 +1,9 @@
 // constants/SmallConstants.js
 var keyMirror = require('keymirror');
 
-var APIRoot = "http://localhost:3000/api/";
+var APIRoot    = "http://localhost:3000/api/";
 var APIVersion = "v1";
-var Root = APIRoot + APIVersion;
+var Root       = APIRoot + APIVersion;
 
 module.exports = {
 
@@ -23,10 +23,10 @@ module.exports = {
     SCHEMATA_CONSTRAINTS:  Root + "/schemata/constraints",  // GET
 
     // Scrapping
-    SCRAPPING_GET_DOC_FOR_SCRAPPING:  Root + "/scrapping/new",          // GET
-    SCRAPPING_POST_SCRAPPED_DOC:      Root + "/scrapping/new",          // POST
-    SCRAPPING_GET_DOC_FOR_VALIDATING: Root + "/scrapping/validate/new", // GET
-    SCRAPPING_POST_VALIDATED_DOC:     Root + "/scrapping/validate/new"  // POST
+    SCRAPPING_GET_DOC_FOR_SCRAPPING:  Root + "/scrapping/new.json",          // GET
+    SCRAPPING_POST_SCRAPPED_DOC:      Root + "/scrapping/new",               // POST
+    SCRAPPING_GET_DOC_FOR_VALIDATING: Root + "/scrapping/validate/new.json", // GET
+    SCRAPPING_POST_VALIDATED_DOC:     Root + "/scrapping/validate/new"       // POST
   },
 
   PayloadSources: keyMirror({
@@ -55,6 +55,26 @@ module.exports = {
     VALIDATE_DOC: null,
     RECEIVE_VALIDATED_DOC: null
   }),
+
+  DocumentCloud: {
+    oEmbed: {
+        params :{
+            maxheight: 750,
+            maxwidth: 600,
+            container: '#my-document-div',
+            notes: false, // default: true
+            text: true, // default: true
+            zoom: true, // default: true
+            search: true, // default: true
+            sidebar: false, // default: true
+            pdf: true, // default: true
+            responsive: true, // default: false
+            responsive_offset: 50
+            // default_note: 1,
+            // default_page: 1,
+        }
+    }
+  },
 
   Strings: {
     SCRAP_NEW: "Scrappear nuevo...",

@@ -1,8 +1,7 @@
 // ./utils/WebAPIUtils.js
 var ServerActionCreators = require('../actions/ServerActionCreators.js.jsx');
-var request = require('superagent');
-
-var APIEndpoints = VendataConstants.APIEndpoints;
+var request              = require('superagent');
+var APIEndpoints         = VendataConstants.APIEndpoints;
 
 function _getErrors(res) {
   var errorMsgs = ["Se produjo un error, por favor intente de nuevo"];
@@ -34,6 +33,23 @@ module.exports = {
         }
       });
   },
+  
+  loadDocumentForScrapping: function(){
+    request.get(APIEndpoints.SCRAPPING_GET_DOC_FOR_SCRAPPING)
+      .send()
+      .set('Accept', 'application/json')
+      .end(function(error, res){
+        if (res) {
+          if (res.error) {
+            var errorMsgs = _getErrors(res);
+            ServerActionCreators.receiveDocumentForScrapping(null, errorMsgs);
+          } else {
+            json = JSON.parse(res.text);
+            ServerActionCreators.receiveDocumentForScrapping(json, null);
+          }
+        }
+      });
+  },
 
   login: function(email, password) {
     // Auth.emailSignIn({
@@ -47,7 +63,7 @@ module.exports = {
     //   .fail(function(resp) {
     //     ServerActionCreators.receiveLogin(null, resp.data.errors);
     //   }.bind(this));
-  },
+  }
 };
 
 // Default Auth configuration for J-Toker:

@@ -22,19 +22,7 @@ var LoadingButton = React.createClass({
     };
   },
 
-  render: function() {
-    let isLoading = this.state.isLoading;
-    return (
-      <Button
-        bsStyle="primary"
-        disabled={isLoading && active}
-        onClick={!isLoading ? this.handleClick : null}>
-        {isLoading ? 'Loading...' : this.props.children }
-      </Button>
-    );
-  },
-
-  handleClick: function() {
+  _handleClick: function() {
     this.setState({isLoading: true});
     var callback = function (active){
       if (typeof active === "undefined" || active === null) {
@@ -42,7 +30,21 @@ var LoadingButton = React.createClass({
       }
       this.setState({isLoading: false, active: active});
     }
+    console.log("Loading button clicked!");
     this.props.clickHandler(callback);
+  },
+
+  render: function() {
+    var isLoading = this.state.isLoading;
+    console.log(this.props.clickHandler);
+    return (
+      <Button
+        bsStyle="primary"
+        disabled={isLoading || this.props.disabled || !this.state.active}
+        onClick={!isLoading ? this._handleClick : null}>
+        {isLoading ? 'Loading...' : this.props.children }
+      </Button>
+    );
   }
 });
 
