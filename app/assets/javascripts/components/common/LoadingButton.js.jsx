@@ -31,13 +31,11 @@ var LoadingButton = React.createClass({
       }
       this.setState({isLoading: false, active: active});
     }.bind(this);
-    console.log("Loading button clicked!");
     this.props.clickHandler(callback);
   },
 
   render: function() {
     var isLoading = this.state.isLoading;
-    console.log(this.props.clickHandler);
     return (
       <Button
         bsStyle="primary"

@@ -58,8 +58,6 @@ var ScrappingStore = assign({}, EventEmitter.prototype, {
   },
 
   getDocument: function(){
-    console.log("Document for scrapping:");
-    console.log(_state.doc);
     return _state.doc;
   }
 

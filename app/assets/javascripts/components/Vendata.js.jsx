@@ -16,17 +16,14 @@ var Vendata = React.createClass({
 
   getInitialState: function() {
     return getStateFromStores();
-    console.log("VendataApp: getInitialState!");
   },
 
   componentDidMount: function() {
     SessionStore.addChangeListener(this._onChange);
-    console.log("VendataApp: componentDidMount!");
   },
 
   componentWillUnmount: function() {
     SessionStore.removeChangeListener(this._onChange);
-    console.log("VendataApp: componentWillUnmount!");
   },
 
   _onChange: function() {

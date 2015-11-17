@@ -13,7 +13,6 @@ var DocumentVisor           = require('./DocumentVisor'),
 var ScrappingToolbar = React.createClass({
 
     _onAskNewDocForScrapping: function(callback) {
-        console.log("Scrap New Clicked!");
         ScrappingActionCreators.loadDocumentForScrapping();
         callback(true);
     },

@@ -29,15 +29,10 @@ var Login = React.createClass({
     SessionActionCreators.login(email, password);
   },
 
-  _onClick: function() {
-    console.log("login clicked!");
-    alert("login clicked!");
-  },
-
   render: function() {
     return (
       <div>
-        <button onClick={this._onClick}>LoginPage</button>
+        <h1>LoginPage</h1>
       </div>
     );
   }
