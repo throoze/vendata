@@ -56,29 +56,10 @@ module.exports = {
     RECEIVE_VALIDATED_DOC: null
   }),
 
-  DocumentCloud: {
-    oEmbed: {
-        params :{
-            maxheight: 750,
-            maxwidth: 600,
-            container: '#my-document-div',
-            notes: false, // default: true
-            text: true, // default: true
-            zoom: true, // default: true
-            search: true, // default: true
-            sidebar: false, // default: true
-            pdf: true, // default: true
-            responsive: true, // default: false
-            responsive_offset: 50
-            // default_note: 1,
-            // default_page: 1,
-        }
-    }
-  },
-
   Strings: {
-    SCRAP_NEW: "Scrappear nuevo...",
-    VALIDATE_NEW: "Validar nuevo..."
+    LOADING: "Cargando...",
+    SCRAP_NEW: "Nuevo documento",
+    VALIDATE_NEW: "Validar nuevo"
   }
 
 };

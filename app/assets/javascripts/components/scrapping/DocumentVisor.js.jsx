@@ -26,7 +26,13 @@ var DocumentVisor = React.createClass({
     },
 
     render: function(){
-        return (<div data-id="document-visor" ref="document-visor"></div>);
+        var oembed = !(this.state.doc === null) ? this.state.doc.oembed.html : null;
+        return (
+            <div>
+                <div id="document-visor" ref="document-visor"></div>
+                <div dangerouslySetInnerHTML={{__html: oembed}}></div>
+            </div>
+            );
     }
 });
 

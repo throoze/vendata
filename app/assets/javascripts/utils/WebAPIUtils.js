@@ -2,9 +2,11 @@
 var ServerActionCreators = require('../actions/ServerActionCreators.js.jsx');
 var request              = require('superagent');
 var APIEndpoints         = VendataConstants.APIEndpoints;
+var DocumentCloud        = VendataConstants.DocumentCloud;
 
 function _getErrors(res) {
   var errorMsgs = ["Se produjo un error, por favor intente de nuevo"];
+  var json = null;
   if ((json = JSON.parse(res.text))) {
     if (json['errors']) {
       errorMsgs = json['errors'];
@@ -15,9 +17,12 @@ function _getErrors(res) {
   return errorMsgs;
 }
 
+
 module.exports = {
   
   loadSchemata: function(){
+    var json      = null;
+    var errorMsgs = null;
     request.get(APIEndpoints.SCHEMATA)
       .send()
       .set('Accept', 'application/json')
@@ -35,6 +40,9 @@ module.exports = {
   },
   
   loadDocumentForScrapping: function(){
+    var json      = null;
+    var errorMsgs = null;
+    var result    = {};
     request.get(APIEndpoints.SCRAPPING_GET_DOC_FOR_SCRAPPING)
       .send()
       .set('Accept', 'application/json')
@@ -45,7 +53,8 @@ module.exports = {
             ServerActionCreators.receiveDocumentForScrapping(null, errorMsgs);
           } else {
             json = JSON.parse(res.text);
-            ServerActionCreators.receiveDocumentForScrapping(json, null);
+            result.doc = json.source;
+            ServerActionCreators.receiveDocumentForScrapping(result, null);
           }
         }
       });

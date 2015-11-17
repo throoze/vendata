@@ -1,9 +1,10 @@
 // ./stores/ScrappingStore.js.jsx
-var EventEmitter         = require('events').EventEmitter,
-    assign               = require('object-assign');
-var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
-var ActionTypes          = VendataConstants.ActionTypes;
-var CHANGE_EVENT         = 'change';
+var EventEmitter            = require('events').EventEmitter,
+    assign                  = require('object-assign');
+var VendataAppDispatcher    = require('../dispatcher/VendataAppDispatcher.js');
+var ActionTypes             = VendataConstants.ActionTypes;
+var ScrappingActionCreators = require('../actions/ScrappingActionCreators');
+var CHANGE_EVENT            = 'change';
 
 // Inner state inicialization
 var _state = {
@@ -59,6 +60,14 @@ var ScrappingStore = assign({}, EventEmitter.prototype, {
 
   getDocument: function(){
     return _state.doc;
+  },
+
+  getEmbeddedVisor: function(){
+    var visor = null
+    if (!(_state.doc === null)) {
+      visor = _state.doc.oembed;
+    }
+    return visor;
   }
 
 });
@@ -81,8 +90,9 @@ ScrappingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
 
     case ActionTypes.RECEIVE_DOC_FOR_SCRAPPING:
       if (action.json) {
-        _state.doc = action.json;
-        _state.errors = [];
+        _state.doc        = action.json.doc;
+        _state.doc.oembed = JSON.parse(action.json.doc.oembed);
+        _state.errors     = [];
       }
       if (action.errors) {
         _state.errors = action.errors;

@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20151106235759) do
   create_table "sources", force: :cascade do |t|
     t.string   "dc_id",                                  null: false
     t.string   "canonical_url",                          null: false
+    t.string   "oembed",             default: ""
     t.boolean  "is_extraordinary",   default: false
     t.string   "status",             default: "pending"
     t.integer  "validation_counter", default: 0
