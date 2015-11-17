@@ -1,3 +1,5 @@
+// ./components/scrapping/DocumentVisor.js.jsx
+var React          = require('react');
 var ScrappingStore = require('../../stores/ScrappingStore');
 
 function getStateFromStores(){

@@ -1,4 +1,5 @@
 // ./components/scrapping/Scrapping.js.jsx
+var React                   = require('react');
 var ScrappingActionCreators = require('../../actions/ScrappingActionCreators');
 var BS                      = require('react-bootstrap');
 var ButtonToolbar           = BS.ButtonToolbar,

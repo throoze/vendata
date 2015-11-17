@@ -1,4 +1,5 @@
 // ./components/common/LoadingButton.js.jsx
+var React  = require('react');
 var BS     = require('react-bootstrap');
 var Button = BS.Button;
 
@@ -29,7 +30,7 @@ var LoadingButton = React.createClass({
         active = this.state.active;
       }
       this.setState({isLoading: false, active: active});
-    }
+    }.bind(this);
     console.log("Loading button clicked!");
     this.props.clickHandler(callback);
   },

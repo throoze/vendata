@@ -1,4 +1,6 @@
-// ./components/NavigationBar.js.jsx
+// ./components/layouts/NavigationBar.js.jsx
+var React          = require('react');
+var ReactRouter    = require('react-router');
 var BS             = require('react-bootstrap');
 var Link           = ReactRouter.Link;
 // react-bootstrap components:

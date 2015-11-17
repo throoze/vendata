@@ -1,4 +1,4 @@
-// ./stores/ScrappingStore.react.jsx
+// ./stores/ScrappingStore.js.jsx
 var EventEmitter         = require('events').EventEmitter,
     assign               = require('object-assign');
 var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
