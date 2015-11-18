@@ -56,6 +56,27 @@ module.exports = {
     RECEIVE_VALIDATED_DOC: null
   }),
 
+  DocumentCloud : {
+    params: {
+        "height":           750,
+        "width":            600,
+        "showAnnotations":  false,
+
+        //"maxheight":        750,
+        //"maxwidth":         600,
+        "container":        "#document-visor",
+        "notes":            false,
+        "text":             true,
+        "zoom":             true,
+        "search":           true,
+        "sidebar":          false,
+        "pdf":              true,
+        "responsive":       false,
+        //"responsiveOffset": 50,
+        "default_page":     1
+    }
+  },
+
   Strings: {
     LOADING: "Cargando...",
     SCRAP_NEW: "Nuevo documento",

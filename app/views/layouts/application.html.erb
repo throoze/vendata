@@ -23,7 +23,8 @@
   <![endif]-->
 
   <title>Vendata</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'http://css-spinners.com/css/spinner/throbber.css', media: 'all', 'data-turbolinks-track' => true %>
   <% unless params[:nojs] %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <% end %>
@@ -34,5 +35,7 @@
   <%= yield %>
   </div>
 </body>
-<script src="<%= javascript_path 'app' %>" type="text/javascript"></script>
+<%= javascript_include_tag 'app', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'documentcloud', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'http://assets.documentcloud.org/viewer/viewer.js', 'data-turbolinks-track' => true %>
 </html>

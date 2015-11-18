@@ -11,7 +11,7 @@ var _state = {
   errors: [],
   schemata: null,
   doc: null,
-  scrapping: null
+  scrapping: []
 }
 
 var ScrappingStore = assign({}, EventEmitter.prototype, {
@@ -58,6 +58,10 @@ var ScrappingStore = assign({}, EventEmitter.prototype, {
     return _state.schemata.constraints;
   },
 
+  hasDocument: function(){
+    return _state.doc !== null;
+  },
+
   getDocument: function(){
     return _state.doc;
   },
@@ -68,6 +72,14 @@ var ScrappingStore = assign({}, EventEmitter.prototype, {
       visor = _state.doc.oembed;
     }
     return visor;
+  },
+
+  getScrapping: function() {
+    return _state.scrapping;
+  },
+
+  getNext: function(){
+    return null;
   }
 
 });

@@ -20,19 +20,33 @@ var LoadingButton = React.createClass({
   getInitialState: function() {
     return {
       isLoading: false,
-      active: true
+      active: true,
+      store: null
     };
   },
 
   _handleClick: function() {
-    this.setState({isLoading: true});
-    var callback = function (active){
-      if (typeof active === "undefined" || active === null) {
-        active = this.state.active;
-      }
-      this.setState({isLoading: false, active: active});
+    var state = this.state
+    state.isLoading = true;
+    this.setState(state);
+    var callback = function (store){
+      var state = this.state;
+      state.isLoading = true;
+      state.active = false;
+      state.store = store;
+      this.setState(state);
+      store.addChangeListener(this._restoreLoading);
     }.bind(this);
     this.props.clickHandler(callback);
+  },
+
+  _restoreLoading: function(){
+    var state = this.state;
+    state.isLoading = false;
+    state.active = true;
+    state.store.removeChangeListener(this._restoreLoading);
+    state.store = null;
+    this.setState(state);
   },
 
   render: function() {

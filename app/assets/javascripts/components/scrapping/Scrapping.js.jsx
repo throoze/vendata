@@ -1,6 +1,7 @@
 // ./components/scrapping/Scrapping.js.jsx
 var React                   = require('react');
 var ScrappingActionCreators = require('../../actions/ScrappingActionCreators');
+var ScrappingStore          = require('../../stores/ScrappingStore');
 var BS                      = require('react-bootstrap');
 var ButtonToolbar           = BS.ButtonToolbar,
     ButtonGroup             = BS.ButtonGroup,
@@ -8,13 +9,11 @@ var ButtonToolbar           = BS.ButtonToolbar,
 var DocumentVisor           = require('./DocumentVisor'),
     ScrappingForm           = require('./ScrappingForm');
 
-
-
 var ScrappingToolbar = React.createClass({
 
     _onAskNewDocForScrapping: function(callback) {
         ScrappingActionCreators.loadDocumentForScrapping();
-        callback(true);
+        callback(ScrappingStore);
     },
     
     _onAskNewDocForValidating: function(callback) {
@@ -41,18 +40,37 @@ var ScrappingToolbar = React.createClass({
 var Scrapping = React.createClass({
 
     getInitialState: function() {
-        return { 
-            errors: []
+        return this._getStateFromStores();
+    },
+
+    _getStateFromStores: function(){
+        return {
+            schemata: ScrappingStore.getSchemata(),
+            hasDoc: ScrappingStore.hasDocument(),
+            errors: ScrappingStore.getErrors()
         };
+    },
+
+    componentDidMount: function() {
+        ScrappingStore.addChangeListener(this._onChange);
+        ScrappingActionCreators.loadSchemata();
+    },
+
+    componentWillUnmount: function() {
+        ScrappingStore.removeChangeListener(this._onChange);
+    },
+
+    _onChange: function() {
+        this.setState(this._getStateFromStores());
     },
 
     render: function() {
         return (
-            <div className="scrapping">
+            <div id="scrapping" className="scrapping">
                 <ScrappingToolbar />
                 <div className="scrapping-container">
-                    <DocumentVisor className="document-visor" />
-                    <ScrappingForm className="scrapping-form" />
+                    <DocumentVisor loading={this.state.hasDoc} className="document-visor" />
+                    <ScrappingForm schemata={this.state.schemata} className="scrapping-form" />
                 </div>
             </div>
         );

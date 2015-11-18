@@ -10,6 +10,7 @@
 Schema.create([
     {
         name: "schema",
+        root_collections: ["GacetaOficial"],
         collections: [
             "Documento",
             "GacetaOficial",
@@ -84,8 +85,10 @@ Schema.create([
             },
             ActoNormativo: {
                 classname: "ActoNormativo",
+                abstract: true,
                 human_readable: "Acto Normativo",
                 extends: ["Documento"],
+                is_root: false,
                 fields: {
                     emisor: { type: "Organismo" },
                     efecto: { type: "Efecto" }
@@ -187,6 +190,7 @@ Schema.create([
             },
             Institucion: {
                 classname: "Institucion",
+                abstract: true,
                 human_readable: "Institucion",
                 fields: {
                     nombre: { type: "string" },
@@ -206,6 +210,7 @@ Schema.create([
             },
             Empresa: {
                 classname: "Empresa",
+                abstract: true,
                 human_readable: "Empresa",
                 extends: ["Institucion"]
             },
@@ -247,6 +252,7 @@ Schema.create([
             },
             Efecto: {
                 classname: "Efecto",
+                abstract: true,
                 human_readable: "Efecto",
                 fields: {
                     fecha: { type: "date" }
@@ -363,6 +369,7 @@ Schema.create([
             },
             Acuerdo: {
                 classname: "Acuerdo",
+                abstract: true,
                 human_readable: "Acuerdo",
                 extends: ["Efecto"],
                 fields: {
