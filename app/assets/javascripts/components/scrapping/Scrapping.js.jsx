@@ -60,11 +60,13 @@ var Scrapping = React.createClass({
 
     componentDidMount: function() {
         ScrappingStore.addChangeListener(this._onChange);
+        ScrappingStore.addSchemataChangeListener(this._onChange);
         ScrappingActionCreators.loadSchemata();
     },
 
     componentWillUnmount: function() {
         ScrappingStore.removeChangeListener(this._onChange);
+        ScrappingStore.removeSchemataChangeListener(this._onChange);
     },
 
     _onChange: function() {
