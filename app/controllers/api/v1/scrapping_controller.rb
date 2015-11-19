@@ -1,7 +1,9 @@
 class Api::V1::ScrappingController < ApplicationController
     def get_new_scrapping
-        offset = rand(Source.where(:status => :pending).count)
-        rand_record = Source.where(:status => :pending).offset(offset).first
+        # TODO: Determine criteria based on user privileges
+        criteria = {:status => :pending, :is_extraordinary => false}
+        offset = rand(Source.where(criteria).count)
+        rand_record = Source.where(criteria).offset(offset).first
         render status: :ok, json: { :source => rand_record }
     end
 

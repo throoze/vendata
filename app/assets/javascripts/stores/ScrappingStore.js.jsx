@@ -124,6 +124,12 @@ ScrappingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       //ScrappingStore.emitChange();
       break;
 
+    case ActionTypes.CLEAR_DOC:
+      _state.doc = null;
+      _state.scrapping = [];
+      ScrappingStore.emitChange();
+      break;
+
 
     default:
   }

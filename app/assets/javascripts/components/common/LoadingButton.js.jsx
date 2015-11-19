@@ -35,7 +35,8 @@ var LoadingButton = React.createClass({
       state.active = false;
       state.store = store;
       this.setState(state);
-      store.addChangeListener(this._restoreLoading);
+      if (store !== null)
+        store.addChangeListener(this._restoreLoading);
     }.bind(this);
     this.props.clickHandler(callback);
   },

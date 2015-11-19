@@ -12,9 +12,7 @@ function getStateFromStores(){
 // and you can use componentWillReceiveProps to handle new props being passed
 var DocumentVisor = React.createClass({
     getInitialState: function(){
-        var state = getStateFromStores();
-        state.loading = false;
-        return state;
+        return getStateFromStores();
     },
 
     componentDidMount: function() {
@@ -27,34 +25,39 @@ var DocumentVisor = React.createClass({
     },
 
     shouldComponentUpdate: function(nextProps, nextState) {
-        console.log("DocumentVisor: shouldComponentUpdate");
-        var out = false;
+        var out = true;
         if ((this.state.doc === null && nextState.doc !== null) ||
             (nextState.doc !== null && this.state.doc.dc_id !== nextState.doc.dc_id)) {
-            console.log("DocumentVisor: Loading visor...");
             var url = "http://www.documentcloud.org/documents/" + nextState.doc.dc_id + ".js";
-            $(container).empty();
-            $(container).addClass('throbber-loader');
             var params = VendataConstants.DocumentCloud.params;
-            params.width = $(container).width();
-            params.height = $(window).height() - 85;
+            var width = $(window).width()*48/100;
+            var height = $(window).height() - 85;
+            $(container).width(width);
+            $(container).height(height);
+            params.width = params.maxwidth = width;
+            params.height = params.maxheight = height;
             DV.load(url, params);
-            $(container).removeClass('throbber-loader');
-            var state = getStateFromStores();
-            state.loading = false;
-            this.setState(state);
+            $(container+" .loader").remove();
+            out = false;
+        } else if (this.state.doc !== null && nextState.doc === null) {
+            var start_message = VendataConstants.Strings.SCRAPPING_REQUEST_DOC;
+            $(container).empty();
+            $(container).append('<h2 class="start-message">'+start_message+'</h2>');
         }
         return out;
     },
 
     _onChange: function() {
-        var state = getStateFromStores();
-        state.loading = true;
-        this.setState(state);
+        this.setState(getStateFromStores());
     },
 
     render: function(){
-        return (<div id="document-visor" ref="document-visor" ></div>);
+        var start_message = VendataConstants.Strings.SCRAPPING_REQUEST_DOC;
+        return (
+            <div id="document-visor" ref="document-visor" >
+                <h2 className="start-message">{start_message}</h2>
+            </div>
+        );
     }
 });
 

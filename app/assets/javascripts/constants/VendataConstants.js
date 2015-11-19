@@ -53,17 +53,14 @@ module.exports = {
     CREATE_DOC: null,
     RECEIVE_CREATED_DOC: null,
     VALIDATE_DOC: null,
-    RECEIVE_VALIDATED_DOC: null
+    RECEIVE_VALIDATED_DOC: null,
+    CLEAR_DOC: null,
+    RECEIVE_CLEAR_DOC: null
   }),
 
   DocumentCloud : {
     params: {
-        "height":           750,
-        "width":            600,
         "showAnnotations":  false,
-
-        //"maxheight":        750,
-        //"maxwidth":         600,
         "container":        "#document-visor",
         "notes":            false,
         "text":             true,
@@ -72,15 +69,21 @@ module.exports = {
         "sidebar":          false,
         "pdf":              true,
         "responsive":       false,
-        //"responsiveOffset": 50,
         "default_page":     1
     }
   },
 
   Strings: {
-    LOADING: "Cargando...",
-    SCRAP_NEW: "Nuevo documento",
-    VALIDATE_NEW: "Validar nuevo"
+    LOADING:               "Cargando...",
+    HELP:                  "Ayuda",
+    FAQ:                   "Preguntas Frecuentes",
+    SUPPORT:               "Soporte técnico",
+    SCRAP_NEW:             "Nuevo documento",
+    VALIDATE_NEW:          "Validar nuevo",
+    SCRAPPING_FORM_TITLE:  "Formulario de vaciado",
+    SCRAPPING_REQUEST_DOC: "Para empezar, solicita un nuevo documento.",
+    CLEAR_DOC:             "Limpiar documento",
+    DOWNLOAD_PDF:          "Descarga el PDF"
   }
 
 };
