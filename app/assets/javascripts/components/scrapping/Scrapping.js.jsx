@@ -9,6 +9,8 @@ var ButtonToolbar           = BS.ButtonToolbar,
     LoadingButton           = require('../common/LoadingButton');
 var DocumentVisor           = require('./DocumentVisor'),
     ScrappingForm           = require('./ScrappingForm');
+var ChangeAware             = require('../../mixins/ChangeAware');
+var SchemataAware           = require('../../mixins/SchemataAware');
 
 var ScrappingToolbar = React.createClass({
 
@@ -46,6 +48,11 @@ var ScrappingToolbar = React.createClass({
 
 var Scrapping = React.createClass({
 
+    mixins: [
+        ChangeAware(ScrappingStore, this._onChange),
+        SchemataAware(this._onChange)
+    ],
+
     getInitialState: function() {
         return this._getStateFromStores();
     },
@@ -59,14 +66,7 @@ var Scrapping = React.createClass({
     },
 
     componentDidMount: function() {
-        ScrappingStore.addChangeListener(this._onChange);
-        ScrappingStore.addSchemataChangeListener(this._onChange);
         ScrappingActionCreators.loadSchemata();
-    },
-
-    componentWillUnmount: function() {
-        ScrappingStore.removeChangeListener(this._onChange);
-        ScrappingStore.removeSchemataChangeListener(this._onChange);
     },
 
     _onChange: function() {
