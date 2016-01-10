@@ -22,6 +22,8 @@ module.exports = {
 
   ActionTypes: keyMirror({
     // Session
+    SIGN_UP_REQUEST: null,
+    SIGN_UP_RESPONSE: null,
     LOGIN_REQUEST: null,
     LOGIN_RESPONSE: null,
     LOGOUT: null,

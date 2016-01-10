@@ -1,6 +1,10 @@
 // ./components/NavigationBar.js.jsx
 var BS             = require('react-bootstrap');
 var Link           = ReactRouter.Link;
+//
+var SessionStore   = require('../../stores/SessionStore.js.jsx'),
+    Login          = require('../session/Login.js.jsx'),
+    SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx');
 // react-bootstrap components:
 var Navbar         = BS.Navbar,
     NavBrand       = BS.NavBrand,
@@ -8,7 +12,9 @@ var Navbar         = BS.Navbar,
     NavDropdown    = BS.NavDropdown,
     MenuItem       = BS.MenuItem,
     NavItem        = BS.NavItem,
-    CollapsibleNav = BS.CollapsibleNav;
+    CollapsibleNav = BS.CollapsibleNav,
+    DropdownButton = BS.DropdownButton;
+
 
 NavigationBar = React.createClass({
 
@@ -16,17 +22,23 @@ NavigationBar = React.createClass({
         var rightItem = this.props.isLoggedIn ? (
             <NavDropdown eventKey={3} title={this.props.email} id="collapsible-nav-dropdown">
                 <MenuItem eventKey={1}>Perfil</MenuItem>
-                <MenuItem eventKey={2} href="/logout">Logout</MenuItem>
+                <MenuItem eventKey={2} href="/logout">
+                    <button type="submit" >Logout</button>
+                </MenuItem>
             </NavDropdown>
             ) : (
-            <li data-role="presentation" eventKey={1}><Link to="login">Login</Link></li>
+            // <NavDropdown title="Login">
+            //     <MenuItem eventKey="1" >
+                    <Login></Login>
+            //     </MenuItem>    
+            // </NavDropdown>   
             );
         return (
             <Navbar fixedTop toggleNavKey={0}>
                 <NavBrand><Link to="/">Vendata</Link></NavBrand>
                 <CollapsibleNav eventKey={0}>
-                    <Nav navbar right>
-                    {rightItem}
+                    <Nav navbar right >
+                        {rightItem}
                     </Nav>
                 </CollapsibleNav>
             </Navbar>

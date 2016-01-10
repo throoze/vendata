@@ -1,24 +1,50 @@
 // ./utils/WebAPIUtils.js
 var ServerActionCreators = require('../actions/ServerActionCreators.js.jsx');
-//var request = require('superagent');
+var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
+var request = require('superagent');
 
 var APIEndpoints = VendataConstants.APIEndpoints;
 
 module.exports = {
 
-  login: function(email, password) {
-    // Auth.emailSignIn({
-    //   email:    email,
-    //   password: password,
-    // })
-    //   .then(function(resp) {
-    //     json = JSON.parse(resp);
-    //     ServerActionCreators.receiveLogin(json, null);
-    //   }.bind(this))
-    //   .fail(function(resp) {
-    //     ServerActionCreators.receiveLogin(null, resp.data.errors);
-    //   }.bind(this));
+  signup: function(email, password, password_confirmation) {
+    request.post('http://localhost:3000/api/v1/auth')
+      .send({ email: email, password: password, password_confirmation: password_confirmation })
+      .end(function(error, res){
+        if (res) {
+          if (res.error) {
+            var errorMsgs = _getErrors(res);
+            ServerActionCreators.receiveSignIn(null, errorMsgs);
+          } else {
+            json = JSON.parse(res.text);
+            ServerActionCreators.receiveSignIn(json, null);
+          }
+        }
+      });
   },
+   login: function(email, password) {
+    request.post('http://localhost:3000/api/v1/auth/sign_in')
+      .send({ email: email, password: password })
+      .end(function(error, res){
+        if (res) {
+          if (res.error) {
+            var errorMsgs = _getErrors(res);
+            ServerActionCreators.receiveLogin(null, errorMsgs);
+          } else {
+            json = JSON.parse(res.text);
+            json.email = json.data.email;
+            json.client = es.header['Client'];
+            json.access_token = res.header['Access-Token'];
+            ServerActionCreators.receiveLogin(json, null);
+          }
+        }
+      });
+  },
+   logout: function(client, access_token, uid) {
+   request.del('http://localhost:3000/api/v1/auth/sign_out')
+      .set({ 'Client': client, 'Access-Token': access-token,'Uid':uid })
+      .end();
+  }
 };
 
 // Default Auth configuration for J-Toker:
