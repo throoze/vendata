@@ -1,7 +1,6 @@
 // ./components/scrapping/DocumentVisor.js.jsx
 var React          = require('react');
 var ScrappingStore = require('../../stores/ScrappingStore');
-var ChangeAware    = require('../../mixins/ChangeAware');
 var container      = VendataConstants.DocumentCloud.params.container;
 
 function getStateFromStores(){
@@ -13,13 +12,16 @@ function getStateFromStores(){
 // and you can use componentWillReceiveProps to handle new props being passed
 var DocumentVisor = React.createClass({
 
-    mixins: [ChangeAware(ScrappingStore,this._onChange)],
-
     getInitialState: function(){
         return getStateFromStores();
     },
 
+    componentDidMount: function() {
+        ScrappingStore.addChangeListener(this._onChange);
+    },
+
     componentWillUnmount: function() {
+        ScrappingStore.removeChangeListener(this._onChange);
         $(container).empty();
     },
 

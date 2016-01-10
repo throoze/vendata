@@ -6,7 +6,6 @@ var Strings        = VendataConstants.Strings;
 var Input          = BS.Input;
 var Panel          = BS.Panel;
 var ScrappingStore = require('../../stores/ScrappingStore');
-var SchemataAware  = require('../mixins/SchemataAware');
 
 
 var Entity = React.createClass({
