@@ -3,18 +3,14 @@ var React                 = require('react');
 var SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx'),
     SessionStore          = require('../../stores/SessionStore.js.jsx'),
     ErrorNotice           = require('../common/ErrorNotice');
+var ChangeAware           = require('../../mixins/ChangeAware');
 
 var Login = React.createClass({
+
+  mixins: [ChangeAware(SessionStore, this._onChange)],
+
   getInitialState: function() {
     return { errors: [] };
-  },
-
-  componentDidMount: function() {
-    SessionStore.addChangeListener(this._onChange);
-  },
-
-  componentWillUnmount: function() {
-    SessionStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {

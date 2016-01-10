@@ -4,6 +4,7 @@ var ReactRouter   = require('react-router');
 var RouteHandler  = ReactRouter.RouteHandler;
 var NavigationBar = require('../components/layouts/NavigationBar'),
     SessionStore  = require('../stores/SessionStore');
+var ChangeAware   = require('../../mixins/ChangeAware');
 
 function getStateFromStores() {
   return {
@@ -14,16 +15,10 @@ function getStateFromStores() {
 
 var Vendata = React.createClass({
 
+  mixins: [ChangeAware(SessionStore, this._onChange)],
+
   getInitialState: function() {
     return getStateFromStores();
-  },
-
-  componentDidMount: function() {
-    SessionStore.addChangeListener(this._onChange);
-  },
-
-  componentWillUnmount: function() {
-    SessionStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
