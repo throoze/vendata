@@ -29,6 +29,11 @@ module.exports = {
     SCRAPPING_POST_VALIDATED_DOC:     Root + "/scrapping/validate/new"       // POST
   },
 
+  Events: {
+    CHANGE: 'change',
+    SCHEMATA_CHANGE: 'schemata_change'
+  },
+
   PayloadSources: keyMirror({
     SERVER_ACTION: null,
     VIEW_ACTION: null
@@ -77,9 +82,17 @@ module.exports = {
 
   Strings: {
     LOADING:               "Cargando...",
+    SUBMIT:                "Enviar",
+    PLACEHOLDER_TEXT:      "Introduzca el texto",
+    PLACEHOLDER_EMAIL:     "Introduzca el correo electrónico",
+    PLACEHOLDER_PASSWORD:  "Introduzca la contraseña",
+    PLACEHOLDER_DATE:      "Introduzca la fecha: dd-mm-aaaa",
+    PLACEHOLDER_NUMBER:    "Introduzca el número",
+    PLACEHOLDER_CHOOSE:    "Seleccione",
     HELP:                  "Ayuda",
     FAQ:                   "Preguntas Frecuentes",
     SUPPORT:               "Soporte técnico",
+
     SCRAP_NEW:             "Nuevo documento",
     VALIDATE_NEW:          "Validar nuevo",
     SCRAPPING_FORM_TITLE:  "Formulario de vaciado",

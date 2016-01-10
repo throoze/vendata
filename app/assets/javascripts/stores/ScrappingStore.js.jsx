@@ -4,7 +4,8 @@ var EventEmitter            = require('events').EventEmitter,
 var VendataAppDispatcher    = require('../dispatcher/VendataAppDispatcher.js');
 var ActionTypes             = VendataConstants.ActionTypes;
 var ScrappingActionCreators = require('../actions/ScrappingActionCreators');
-var CHANGE_EVENT            = 'change';
+var CHANGE                  = VendataConstants.Events.CHANGE;
+var CHANGE_SCHEMATA         = VendataConstants.Events.CHANGE_SCHEMATA;
 
 // Inner state inicialization
 var _state = {
@@ -17,15 +18,27 @@ var _state = {
 var ScrappingStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
-    this.emit(CHANGE_EVENT);
+    this.emit(CHANGE);
+  },
+
+  emitSchemataChange: function() {
+    this.emit(CHANGE_SCHEMATA);
   },
 
   addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
+    this.on(CHANGE, callback);
   },
 
   removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+    this.removeListener(CHANGE, callback);
+  },
+
+  addSchemataChangeListener: function(callback) {
+    this.on(CHANGE_SCHEMATA, callback);
+  },
+
+  removeSchemataChangeListener: function(callback) {
+    this.removeListener(CHANGE_SCHEMATA, callback);
   },
 
   getErrors: function() {
@@ -97,7 +110,7 @@ ScrappingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       if (action.errors) {
         _state.errors = action.errors;
       };
-      ScrappingStore.emitChange();
+      ScrappingStore.emitSchemataChange();
       break;
 
     case ActionTypes.RECEIVE_DOC_FOR_SCRAPPING:

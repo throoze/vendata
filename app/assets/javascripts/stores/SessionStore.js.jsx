@@ -3,8 +3,9 @@ var EventEmitter         = require('events').EventEmitter,
     assign               = require('object-assign');
 var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
 var ActionTypes          = VendataConstants.ActionTypes;
-var CHANGE_EVENT         = 'change';
+
 var sessionStorage       = require( "localStorage" );
+var CHANGE_EVENT         = VendataConstants.Events.CHANGE;
 
 // Load an access token from the session storage, you might want to implement
 // a 'remember me' using localSgorage

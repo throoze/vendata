@@ -40,6 +40,7 @@ var formStyle = {
 };
 
 var Login = React.createClass({
+
   getInitialState: function() {
     return { errors: [] , emailValue:'', passValue:''};
   },

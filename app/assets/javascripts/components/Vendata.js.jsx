@@ -19,11 +19,11 @@ var Vendata = React.createClass({
   },
 
   componentDidMount: function() {
-    SessionStore.addChangeListener(this._onChange);
+      SessionStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    SessionStore.removeChangeListener(this._onChange);
+      SessionStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {

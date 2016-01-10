@@ -11,6 +11,7 @@ function getStateFromStores(){
 // <GreenJello> throoze, you can use shouldComponentUpdate as an optimization,
 // and you can use componentWillReceiveProps to handle new props being passed
 var DocumentVisor = React.createClass({
+
     getInitialState: function(){
         return getStateFromStores();
     },
@@ -20,8 +21,8 @@ var DocumentVisor = React.createClass({
     },
 
     componentWillUnmount: function() {
-        $(container).empty();
         ScrappingStore.removeChangeListener(this._onChange);
+        $(container).empty();
     },
 
     shouldComponentUpdate: function(nextProps, nextState) {
