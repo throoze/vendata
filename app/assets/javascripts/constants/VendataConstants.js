@@ -1,18 +1,32 @@
 // constants/SmallConstants.js
 var keyMirror = require('keymirror');
 
-var APIRoot = "http://localhost:3000/api/";
+var APIRoot    = "http://localhost:3000/api/";
 var APIVersion = "v1";
-var Root = APIRoot + APIVersion;
+var Root       = APIRoot + APIVersion;
 
 module.exports = {
 
   API_URL: Root,
 
   APIEndpoints: {
-    LOGIN:          Root + "/auth/sign_in",
-    REGISTRATION:   Root + "/auth"
-    // STORIES:        Root + "/auth/stories"
+    // Auth
+    LOGIN:        Root + "/auth/sign_in",
+    REGISTRATION: Root + "/auth",
+
+    // Schemata
+    SCHEMATA:              Root + "/schemata",              // GET
+    SCHEMATA_COLLECTIONS:  Root + "/schemata/collections",  // GET
+    SCHEMATA_DESCRIPTIONS: Root + "/schemata/descriptions", // GET
+    SCHEMATA_PARENTHOOD:   Root + "/schemata/parenthood",   // GET
+    SCHEMATA_INHERITANCE:  Root + "/schemata/inheritance",  // GET
+    SCHEMATA_CONSTRAINTS:  Root + "/schemata/constraints",  // GET
+
+    // Scrapping
+    SCRAPPING_GET_DOC_FOR_SCRAPPING:  Root + "/scrapping/new.json",          // GET
+    SCRAPPING_POST_SCRAPPED_DOC:      Root + "/scrapping/new",               // POST
+    SCRAPPING_GET_DOC_FOR_VALIDATING: Root + "/scrapping/validate/new.json", // GET
+    SCRAPPING_POST_VALIDATED_DOC:     Root + "/scrapping/validate/new"       // POST
   },
 
   PayloadSources: keyMirror({
@@ -29,14 +43,49 @@ module.exports = {
     LOGOUT: null,
 
     // Routes
-    REDIRECT: null
+    REDIRECT: null,
 
-    // LOAD_STORIES: null,
-    // RECEIVE_STORIES: null,
-    // LOAD_STORY: null,
-    // RECEIVE_STORY: null,
-    // CREATE_STORY: null,
-    // RECEIVE_CREATED_STORY: null
-  })
+    // Scrapping
+    LOAD_SCHEMATA: null,
+    RECEIVE_SCHEMATA: null,
+    LOAD_DOC_FOR_SCRAPPING: null,
+    RECEIVE_DOC_FOR_SCRAPPING: null,
+    LOAD_DOC_FOR_VALIDATION: null,
+    RECEIVE_DOC_FOR_VALIDATION: null,
+    CREATE_DOC: null,
+    RECEIVE_CREATED_DOC: null,
+    VALIDATE_DOC: null,
+    RECEIVE_VALIDATED_DOC: null,
+    CLEAR_DOC: null,
+    RECEIVE_CLEAR_DOC: null
+  }),
+
+  DocumentCloud : {
+    params: {
+        "showAnnotations":  false,
+        "container":        "#document-visor",
+        "notes":            false,
+        "text":             true,
+        "zoom":             true,
+        "search":           true,
+        "sidebar":          false,
+        "pdf":              true,
+        "responsive":       false,
+        "default_page":     1
+    }
+  },
+
+  Strings: {
+    LOADING:               "Cargando...",
+    HELP:                  "Ayuda",
+    FAQ:                   "Preguntas Frecuentes",
+    SUPPORT:               "Soporte técnico",
+    SCRAP_NEW:             "Nuevo documento",
+    VALIDATE_NEW:          "Validar nuevo",
+    SCRAPPING_FORM_TITLE:  "Formulario de vaciado",
+    SCRAPPING_REQUEST_DOC: "Para empezar, solicita un nuevo documento.",
+    CLEAR_DOC:             "Limpiar documento",
+    DOWNLOAD_PDF:          "Descarga el PDF"
+  }
 
 };

@@ -1,7 +1,9 @@
 // ./scripts/components/VendataApp.js.jsx
-var RouteHandler = ReactRouter.RouteHandler;
+var React         = require('react');
+var ReactRouter   = require('react-router');
+var RouteHandler  = ReactRouter.RouteHandler;
 var NavigationBar = require('../components/layouts/NavigationBar'),
-    SessionStore = require('../stores/SessionStore');
+    SessionStore  = require('../stores/SessionStore');
 
 function getStateFromStores() {
   return {

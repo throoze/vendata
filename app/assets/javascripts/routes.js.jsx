@@ -1,3 +1,5 @@
+// ./routes.js.jsx
+var ReactRouter  = require('react-router');
 var Route        = ReactRouter.Route,
     DefaultRoute = ReactRouter.DefaultRoute;
 var Vendata      = require('./components/Vendata');

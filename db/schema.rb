@@ -13,13 +13,36 @@
 
 ActiveRecord::Schema.define(version: 20151106235759) do
 
+  create_table "flags", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "source_id"
+    t.string   "message",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "flags", ["source_id"], name: "index_flags_on_source_id"
+  add_index "flags", ["user_id"], name: "index_flags_on_user_id"
+
+  create_table "scrappings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "source_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "scrappings", ["source_id"], name: "index_scrappings_on_source_id"
+  add_index "scrappings", ["user_id"], name: "index_scrappings_on_user_id"
+
   create_table "sources", force: :cascade do |t|
-    t.string   "dc_id",                                null: false
-    t.string   "canonical_url",                        null: false
-    t.boolean  "is_extraordinary", default: false
-    t.string   "status",           default: "pending"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.string   "dc_id",                                  null: false
+    t.string   "canonical_url",                          null: false
+    t.string   "oembed"
+    t.boolean  "is_extraordinary",   default: false
+    t.string   "status",             default: "pending"
+    t.integer  "validation_counter", default: 0
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -51,5 +74,15 @@ ActiveRecord::Schema.define(version: 20151106235759) do
   add_index "users", ["email"], name: "index_users_on_email"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+
+  create_table "validations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "source_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "validations", ["source_id"], name: "index_validations_on_source_id"
+  add_index "validations", ["user_id"], name: "index_validations_on_user_id"
 
 end

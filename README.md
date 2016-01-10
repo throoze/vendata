@@ -19,3 +19,15 @@ is the only one able to compile it.
 - `$ npm install`
 - `$ bundle`
 - `$ bundle exec rails server`
+
+## Roadmap (in Spanish)
+
+- Flaguear gacetas en caso de nuevas entidades, con comentario adjunto.
+- Añadir hints a la descripción de los campos complicados.
+- Varios efectos por Acto Normativo?
+- Método de carga de Organismos
+- Revisar la info requerida de los créditos adicionales
+- Feedback y ayuda
+- Mensajes de los administradores a los scrappers
+- Mostrar estadisticas personales (progress bar y porcentajes)
+- Botón de ayuda en el toolbar (link a página de ayuda)

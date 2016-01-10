@@ -1,8 +1,7 @@
-// ./actions/SessionActionCreators.react.jsx
+// ./actions/SessionActionCreators.js.jsx
 var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
-var WebAPIUtils = require('../utils/WebAPIUtils.js');
-
-var ActionTypes = VendataConstants.ActionTypes;
+var WebAPIUtils          = require('../utils/WebAPIUtils.js');
+var ActionTypes          = VendataConstants.ActionTypes;
 
 module.exports = {
 

@@ -20,6 +20,8 @@ window.Login     = require('./components/session/Login');
 window.Scrapping = require('./components/scrapping/Scrapping');
 // Routing
 window.Router  = require('./routes');
+
+
 // window.StaticRouter= React.createClass({
 //     render: function(){
 //         var RouteHandler = ReactRouter.run(Router, this.props.path, function(){});

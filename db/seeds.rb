@@ -7,12 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Schema definition. Describes how documents are expected to be:
-
-# DUDA: Jubilacion[:institucion]: Institucion u Organismo????
-
 Schema.create([
     {
         name: "schema",
+        root_collections: ["GacetaOficial"],
         collections: [
             "Documento",
             "GacetaOficial",
@@ -64,14 +62,8 @@ Schema.create([
                 classname: "Documento",
                 human_readable: "Documento",
                 fields: {
-                    numero: { type: "int" },
+                    numero: { type: "string" },
                     fecha:  { type: "date" },
-                    tipo:   {
-                        type: "string",
-                        constraints: {
-                            valueIn: ["ordinario", "extraordinario"]
-                        }
-                    },
                     listo:  { type: "boolean" },
                 }
             },
@@ -80,13 +72,23 @@ Schema.create([
                 human_readable: "Gaceta Oficial",
                 extends: ["Documento"],
                 fields: {
+                    tipo:   {
+                        type: "string",
+                        constraints: {
+                            valueIn: ["ordinario", "extraordinario"]
+                        }
+                    },
+                    ano: { type: "string" },
+                    mes: { type: "string" },
                     documentos: { type: "[ActoNormativo]" }
                 }
             },
             ActoNormativo: {
                 classname: "ActoNormativo",
+                abstract: true,
                 human_readable: "Acto Normativo",
                 extends: ["Documento"],
+                is_root: false,
                 fields: {
                     emisor: { type: "Organismo" },
                     efecto: { type: "Efecto" }
@@ -188,6 +190,7 @@ Schema.create([
             },
             Institucion: {
                 classname: "Institucion",
+                abstract: true,
                 human_readable: "Institucion",
                 fields: {
                     nombre: { type: "string" },
@@ -207,6 +210,7 @@ Schema.create([
             },
             Empresa: {
                 classname: "Empresa",
+                abstract: true,
                 human_readable: "Empresa",
                 extends: ["Institucion"]
             },
@@ -229,6 +233,10 @@ Schema.create([
                     adscrita_a: {
                         type: "Organismo",
                         nullable: true
+                    },
+                    filial_de: {
+                        type: "Institucion",
+                        nullable: true
                     }
                 }
             },
@@ -244,6 +252,7 @@ Schema.create([
             },
             Efecto: {
                 classname: "Efecto",
+                abstract: true,
                 human_readable: "Efecto",
                 fields: {
                     fecha: { type: "date" }
@@ -360,6 +369,7 @@ Schema.create([
             },
             Acuerdo: {
                 classname: "Acuerdo",
+                abstract: true,
                 human_readable: "Acuerdo",
                 extends: ["Efecto"],
                 fields: {
@@ -522,7 +532,7 @@ Schema.create([
                     ]
                 }
             },
-            Acuerdo: {
+            AcuerdoActoNormativo: {
                 efecto: {
                     typeIn: [
                         "CreditoAdicional",
