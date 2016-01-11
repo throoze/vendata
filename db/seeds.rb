@@ -723,4 +723,25 @@ begin
 end until source_seeds.documents.length == 0
 
 # Admin user
-User.create!({email: "rdbvictor19@gmail.com", password: "12345678", password_confirmation: "12345678", role: :admin})
+admin = User.new({email: "admin@gmail.com", password: "12345678", password_confirmation: "12345678", role: :admin})
+admin.skip_confirmation!
+admin.confirm!
+admin.save
+
+# Scrapper user
+scrapper = User.new({email: "scrapper@gmail.com", password: "12345678", password_confirmation: "12345678", role: :scrapper})
+scrapper.skip_confirmation!
+scrapper.confirm!
+scrapper.save
+
+# Validator user
+validator = User.new({email: "validator@gmail.com", password: "12345678", password_confirmation: "12345678", role: :validator})
+validator.skip_confirmation!
+validator.confirm!
+validator.save
+
+# Banned user
+banned = User.new({email: "banned@gmail.com", password: "12345678", password_confirmation: "12345678", role: :banned})
+banned.skip_confirmation!
+banned.confirm!
+banned.save

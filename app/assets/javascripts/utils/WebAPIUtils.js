@@ -83,7 +83,7 @@ module.exports = {
         if (res) {
           if (res.error) {
             var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveLogin(null, errorMsgs);
+            ServerActionCreators.receiveLogIn(null, errorMsgs);
           } else {
             json = JSON.parse(res.text);
             json.email = json.data.email;

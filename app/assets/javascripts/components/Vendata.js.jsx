@@ -15,6 +15,10 @@ function getStateFromStores() {
 
 var Vendata = React.createClass({
 
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+  
   getInitialState: function() {
     return getStateFromStores();
   },
@@ -36,9 +40,9 @@ var Vendata = React.createClass({
    // var email = this.state.user !== null? this.state.user.email : "";
     return (
       <div className="app">
-        <NavigationBar isLoggedIn={this.state.isLoggedIn} email={this.state.email} />
+        <NavigationBar isLoggedIn={this.state.isLoggedIn} email={this.state.email} {...this.props}/>
         <div style={{height: 50 + 'px', clear: 'both'}}></div>
-        <RouteHandler/>
+        <RouteHandler isLoggedIn={this.state.isLoggedIn} user={this.state.user} {...this.props}/>
         {this.props.children}
       </div>
     );

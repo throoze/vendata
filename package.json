@@ -8,9 +8,11 @@
     "jquery-deparam": "^0.4.2",
     "js-cookie": "^2.0.4",
     "jsdom": "3.1.2",
+    "localStorage": "^1.0.3",
     "object-assign": "^4.0.1",
     "pubsub-js": "^1.5.3",
-    "superagent": "^1.6.1"
+    "superagent": "^1.6.1",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "babel": "^6.0.15",

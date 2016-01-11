@@ -35,6 +35,7 @@ module Vendata
     # Use reactify transformer (-t reactify) and treat files with the .js.jsx extensions
     # as modules (--extension=\".js.jsx\")
     config.browserify_rails.commandline_options = "-t reactify --extension=\".js.jsx\""
+    #config.browserify_rails.source_map_environments << "development"
 
     DocumentCloud.configure do |config|
         config.email    = DOCUMENTCLOUD_EMAIL

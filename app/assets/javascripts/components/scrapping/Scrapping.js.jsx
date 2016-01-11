@@ -9,6 +9,7 @@ var ButtonToolbar           = BS.ButtonToolbar,
     LoadingButton           = require('../common/LoadingButton');
 var DocumentVisor           = require('./DocumentVisor'),
     ScrappingForm           = require('./ScrappingForm');
+var router                  = ReactRouter;
 
 var ScrappingToolbar = React.createClass({
 
@@ -46,6 +47,10 @@ var ScrappingToolbar = React.createClass({
 
 var Scrapping = React.createClass({
 
+    contextTypes: {
+        router: React.PropTypes.func
+    },
+
     getInitialState: function() {
         return this._getStateFromStores();
     },
@@ -59,6 +64,10 @@ var Scrapping = React.createClass({
     },
 
     componentDidMount: function() {
+        if ((this.props.isLoggedIn !== undefined) && (this.props.isLoggedIn !== null) && !this.props.isLoggedIn) {
+            console.log("User is not logged in. Context.router: ", this.context.router);
+            this.context.router.transitionTo("app");
+        }
         ScrappingStore.addChangeListener(this._onChange);
         ScrappingStore.addSchemataChangeListener(this._onChange);
         ScrappingActionCreators.loadSchemata();
@@ -74,15 +83,17 @@ var Scrapping = React.createClass({
     },
 
     render: function() {
-        return (
-            <div id="scrapping" className="scrapping">
-                <ScrappingToolbar enableClear={this.state.hasDoc}/>
-                <div className="scrapping-container">
-                    <DocumentVisor className="document-visor" />
-                    <ScrappingForm schemata={this.state.schemata} className="scrapping-form" />
+        if (this.props.isLoggedIn) {
+            return (
+                <div id="scrapping" className="scrapping">
+                    <ScrappingToolbar enableClear={this.state.hasDoc}/>
+                    <div className="scrapping-container">
+                        <DocumentVisor className="document-visor" />
+                        <ScrappingForm schemata={this.state.schemata} className="scrapping-form" />
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        } else { return null; }
     }
 });
 

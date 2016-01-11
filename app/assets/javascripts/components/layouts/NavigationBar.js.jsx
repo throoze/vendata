@@ -57,7 +57,6 @@ NavigationBar = React.createClass({
     },
 
     _handleLogout:function(){
-        console.log("entre");
         SessionActionCreators.logout(this.state.client, this.state.access_token, this.state.uid);
     },
 

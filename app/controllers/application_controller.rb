@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   # before_filter :authenticate
   protect_from_forgery with: :null_session
 
-
   def index
   end
 
