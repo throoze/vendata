@@ -7,8 +7,9 @@ var NavigationBar = require('../components/layouts/NavigationBar'),
 
 function getStateFromStores() {
   return {
-    isLoggedIn: false, // SessionStore.isLoggedIn(),
-    user: { email : 'example@example.com' } // SessionStore.getUser()
+    isLoggedIn: SessionStore.isLoggedIn(),
+    user: JSON.parse(SessionStore.getUser()),
+    email:SessionStore.getEmail()
   };
 }
 
@@ -19,11 +20,11 @@ var Vendata = React.createClass({
   },
 
   componentDidMount: function() {
-      SessionStore.addChangeListener(this._onChange);
+    SessionStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-      SessionStore.removeChangeListener(this._onChange);
+    SessionStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
@@ -31,11 +32,11 @@ var Vendata = React.createClass({
   },
 
   render: function() {
-    var isLoggedIn = this.state === null ? false : this.state.isLoggedIn;
-    var email = this.state === null ? '' : this.state.user.email;
+    //var isLoggedIn = this.state === null ? false : this.state.isLoggedIn;
+   // var email = this.state.user !== null? this.state.user.email : "";
     return (
       <div className="app">
-        <NavigationBar isLoggedIn={isLoggedIn} email={email} />
+        <NavigationBar isLoggedIn={this.state.isLoggedIn} email={this.state.email} />
         <div style={{height: 50 + 'px', clear: 'both'}}></div>
         <RouteHandler/>
         {this.props.children}
