@@ -96,8 +96,17 @@ module.exports = {
   },
    logout: function(client, access_token, uid) {
    request.del('http://localhost:3000/api/v1/auth/sign_out')
-      .set({ 'Client': client, 'Access-Token': access-token,'Uid':uid })
-      .end();
+      .set({ 'client': client, 'access-token': access_token,'Uid':uid })
+      .end(function(error,res){
+          if (res) {
+            if (res.error) {
+              var errorMsgs = _getErrors(res);
+              ServerActionCreators.receiveLogOut(null, errorMsgs);
+            } else {
+              ServerActionCreators.receiveLogOut("OK",errorMsgs);
+            }
+          }
+      });
   },
 };
 

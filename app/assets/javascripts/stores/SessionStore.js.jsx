@@ -73,8 +73,6 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
 
     case ActionTypes.LOGIN_RESPONSE:
     
-      console.log(action.json);
-      console.log(action.json.access_token);
       //Si el contenido y el token no son vacios. 
       if (action.json && action.json.access_token) {
           _accessToken = action.json.access_token;
@@ -95,13 +93,15 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       SessionStore.emitChange();
       break;
 
-    case ActionTypes.LOGOUT:
+    case ActionTypes.LOGOUT_RESPONSE:
       _accessToken = null;
       _email = null;
       _client = null;
+      _user = null;
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('email');
       sessionStorage.removeItem('client');
+      sessionStorage.removeItem('user');
       SessionStore.emitChange();
       break;
 

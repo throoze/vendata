@@ -27,9 +27,9 @@ module.exports = {
 
   logout: function(client, access_token, uid) {
     VendataAppDispatcher.handleViewAction({
-      type: ActionTypes.LOGOUT
+      type: ActionTypes.LOGOUT_REQUEST
     });
-    WebAPIUtils.logout(client, access-token, uid);
+    WebAPIUtils.logout(client, access_token, uid);
   }
 
 };

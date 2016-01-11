@@ -22,19 +22,30 @@ var Navbar         = BS.Navbar,
     DropdownMenu   = Dropdown.Menu,
     Button         = BS.Button;
 
+function getStateFromStores(v) {
+  return {
+    access_token:SessionStore.getAccessToken(),
+    uid:SessionStore.getEmail(),
+    client:SessionStore.getClient(),
+    open:v
+  };
+}
 
 NavigationBar = React.createClass({
 
     getInitialState: function() {
-        return { open: false };
+        return getStateFromStores(false);
     },
 
     componentDidMount: function() {
         SessionStore.addChangeListener(this._onChange);
     },
-
     componentWillUnmount: function() {
         SessionStore.removeChangeListener(this._onChange);
+    },
+
+    _onChange: function() {
+        this.setState(getStateFromStores(this.state.open));
     },
 
     _preventDefault: function (e) {
@@ -44,9 +55,10 @@ NavigationBar = React.createClass({
     _setOpen: function (e){
         this.setState({open: !this.state.open });
     },
-    
+
     _handleLogout:function(){
-        SessionActionCreators.Logout();
+        console.log("entre");
+        SessionActionCreators.logout(this.state.client, this.state.access_token, this.state.uid);
     },
 
     render: function() {
@@ -54,7 +66,7 @@ NavigationBar = React.createClass({
             <NavDropdown eventKey={3} title={this.props.email} id="collapsible-nav-dropdown">
                 <MenuItem eventKey={1}>Perfil</MenuItem>
                 <MenuItem divider />
-                <MenuItem eventKey={2} href="/logout">
+                <MenuItem eventKey={2}>
                     <Button  onClick={this._handleLogout} bsStyle="primary" bsSize="small">Logout</Button>
                 </MenuItem>
             </NavDropdown>

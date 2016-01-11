@@ -28,6 +28,14 @@ module.exports = {
     });
   },
 
+  receiveLogOut: function(json, errors) {
+    VendataAppDispatcher.handleServerAction({
+      type: ActionTypes.LOGOUT_RESPONSE,
+      json: json,
+      errors: errors
+    });
+  },
+
   receiveDocumentForScrapping: function(json, errors) {
     VendataAppDispatcher.handleServerAction({
       type: ActionTypes.RECEIVE_DOC_FOR_SCRAPPING,
