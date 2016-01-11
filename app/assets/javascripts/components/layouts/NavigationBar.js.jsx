@@ -6,6 +6,7 @@ var Link           = ReactRouter.Link;
 //
 var SessionStore   = require('../../stores/SessionStore.js.jsx'),
     Login          = require('../session/Login.js.jsx'),
+    Profile        = require('../session/Profile.js.jsx');
     SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx');
 // react-bootstrap components:
 var Dropdown       = BS.Dropdown;
@@ -56,17 +57,23 @@ NavigationBar = React.createClass({
         this.setState({open: !this.state.open });
     },
 
-    _handleLogout:function(){
+    _handleProfile: function(){
+        <Link to="/">Home</Link>
+    },
+
+    _handleLogout: function(){
         SessionActionCreators.logout(this.state.client, this.state.access_token, this.state.uid);
     },
 
     render: function() {
         var rightItem = this.props.isLoggedIn ? (
             <NavDropdown eventKey={3} title={this.props.email} id="collapsible-nav-dropdown">
-                <MenuItem eventKey={1}>Perfil</MenuItem>
+                <MenuItem eventKey={1}>
+                    <Button  onClick={this._handleProfile} bsSize="small"><Link to="/profile">Profile</Link></Button>
+                </MenuItem>
                 <MenuItem divider />
                 <MenuItem eventKey={2}>
-                    <Button  onClick={this._handleLogout} bsStyle="primary" bsSize="small">Logout</Button>
+                    <Button  onClick={this._handleLogout}  bsSize="small">Logout</Button>
                 </MenuItem>
             </NavDropdown>
             ) : (
