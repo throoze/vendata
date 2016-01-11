@@ -12,6 +12,7 @@ var CHANGE_EVENT         = VendataConstants.Events.CHANGE;
 var _accessToken = sessionStorage.getItem('accessToken') ;
 var _email = sessionStorage.getItem('email');
 var _client = sessionStorage.getItem('client');
+var _user = sessionStorage.getItem('user');
 var _errors = [];
 
 var SessionStore = assign({}, EventEmitter.prototype, {
@@ -29,7 +30,7 @@ var SessionStore = assign({}, EventEmitter.prototype, {
   },
 
   isLoggedIn: function() {
-    return _accessToken ? true : false;
+    return _accessToken !== null ? true : false;  
   },
 
   getAccessToken: function() {
@@ -40,6 +41,9 @@ var SessionStore = assign({}, EventEmitter.prototype, {
     return _client;
   },
 
+  getUser: function(){
+    return _user;
+  },
 
   getEmail: function() {
     return _email;
@@ -69,15 +73,19 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
 
     case ActionTypes.LOGIN_RESPONSE:
     
+      console.log(action.json);
+      console.log(action.json.access_token);
       //Si el contenido y el token no son vacios. 
       if (action.json && action.json.access_token) {
           _accessToken = action.json.access_token;
           _email = action.json.email;
           _client = action.json.client;
+          _user =  JSON.stringify(action.json.data);
           // Token will always live in the session, so that the API can grab it with no hassle
           sessionStorage.setItem('accessToken', _accessToken);
           sessionStorage.setItem('email', _email);
           sessionStorage.setItem('client', _client);
+          sessionStorage.setItem('user', _user);
         }
       
       if (action.errors) {

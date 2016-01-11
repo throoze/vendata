@@ -87,8 +87,8 @@ module.exports = {
           } else {
             json = JSON.parse(res.text);
             json.email = json.data.email;
-            json.client = es.header['Client'];
-            json.access_token = res.header['Access-Token'];
+            json.client = res.header['client'];
+            json.access_token = res.header['access-token'];
             ServerActionCreators.receiveLogIn(json, null);
           }
         }

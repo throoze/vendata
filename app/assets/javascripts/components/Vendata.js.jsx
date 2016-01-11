@@ -8,7 +8,7 @@ var NavigationBar = require('../components/layouts/NavigationBar'),
 function getStateFromStores() {
   return {
     isLoggedIn: SessionStore.isLoggedIn(),
-    user: SessionStore.getEmail()
+    user: JSON.parse(SessionStore.getUser())
   };
 }
 
@@ -31,11 +31,11 @@ var Vendata = React.createClass({
   },
 
   render: function() {
-    var isLoggedIn = this.state === null ? false : this.state.isLoggedIn;
-    var email = this.state === null ? '' : this.state.user === null ? null : this.state.user.email;
+    //var isLoggedIn = this.state === null ? false : this.state.isLoggedIn;
+    var email = this.state.user !== null? this.state.user.email : "";
     return (
       <div className="app">
-        <NavigationBar isLoggedIn={isLoggedIn} email={email} />
+        <NavigationBar isLoggedIn={this.state.isLoggedIn} email={email} />
         <div style={{height: 50 + 'px', clear: 'both'}}></div>
         <RouteHandler/>
         {this.props.children}
