@@ -96,7 +96,8 @@ module.exports = {
     SCRAPPING_FORM_TITLE:  "Formulario de vaciado",
     SCRAPPING_REQUEST_DOC: "Para empezar, solicita un nuevo documento.",
     CLEAR_DOC:             "Limpiar documento",
-    DOWNLOAD_PDF:          "Descarga el PDF"
+    DOWNLOAD_PDF:          "Descarga el PDF",
+    CHOOSE_ROOT_DOC:       "Seleccione el tipo de documento a vaciar"
   }
 
 };

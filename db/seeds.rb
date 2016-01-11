@@ -62,9 +62,9 @@ Schema.create([
                 classname: "Documento",
                 human_readable: "Documento",
                 fields: {
-                    numero: { type: "string" },
+                    numero: { type: "string", label: "Número" },
                     fecha:  { type: "date" },
-                    listo:  { type: "boolean" },
+                    listo:  { type: "boolean", hidden: true }
                 }
             },
             GacetaOficial: {
@@ -74,11 +74,9 @@ Schema.create([
                 fields: {
                     tipo:   {
                         type: "string",
-                        constraints: {
-                            valueIn: ["ordinario", "extraordinario"]
-                        }
+                        options: ["ordinario", "extraordinario"]
                     },
-                    ano: { type: "string" },
+                    ano: { type: "string", label: "Año" },
                     mes: { type: "string" },
                     documentos: { type: "[ActoNormativo]" }
                 }

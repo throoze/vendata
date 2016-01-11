@@ -51,7 +51,7 @@ var Entity = React.createClass({
             };
             parents = entity.schemata.inheritance.reverse();
             for (var parent in parents) {
-                $.extend(entity.schemata.fields, schemata.descriptions[parent].fields);
+                $.extend(entity.schemata.fields, schemata.descriptions[parents[parent]].fields);
             }
             $.extend(entity.schemata.fields, entity.schemata.description.fields);
             return entity;
@@ -71,14 +71,17 @@ var Entity = React.createClass({
     render: function() {
         var wrapper = this.props.wrapper;
         var entity = this._findEntity();
+        var fields = [];
+        for (var key in entity.schemata.fields){
+            if (entity.schemata.fields.hasOwnProperty(key)){
+                if (entity.schemata.fields[key].hidden === null || entity.schemata.fields[key].hidden === undefined)
+                    fields.push(<Field key={key} fieldname={key} field={entity.schemata.fields[key]} />);
+            }
+        }
         return (
-            <wrapper>
-                {function() { for (var key in entity.fields){
-                    if (entity.fields.hasOwnProperty(key)){
-                        <Field fieldname={key} field={entity.fields[key]} />
-                    }
-                }}()}
-            </wrapper>
+            <Panel>
+                {fields}
+            </Panel>
         );
     }
 });
