@@ -62,10 +62,11 @@ NavigationBar = React.createClass({
 
     render: function() {
         var rightItem = this.props.isLoggedIn ? (
-            <NavDropdown eventKey={3} title={this.props.email} id="collapsible-nav-dropdown">
+            <NavDropdown eventKey={4} title={this.props.email} id="collapsible-nav-dropdown">
                 <MenuItem eventKey={1}>Perfil</MenuItem>
+                <MenuItem eventKey={2}><Link to="scrapping">Scrapping</Link></MenuItem>
                 <MenuItem divider />
-                <MenuItem eventKey={2}>
+                <MenuItem eventKey={3}>
                     <Button  onClick={this._handleLogout} bsStyle="primary" bsSize="small">Logout</Button>
                 </MenuItem>
             </NavDropdown>
@@ -82,8 +83,8 @@ NavigationBar = React.createClass({
             );
         return (
             <Navbar fixedTop toggleNavKey={0}>
-                <NavBrand><Link to="/">Vendata</Link></NavBrand>
-                <CollapsibleNav eventKey={0}>
+                <NavBrand><Link to="/"><div className="logo-image"></div></Link></NavBrand>
+                <CollapsibleNav eventKey={1}>
                     <Nav navbar right >
                         {rightItem}
                     </Nav>

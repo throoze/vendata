@@ -10,7 +10,7 @@ var Index = React.createClass({
   render: function() {
     return (
       <div className="home">
-        <Image src={""} responsive />
+          <div className="inner"></div>
       </div>
       );
   }

@@ -1,3 +1,13 @@
 // Place all the styles related to the home page here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.logo-image {
+    position: absolute;
+    top: 0px;
+    width: 85px;
+    height: 50px;
+    margin: 0px;
+    background-image: image-url('vendata.png');
+    background-size: cover;
+}
