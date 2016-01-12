@@ -33,6 +33,10 @@ function getStateFromStores(v) {
 
 NavigationBar = React.createClass({
 
+    contextTypes: {
+        router: React.PropTypes.func
+    },
+
     getInitialState: function() {
         return getStateFromStores(false);
     },
@@ -58,6 +62,7 @@ NavigationBar = React.createClass({
 
     _handleLogout:function(){
         SessionActionCreators.logout(this.state.client, this.state.access_token, this.state.uid);
+        this.context.router.transitionTo("app");
     },
 
     render: function() {
