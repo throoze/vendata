@@ -5,46 +5,46 @@
 
 // Double bouncer spinner
 .spinner {
-  width: 40px;
-  height: 40px;
+    width: 40px;
+    height: 40px;
 
-  position: relative;
-  margin: 100px auto;
+    position: relative;
+    margin: 100px auto;
 }
 
 .double-bounce1, .double-bounce2 {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  // background-color: #333;
-  background-color: $vendata-color;
-  opacity: 0.6;
-  position: absolute;
-  top: 0;
-  left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    // background-color: #333;
+    background-color: $vendata-color;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
   
-  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-  animation: sk-bounce 2.0s infinite ease-in-out;
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
 }
 
 .double-bounce2 {
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
 }
 
 @-webkit-keyframes sk-bounce {
-  0%, 100% { -webkit-transform: scale(0.0) }
-  50% { -webkit-transform: scale(1.0) }
+    0%, 100% { -webkit-transform: scale(0.0) }
+    50% { -webkit-transform: scale(1.0) }
 }
 
 @keyframes sk-bounce {
-  0%, 100% { 
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  } 50% { 
-    transform: scale(1.0);
-    -webkit-transform: scale(1.0);
-  }
+    0%, 100% { 
+      transform: scale(0.0);
+      -webkit-transform: scale(0.0);
+    } 50% { 
+      transform: scale(1.0);
+      -webkit-transform: scale(1.0);
+    }
 }
 
 // En of double bouncer spinner
@@ -53,38 +53,45 @@
 #scraping {
     width: 100%;
     margin: 0px;
-    #document-visor {
-        width: 50%;
-        float: left;
-        .loader {
-            display: block;
-            margin-top: 30%;
-            margin-left: auto;
-            margin-right: auto;
+    .scraping-container {
+        #document-visor {
+            width: 50%;
+            float: left;
+            margin-left: 1%;
+            .DV-docViewer {
+                border-radius: 4px;
+            }
+            .loader {
+                display: block;
+                margin-top: 30%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .start-message {
+                color: #969696;
+                display: block;
+                margin-top: 30%;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
         }
-        .start-message {
-            color: #969696;
-            display: block;
-            margin-top: 30%;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
-    }
-    #scraping-form {
-        width: 48%;
-        float: right;
-        border-color: $vendata-color-darkest;
-        .btn, .panel-heading {
-          background-color: $vendata-color-bright;
+        #scraping-form {
+            width: 48%;
+            float: right;
+            margin-right: 1%;
+            border-color: $vendata-color-darkest;
+            .btn, .panel-heading {
+              background-color: $vendata-color-bright;
 
-        }
-        .btn, .panel, .panel-heading {
-          border-color: $vendata-color-darkest;
-        }
-        .btn:hover {
-          background-color: $vendata-color-dark;
-          color: $white;
+            }
+            .btn, .panel, .panel-heading {
+              border-color: $vendata-color-darkest;
+            }
+            .btn:hover {
+              background-color: $vendata-color-dark;
+              color: $white;
+            }
         }
     }
 }

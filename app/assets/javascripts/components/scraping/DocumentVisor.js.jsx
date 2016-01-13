@@ -38,7 +38,7 @@ var DocumentVisor = React.createClass({
             params.width = params.maxwidth = width;
             params.height = params.maxheight = height;
             DV.load(url, params);
-            $(container+" .loader").remove();
+            $(container+" .spinner").remove();
             out = false;
         } else if (this.state.doc !== null && nextState.doc === null) {
             var start_message = VendataConstants.Strings.SCRAPING_REQUEST_DOC;

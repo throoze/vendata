@@ -90,7 +90,7 @@ var ScrapingForm = React.createClass({
                 </form>
             );
         var output = (
-                <Panel id="scraping-form" header={title} bsStyle="primary">
+                <Panel id="scraping-form" header={title} bsStyle={"primary"}>
                     {downloadPDF}
                     {form}
                 </Panel>
@@ -98,7 +98,7 @@ var ScrapingForm = React.createClass({
         if (this.state.doc) {
             return output;
         } else {
-            return (<Panel id="scraping-form" header={title} bsStyle="primary"></Panel>);
+            return null;
         }
     }
 });

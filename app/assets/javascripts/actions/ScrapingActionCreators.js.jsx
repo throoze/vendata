@@ -17,7 +17,8 @@ module.exports = {
     $(container).empty();
     var margin = (($(window).height() - 85) / 2) - 50;
     var style = 'margin-top: '+margin.toString()+'px';
-    $(container).append("<div class='loader pulse-loader' style='"+style+"'></div>");
+    var inner = '<div class="double-bounce1"></div><div class="double-bounce2"></div>';
+    $(container).append("<div class='spinner' style='"+style+"'>"+inner+"</div>");
     VendataAppDispatcher.handleViewAction({
         type: ActionTypes.LOAD_DOC_FOR_SCRAPING
     });
