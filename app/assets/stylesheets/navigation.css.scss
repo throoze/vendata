@@ -2,6 +2,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@import "global";
+
 .logo-image {
     position: absolute;
     top: 0px;
@@ -10,4 +12,14 @@
     margin: 0px;
     background-image: image-url('vendata.png');
     background-size: cover;
+}
+
+.btn {
+    border-color: $vendata-color-darkest;
+    background-color: $vendata-color;
+}
+
+.btn:hover {
+    background-color: $vendata-color-dark;
+    color: $white;
 }
