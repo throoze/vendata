@@ -3,15 +3,24 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 @import "global";
-
-.logo-image {
+.navbar-brand {
     position: absolute;
-    top: 0px;
-    width: 85px;
-    height: 50px;
-    margin: 0px;
-    background-image: image-url('vendata.png');
-    background-size: cover;
+    .logo-image {
+        background-image: image-url('vendata.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 0;
+        margin: 0 auto;
+        height: 100%;
+        padding-left: 58.951612903%; /* (img-height / img-width * width) */
+                /* (731 / 1240 * 100) */
+        position: absolute;
+        top: 0px;
+        width: 85px;
+        height: 50px;
+        margin: 0px;
+        background-size: cover;
+    }
 }
 
 .btn {

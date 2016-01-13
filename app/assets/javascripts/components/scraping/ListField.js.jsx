@@ -1,16 +1,14 @@
-// ./components/scraping/Field.js.jsx
-var React         = require('react');
-var BS            = require('react-bootstrap');
-var ScrapingStore = require('../../stores/ScrapingStore');
-var BasicField    = require('./Field');
-var ListField     = require('./ListField');
-var Entity        = require('./Entity');
-var Strings       = VendataConstants.Strings;
-var Utils         = VendataConstants.Utils;
-var Input         = BS.Input;
-var Panel         = BS.Panel;
+// ./components/scraping/ListField.js.jsx
+var React      = require('react');
+var BS         = require('react-bootstrap');
+var BasicField = require('./BasicField');
+var Entity     = require('./Entity');
+var Strings    = VendataConstants.Strings;
+var Utils      = VendataConstants.Utils;
+var Panel      = BS.Panel;
 
-var Field = React.createClass({
+
+var ListField = React.createClass({
 
     _chooseType: function() {
         var choose = null;
@@ -34,8 +32,6 @@ var Field = React.createClass({
 
     render: function() {
         var type = this._chooseType();
-        console.log('Field: this.props.type: ', this.props.type);
-        console.log('Field: this._chooseType(): ', type);
         var field = null;
         switch(type){
             case "BasicField":
@@ -49,8 +45,17 @@ var Field = React.createClass({
                 break;
             default:
         }
-        return field;
+        return (
+            <Panel>
+                <div className="fields-container">
+                    <div>
+                        {field}<Button className="remove" bsStyle="danger">Strings.DELETE</Button>
+                    </div>
+                </div>
+                <Button className="add-new" bsStyle="success">Strings.ADD</Button>
+            </Panel>
+        );
     }
 });
 
-module.exports = Field;
+module.exports = ListField;

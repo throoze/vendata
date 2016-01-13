@@ -3,6 +3,52 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import "variables";
 
+#scraping {
+    width: 100%;
+    margin: 0px;
+    .scraping-container {
+        #document-visor {
+            width: 50%;
+            float: left;
+            margin-left: 1%;
+            .DV-docViewer {
+                border-radius: 4px;
+            }
+            .loader {
+                display: block;
+                margin-top: 30%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .start-message {
+                color: #969696;
+                display: block;
+                margin-top: 30%;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+        }
+        #scraping-form {
+            width: 48%;
+            float: right;
+            margin-right: 1%;
+            border-color: $vendata-color-darkest;
+            .btn, .panel-heading {
+              background-color: $vendata-color-bright;
+
+            }
+            .btn, .panel-heading {
+              border-color: $vendata-color-darkest;
+            }
+            .btn:hover {
+              background-color: $vendata-color-dark;
+              color: $white;
+            }
+        }
+    }
+}
+
 // Double bouncer spinner
 .spinner {
     width: 40px;
@@ -48,50 +94,3 @@
 }
 
 // En of double bouncer spinner
-
-
-#scraping {
-    width: 100%;
-    margin: 0px;
-    .scraping-container {
-        #document-visor {
-            width: 50%;
-            float: left;
-            margin-left: 1%;
-            .DV-docViewer {
-                border-radius: 4px;
-            }
-            .loader {
-                display: block;
-                margin-top: 30%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .start-message {
-                color: #969696;
-                display: block;
-                margin-top: 30%;
-                margin-left: auto;
-                margin-right: auto;
-                text-align: center;
-            }
-        }
-        #scraping-form {
-            width: 48%;
-            float: right;
-            margin-right: 1%;
-            border-color: $vendata-color-darkest;
-            .btn, .panel-heading {
-              background-color: $vendata-color-bright;
-
-            }
-            .btn, .panel, .panel-heading {
-              border-color: $vendata-color-darkest;
-            }
-            .btn:hover {
-              background-color: $vendata-color-dark;
-              color: $white;
-            }
-        }
-    }
-}
