@@ -16,6 +16,11 @@ function getStateFromStores() {
         isLoggedIn: SessionStore.isLoggedIn(),
         user: JSON.parse(SessionStore.getUser()),
         email:SessionStore.getEmail()
+      // t.string :name
+      // t.string :nickname
+      // t.string :image
+      // t.string :email
+      // t.string :role
     };
 }
 
@@ -56,7 +61,7 @@ Profile = React.createClass({
                           <ListGroupItem>Apodo:</ListGroupItem>
                           <ListGroupItem>
                              <div>
-                                <Button onClick={this._openPanel}>Create User</Button>
+                                <Button bsStyle="primary" onClick={this._openPanel}>Create User</Button>
                                 <Panel collapsible expanded={this.state.open}>
                                   <Create></Create>
                                 </Panel>

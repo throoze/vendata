@@ -63,7 +63,7 @@ module.exports = {
 
   create: function(email, password, password_confirmation) {
     request.post('http://localhost:3000/api/v1/auth')
-      .send({ email: email, password: password, password_confirmation: password_confirmation })
+      .send({email: email, password: password, password_confirmation: password_confirmation})
       .end(function(error, res){
         if (res) {
           if (res.error) {
