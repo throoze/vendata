@@ -3,11 +3,10 @@ var ReactRouter  = require('react-router');
 var Route        = ReactRouter.Route,
     DefaultRoute = ReactRouter.DefaultRoute;
 var Vendata      = require('./components/Vendata');
-//var Login      = require('./components/session/Login');
-//var Logout     = require('./components/session/Logout');
-//var Profile    = require('./components/session/Logout');
-var tempHome	 = require('./components/common/tempHome');
+var Login     	 = require('./components/session/Login');
+var Profile   	 = require('./components/session/Profile');
 var Scrapping    = require('./components/scrapping/Scrapping');
+var Index 	     = require('./components/common/Index');
 
 var Router = (
   <Route name="app" path="/" handler={Vendata}>

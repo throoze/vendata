@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root 'application#index'
 
   get 'login' => 'session#index', as: 'login'
+  get 'profile' => 'session#index', as: 'profile'
   get 'scrapping' => 'scrapping#index', as: 'scrapping'
 
   namespace :api do

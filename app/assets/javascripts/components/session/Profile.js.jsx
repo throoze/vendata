@@ -1,9 +1,9 @@
+var React 				  = require('react');
 
 var SessionStore          = require('../../stores/SessionStore.js.jsx');
-var NavigationBar = require('../../components/layouts/NavigationBar');
+var NavigationBar = require('../../components/layouts/NavigationBar.js.jsx');
 
 var BS                    = require('react-bootstrap');
-
 var Input                 = BS.Input,
 	ButtonInput           = BS.ButtonInput;
 
@@ -16,7 +16,8 @@ function getStateFromStores() {
   };
 }
 
-ProfilePage = React.createClass({
+
+Profile = React.createClass({
 
 	getInitialState: function() {
     	return getStateFromStores();
@@ -24,7 +25,7 @@ ProfilePage = React.createClass({
 
   	componentDidMount: function() {
    		SessionStore.addChangeListener(this._onChange);
- 	 },
+ 	},
 
   	componentWillUnmount: function() {
     	SessionStore.removeChangeListener(this._onChange);
@@ -35,16 +36,17 @@ ProfilePage = React.createClass({
   	},
 
 	render: function() {
+		var mensaje = "Prueba Profile";
     	return (
     		<div className="profile-page">
-    			<NavigationBar isLoggedIn={this.state.isLoggedIn} email={this.state.email} />
+    			//<NavigationBar isLoggedIn={this.state.isLoggedIn} email={this.state.email} />
 
     			//Imagen de profile
-    			:Prueba de Profile:
+    			{mensaje}
     		</div>
     	);
   	}
 
 });
 
-module.exports = ProfilePage;
+module.exports = Profile;
