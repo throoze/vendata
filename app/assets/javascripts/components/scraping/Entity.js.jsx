@@ -66,6 +66,7 @@ var Entity = React.createClass({
     
     render: function() {
         var type = this.props.type;
+        var entity_name = this.state.entity;
         var entity = this._findEntity();
         var schemata = this.props.schemata;
         var abstract = entity.description.abstract !== undefined && 
@@ -89,16 +90,14 @@ var Entity = React.createClass({
                 fields.push(<Entity key={this.props.type+"-"+this.state.entity} type={this.state.entity} schemata={schemata} ref="entity"/>);
             }
         } else {
-            for (var key in entity.fields){
-                if (entity.fields.hasOwnProperty(key)){
-                    if (entity.fields[key].hidden === null || entity.fields[key].hidden === undefined)
-                        fields.push(<Field key={this.props.type+"-"+key} type={entity.fields[key].type} fieldname={key} field={entity.fields[key]} schemata={this.props.schemata}/>);
-                }
-            }
+            Object.keys(entity.fields).map(function(field){
+                if (entity.fields[field].hidden === null || entity.fields[field].hidden === undefined || !entity.fields[field].hidden)
+                    return fields.push(<Field key={type+"-"+entity_name+"-"+field} type={entity.fields[field].type} fieldname={field} field={entity.fields[field]} schemata={schemata}/>);
+            });
         }
         return (
             <Panel>
-                {fields}
+                {fields.map(function(field){ return field;})}
             </Panel>
         );
     }
