@@ -3,11 +3,16 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .home {
-    // display: inline-block;
-    // position: fixed;
-    // background-image: image-url("vendata.png");
-    // background-size: cover;
-    // margin: 22% 25%;
-    // width: 50%;
-    // height: 38%;
+    width: 100%;
+    overflow: hidden;
+    .inner {
+        position: absolute;
+        top: 150px;
+        left: 25%;
+        background-image: image-url("vendata.png");
+        background-size: cover;
+        margin: 0px auto;
+        width: 50%;
+        height: 60%;
+    }
 }

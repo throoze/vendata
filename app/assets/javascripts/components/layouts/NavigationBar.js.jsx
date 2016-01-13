@@ -34,6 +34,10 @@ function getStateFromStores(v) {
 
 NavigationBar = React.createClass({
 
+    contextTypes: {
+        router: React.PropTypes.func
+    },
+
     getInitialState: function() {
         return getStateFromStores(false);
     },
@@ -63,17 +67,17 @@ NavigationBar = React.createClass({
 
     _handleLogout: function(){
         SessionActionCreators.logout(this.state.client, this.state.access_token, this.state.uid);
+        this.context.router.transitionTo("app");
     },
 
     render: function() {
         var rightItem = this.props.isLoggedIn ? (
-            <NavDropdown eventKey={3} title={this.props.email} id="collapsible-nav-dropdown">
-                <MenuItem eventKey={1}>
-                    <Button  onClick={this._handleProfile} bsSize="small"><Link to="/profile">Profile</Link></Button>
-                </MenuItem>
+            <NavDropdown eventKey={4} title={this.props.email} id="collapsible-nav-dropdown">
+                <MenuItem eventKey={1}>Perfil</MenuItem>
+                <MenuItem eventKey={2}><Link to="scrapping">Scrapping</Link></MenuItem>
                 <MenuItem divider />
-                <MenuItem eventKey={2}>
-                    <Button  onClick={this._handleLogout}  bsSize="small">Logout</Button>
+                <MenuItem eventKey={3}>
+                    <Button  onClick={this._handleLogout} bsStyle="primary" bsSize="small">Logout</Button>
                 </MenuItem>
             </NavDropdown>
             ) : (
@@ -89,8 +93,8 @@ NavigationBar = React.createClass({
             );
         return (
             <Navbar fixedTop toggleNavKey={0}>
-                <NavBrand><Link to="/">Vendata</Link></NavBrand>
-                <CollapsibleNav eventKey={0}>
+                <NavBrand><Link to="/"><div className="logo-image"></div></Link></NavBrand>
+                <CollapsibleNav eventKey={1}>
                     <Nav navbar right >
                         {rightItem}
                     </Nav>
