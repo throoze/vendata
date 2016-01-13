@@ -2,7 +2,12 @@ var React         = require('react');
 var SessionStore  = require('../../stores/SessionStore.js.jsx');
 var NavigationBar = require('../../components/layouts/NavigationBar.js.jsx');
 var BS            = require('react-bootstrap');
+var Create        = require('./Create');
 var Input         = BS.Input,
+    Panel         = BS.Panel,
+    ListGroup     = BS.ListGroup,
+    ListGroupItem = BS.ListGroupItem,
+    Button        = BS.Button,
     ButtonInput   = BS.ButtonInput;
 
 
@@ -33,11 +38,33 @@ Profile = React.createClass({
         this.setState(getStateFromStores());
     },
 
+    _openPanel: function(){
+        this.setState({open: !this.state.open});
+    },
+
     render: function() {
-        var mensaje = "Prueba Profile";
+        var title = "Profile";
         return (
             <div className="profile-page">
-                {mensaje}
+                <Panel header={title}className="profile-panel">
+                    <Panel >
+                        <ListGroup fill>
+                          <ListGroupItem>Rol:</ListGroupItem>
+                          <ListGroupItem>Nombre:</ListGroupItem>
+                          <ListGroupItem>Apodo:</ListGroupItem>
+                          <ListGroupItem>Email:</ListGroupItem>
+                          <ListGroupItem>Apodo:</ListGroupItem>
+                          <ListGroupItem>
+                             <div>
+                                <Button onClick={this._openPanel}>Create User</Button>
+                                <Panel collapsible expanded={this.state.open}>
+                                  <Create></Create>
+                                </Panel>
+                              </div>
+                          </ListGroupItem>
+                        </ListGroup>
+                    </Panel>
+                </Panel>
             </div>
         );
     }

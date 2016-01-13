@@ -61,17 +61,17 @@ module.exports = {
       });
   },
 
-  signup: function(email, password, password_confirmation) {
+  create: function(email, password, password_confirmation) {
     request.post('http://localhost:3000/api/v1/auth')
       .send({ email: email, password: password, password_confirmation: password_confirmation })
       .end(function(error, res){
         if (res) {
           if (res.error) {
             var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveSignIn(null, errorMsgs);
+            ServerActionCreators.receiveCreate(null, errorMsgs);
           } else {
             json = JSON.parse(res.text);
-            ServerActionCreators.receiveSignIn(json, null);
+            ServerActionCreators.receiveCreate(json, null);
           }
         }
       });

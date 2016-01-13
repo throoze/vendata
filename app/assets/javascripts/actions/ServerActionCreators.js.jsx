@@ -12,9 +12,9 @@ module.exports = {
     });
   },
 
-  receiveSignIn: function(json, errors) {
+  receiveCreate: function(json, errors) {
     VendataAppDispatcher.handleServerAction({
-      type: ActionTypes.SIGN_UP_RESPONSE,
+      type: ActionTypes.CREATE_RESPONSE,
       json: json,
       errors: errors
     });

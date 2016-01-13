@@ -5,15 +5,15 @@ var ActionTypes          = VendataConstants.ActionTypes;
 
 module.exports = {
 
-  signup: function(email, password, password_confirmation, role) {
+  create: function(email, password, password_confirmation, role) {
     VendataAppDispatcher.handleViewAction({
-      type:                  ActionTypes.SIGNUP_REQUEST,
+      type:                  ActionTypes.CREATE_REQUEST,
       email:                 email,
       password:              password,
       password_confirmation: password_confirmation,
       role:                  role
     });
-    WebAPIUtils.signup(email, password, password_confirmation);
+    WebAPIUtils.create(email, password, password_confirmation);
   },
 
   login: function(email, password) {

@@ -63,7 +63,7 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
   // errors
   switch(action.type) {
 
-    case ActionTypes.SIGN_UP_RESPONSE:
+    case ActionTypes.CREATE_RESPONSE:
       if (action.errors) {
         _errors = action.errors;
       }
