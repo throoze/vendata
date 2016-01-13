@@ -1,8 +1,8 @@
-// ./components/scrapping/ScrappingForm.js.jsx
+// ./components/scraping/ScrapingForm.js.jsx
 var React          = require('react');
 var ReactRouter    = require('react-router');
 var BS             = require('react-bootstrap');
-var ScrappingStore = require('../../stores/ScrappingStore');
+var ScrapingStore = require('../../stores/ScrapingStore');
 var Entity         = require('./Entity');
 var Strings        = VendataConstants.Strings;
 var Panel          = BS.Panel,
@@ -10,29 +10,29 @@ var Panel          = BS.Panel,
     Button         = BS.Button;
 
 
-var ScrappingForm = React.createClass({
+var ScrapingForm = React.createClass({
     
     getInitialState: function(){
         var state = {
-            scrapping: {},
+            scraping: {},
             root_chosen: false,
             root: null,
-            doc: ScrappingStore.getDocument()
+            doc: ScrapingStore.getDocument()
         };
         return state;
     },
 
     componentDidMount: function() {
-        ScrappingStore.addChangeListener(this._onChange);
+        ScrapingStore.addChangeListener(this._onChange);
     },
 
     componentWillUnmount: function() {
-        ScrappingStore.removeChangeListener(this._onChange);
+        ScrapingStore.removeChangeListener(this._onChange);
     },
 
     _onChange: function() {
         this.setState({
-            doc: ScrappingStore.getDocument()
+            doc: ScrapingStore.getDocument()
         });
     },
 
@@ -83,14 +83,14 @@ var ScrappingForm = React.createClass({
                 <Button bsStyle="info" href={url} target="_blank" >{Strings.DOWNLOAD_PDF}</Button>
             );
         }
-        var title = (<h3>{Strings.SCRAPPING_FORM_TITLE}</h3>);
+        var title = (<h3>{Strings.SCRAPING_FORM_TITLE}</h3>);
         var form = (
                 <form onSubmit={this._onSubmit}>
                     {this._form()}
                 </form>
             );
         var output = (
-                <Panel id="scrapping-form" header={title} bsStyle="primary">
+                <Panel id="scraping-form" header={title} bsStyle="primary">
                     {downloadPDF}
                     {form}
                 </Panel>
@@ -98,9 +98,9 @@ var ScrappingForm = React.createClass({
         if (this.state.doc) {
             return output;
         } else {
-            return (<Panel id="scrapping-form" header={title} bsStyle="primary"></Panel>);
+            return (<Panel id="scraping-form" header={title} bsStyle="primary"></Panel>);
         }
     }
 });
 
-module.exports = ScrappingForm;
+module.exports = ScrapingForm;

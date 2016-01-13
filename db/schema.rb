@@ -24,15 +24,15 @@ ActiveRecord::Schema.define(version: 20151106235759) do
   add_index "flags", ["source_id"], name: "index_flags_on_source_id"
   add_index "flags", ["user_id"], name: "index_flags_on_user_id"
 
-  create_table "scrappings", force: :cascade do |t|
+  create_table "scrapings", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "source_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "scrappings", ["source_id"], name: "index_scrappings_on_source_id"
-  add_index "scrappings", ["user_id"], name: "index_scrappings_on_user_id"
+  add_index "scrapings", ["source_id"], name: "index_scrapings_on_source_id"
+  add_index "scrapings", ["user_id"], name: "index_scrapings_on_user_id"
 
   create_table "sources", force: :cascade do |t|
     t.string   "dc_id",                                  null: false

@@ -5,13 +5,13 @@ var Route        = ReactRouter.Route,
 var Vendata      = require('./components/Vendata');
 //var Login        = require('./components/session/Login');
 var Index	     = require('./components/common/Index')
-var Scrapping    = require('./components/scrapping/Scrapping');
+var Scraping    = require('./components/scraping/Scraping');
 
 var Router = (
   <Route name="app" path="/" handler={Vendata}>
     <DefaultRoute handler={Index} />
     <Route name="login" path="login" handler={Login}/>
-    <Route name="scrapping" path="scrapping" handler={Scrapping}/>
+    <Route name="scraping" path="scraping" handler={Scraping}/>
   </Route>
 );
 

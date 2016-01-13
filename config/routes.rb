@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'application#index'
 
   get 'login' => 'session#index', as: 'login'
-  get 'scrapping' => 'scrapping#index', as: 'scrapping'
+  get 'scraping' => 'scraping#index', as: 'scraping'
 
   namespace :api do
     namespace :v1 do
@@ -17,10 +17,10 @@ Rails.application.routes.draw do
           get 'constraints', action: 'get_constraints', as: 'get_constraints_from_schema'
         end
       end
-      namespace :scrapping do
-        get 'new', action: 'get_new_scrapping', as: 'get_new_scrapping'
+      namespace :scraping do
+        get 'new', action: 'get_new_scraping', as: 'get_new_scraping'
         get 'validation/new', action: 'get_new_validation', as: 'get_new_validation'
-        post 'new', action: 'new_scrapping', as: 'new_scrapping'
+        post 'new', action: 'new_scraping', as: 'new_scraping'
         post 'validation/new', action: 'new_validation', as: 'new_validation'
       end
     end

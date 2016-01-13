@@ -1,9 +1,9 @@
-// ./stores/ScrappingStore.js.jsx
+// ./stores/ScrapingStore.js.jsx
 var EventEmitter            = require('events').EventEmitter,
     assign                  = require('object-assign');
 var VendataAppDispatcher    = require('../dispatcher/VendataAppDispatcher.js');
 var ActionTypes             = VendataConstants.ActionTypes;
-var ScrappingActionCreators = require('../actions/ScrappingActionCreators');
+var ScrapingActionCreators = require('../actions/ScrapingActionCreators');
 var CHANGE                  = VendataConstants.Events.CHANGE;
 var CHANGE_SCHEMATA         = VendataConstants.Events.CHANGE_SCHEMATA;
 
@@ -12,10 +12,10 @@ var _state = {
   errors: [],
   schemata: null,
   doc: null,
-  scrapping: []
+  scraping: []
 }
 
-var ScrappingStore = assign({}, EventEmitter.prototype, {
+var ScrapingStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit(CHANGE);
@@ -87,8 +87,8 @@ var ScrappingStore = assign({}, EventEmitter.prototype, {
     return visor;
   },
 
-  getScrapping: function() {
-    return _state.scrapping;
+  getScraping: function() {
+    return _state.scraping;
   },
 
   getNext: function(){
@@ -97,7 +97,7 @@ var ScrappingStore = assign({}, EventEmitter.prototype, {
 
 });
 
-ScrappingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
+ScrapingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
   var action = payload.action;
 
   switch(action.type) {
@@ -110,10 +110,10 @@ ScrappingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       if (action.errors) {
         _state.errors = action.errors;
       };
-      ScrappingStore.emitSchemataChange();
+      ScrapingStore.emitSchemataChange();
       break;
 
-    case ActionTypes.RECEIVE_DOC_FOR_SCRAPPING:
+    case ActionTypes.RECEIVE_DOC_FOR_SCRAPING:
       if (action.json) {
         _state.doc        = action.json.doc;
         _state.doc.oembed = JSON.parse(action.json.doc.oembed);
@@ -122,25 +122,25 @@ ScrappingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       if (action.errors) {
         _state.errors = action.errors;
       };
-      ScrappingStore.emitChange();
+      ScrapingStore.emitChange();
       break;
 
     case ActionTypes.RECEIVE_DOC_FOR_VALIDATION:
-      //ScrappingStore.emitChange();
+      //ScrapingStore.emitChange();
       break;
 
     case ActionTypes.RECEIVE_CREATED_DOC:
-      //ScrappingStore.emitChange();
+      //ScrapingStore.emitChange();
       break;
 
     case ActionTypes.RECEIVE_VALIDATED_DOC:
-      //ScrappingStore.emitChange();
+      //ScrapingStore.emitChange();
       break;
 
     case ActionTypes.CLEAR_DOC:
       _state.doc = null;
-      _state.scrapping = [];
-      ScrappingStore.emitChange();
+      _state.scraping = [];
+      ScrapingStore.emitChange();
       break;
 
 
@@ -149,4 +149,4 @@ ScrappingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
   return true;
 });
 
-module.exports = ScrappingStore;
+module.exports = ScrapingStore;

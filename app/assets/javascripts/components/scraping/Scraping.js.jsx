@@ -1,35 +1,34 @@
-// ./components/scrapping/Scrapping.js.jsx
+// ./components/scraping/Scraping.js.jsx
 var React                   = require('react');
-var ScrappingActionCreators = require('../../actions/ScrappingActionCreators');
-var ScrappingStore          = require('../../stores/ScrappingStore');
+var ScrapingActionCreators  = require('../../actions/ScrapingActionCreators');
+var ScrapingStore           = require('../../stores/ScrapingStore');
 var BS                      = require('react-bootstrap');
 var ButtonToolbar           = BS.ButtonToolbar,
     ButtonGroup             = BS.ButtonGroup,
     Button                  = BS.Button,
     LoadingButton           = require('../common/LoadingButton');
 var DocumentVisor           = require('./DocumentVisor'),
-    ScrappingForm           = require('./ScrappingForm');
-var router                  = ReactRouter;
+    ScrapingForm            = require('./ScrapingForm');
 
-var ScrappingToolbar = React.createClass({
+var ScrapingToolbar = React.createClass({
 
-    _onAskNewDocForScrapping: function(callback) {
-        ScrappingActionCreators.loadDocumentForScrapping();
-        callback(ScrappingStore);
+    _onAskNewDocForScraping: function(callback) {
+        ScrapingActionCreators.loadDocumentForScraping();
+        callback(ScrapingStore);
     },
     
     _onAskNewDocForValidating: function(callback) {
-        //ScrappingActionCreators.loadDocumentForValidating();
+        //ScrapingActionCreators.loadDocumentForValidating();
         callback(null);
     },
 
     _onClearDoc: function() {
-        ScrappingActionCreators.clearDoc();
+        ScrapingActionCreators.clearDoc();
     },
 
     render : function() {
         var scrapNew           = VendataConstants.Strings.SCRAP_NEW;
-        var scrapNewHandler    = this._onAskNewDocForScrapping;
+        var scrapNewHandler    = this._onAskNewDocForScraping;
         var validateNew        = VendataConstants.Strings.VALIDATE_NEW;
         var validateNewHandler = this._onAskNewDocForValidating;
         var clearDoc           = VendataConstants.Strings.CLEAR_DOC;
@@ -45,7 +44,7 @@ var ScrappingToolbar = React.createClass({
     }
 });
 
-var Scrapping = React.createClass({
+var Scraping = React.createClass({
 
     contextTypes: {
         router: React.PropTypes.func
@@ -57,9 +56,9 @@ var Scrapping = React.createClass({
 
     _getStateFromStores: function(){
         return {
-            schemata: ScrappingStore.getSchemata(),
-            hasDoc: ScrappingStore.hasDocument(),
-            errors: ScrappingStore.getErrors()
+            schemata: ScrapingStore.getSchemata(),
+            hasDoc: ScrapingStore.hasDocument(),
+            errors: ScrapingStore.getErrors()
         };
     },
 
@@ -68,14 +67,14 @@ var Scrapping = React.createClass({
             console.log("User is not logged in. Context.router: ", this.context.router);
             this.context.router.transitionTo("app");
         }
-        ScrappingStore.addChangeListener(this._onChange);
-        ScrappingStore.addSchemataChangeListener(this._onChange);
-        ScrappingActionCreators.loadSchemata();
+        ScrapingStore.addChangeListener(this._onChange);
+        ScrapingStore.addSchemataChangeListener(this._onChange);
+        ScrapingActionCreators.loadSchemata();
     },
 
     componentWillUnmount: function() {
-        ScrappingStore.removeChangeListener(this._onChange);
-        ScrappingStore.removeSchemataChangeListener(this._onChange);
+        ScrapingStore.removeChangeListener(this._onChange);
+        ScrapingStore.removeSchemataChangeListener(this._onChange);
     },
 
     _onChange: function() {
@@ -85,11 +84,11 @@ var Scrapping = React.createClass({
     render: function() {
         if (this.props.isLoggedIn) {
             return (
-                <div id="scrapping" className="scrapping">
-                    <ScrappingToolbar enableClear={this.state.hasDoc}/>
-                    <div className="scrapping-container">
+                <div id="scraping" className="scraping">
+                    <ScrapingToolbar enableClear={this.state.hasDoc}/>
+                    <div className="scraping-container">
                         <DocumentVisor className="document-visor" />
-                        <ScrappingForm schemata={this.state.schemata} className="scrapping-form" />
+                        <ScrapingForm schemata={this.state.schemata} className="scraping-form" />
                     </div>
                 </div>
             );
@@ -97,4 +96,4 @@ var Scrapping = React.createClass({
     }
 });
 
-module.exports = Scrapping;
+module.exports = Scraping;

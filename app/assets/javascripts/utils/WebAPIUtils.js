@@ -40,22 +40,22 @@ module.exports = {
       });
   },
   
-  loadDocumentForScrapping: function(){
+  loadDocumentForScraping: function(){
     var json      = null;
     var errorMsgs = null;
     var result    = {};
-    request.get(APIEndpoints.SCRAPPING_GET_DOC_FOR_SCRAPPING)
+    request.get(APIEndpoints.SCRAPING_GET_DOC_FOR_SCRAPING)
       .send()
       .set('Accept', 'application/json')
       .end(function(error, res){
         if (res) {
           if (res.error) {
             var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveDocumentForScrapping(null, errorMsgs);
+            ServerActionCreators.receiveDocumentForScraping(null, errorMsgs);
           } else {
             json = JSON.parse(res.text);
             result.doc = json.source;
-            ServerActionCreators.receiveDocumentForScrapping(result, null);
+            ServerActionCreators.receiveDocumentForScraping(result, null);
           }
         }
       });

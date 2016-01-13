@@ -1,11 +1,11 @@
-// ./components/scrapping/Entity.js.jsx
+// ./components/scraping/Entity.js.jsx
 var React          = require('react');
 var BS             = require('react-bootstrap');
 var Field          = require('./Field');
 var Strings        = VendataConstants.Strings;
 var Input          = BS.Input;
 var Panel          = BS.Panel;
-var ScrappingStore = require('../../stores/ScrappingStore');
+var ScrapingStore = require('../../stores/ScrapingStore');
 
 
 var Entity = React.createClass({
@@ -22,11 +22,11 @@ var Entity = React.createClass({
     },
 
     componentDidMount: function() {
-        ScrappingStore.addSchemataChangeListener(this._setStateFromStore);
+        ScrapingStore.addSchemataChangeListener(this._setStateFromStore);
     },
 
     componentWillUnmount: function() {
-        ScrappingStore.removeSchemataChangeListener(this._setStateFromStore);
+        ScrapingStore.removeSchemataChangeListener(this._setStateFromStore);
     },
 
     _setStateFromStore: function() {
@@ -34,7 +34,7 @@ var Entity = React.createClass({
     },
 
     _findSchemata: function() {
-        return { schemata: ScrappingStore.getSchemata() };
+        return { schemata: ScrapingStore.getSchemata() };
     },
 
     _findEntity: function() {

@@ -22,11 +22,11 @@ module.exports = {
     SCHEMATA_INHERITANCE:  Root + "/schemata/inheritance",  // GET
     SCHEMATA_CONSTRAINTS:  Root + "/schemata/constraints",  // GET
 
-    // Scrapping
-    SCRAPPING_GET_DOC_FOR_SCRAPPING:  Root + "/scrapping/new.json",          // GET
-    SCRAPPING_POST_SCRAPPED_DOC:      Root + "/scrapping/new",               // POST
-    SCRAPPING_GET_DOC_FOR_VALIDATING: Root + "/scrapping/validate/new.json", // GET
-    SCRAPPING_POST_VALIDATED_DOC:     Root + "/scrapping/validate/new"       // POST
+    // Scraping
+    SCRAPING_GET_DOC_FOR_SCRAPING:  Root + "/scraping/new.json",          // GET
+    SCRAPING_POST_SCRAPPED_DOC:      Root + "/scraping/new",               // POST
+    SCRAPING_GET_DOC_FOR_VALIDATING: Root + "/scraping/validate/new.json", // GET
+    SCRAPING_POST_VALIDATED_DOC:     Root + "/scraping/validate/new"       // POST
   },
 
   Events: {
@@ -51,11 +51,11 @@ module.exports = {
     // Routes
     REDIRECT: null,
 
-    // Scrapping
+    // Scraping
     LOAD_SCHEMATA: null,
     RECEIVE_SCHEMATA: null,
-    LOAD_DOC_FOR_SCRAPPING: null,
-    RECEIVE_DOC_FOR_SCRAPPING: null,
+    LOAD_DOC_FOR_SCRAPING: null,
+    RECEIVE_DOC_FOR_SCRAPING: null,
     LOAD_DOC_FOR_VALIDATION: null,
     RECEIVE_DOC_FOR_VALIDATION: null,
     CREATE_DOC: null,
@@ -96,8 +96,8 @@ module.exports = {
 
     SCRAP_NEW:             "Nuevo documento",
     VALIDATE_NEW:          "Validar nuevo",
-    SCRAPPING_FORM_TITLE:  "Formulario de vaciado",
-    SCRAPPING_REQUEST_DOC: "Para empezar, solicita un nuevo documento.",
+    SCRAPING_FORM_TITLE:  "Formulario de vaciado",
+    SCRAPING_REQUEST_DOC: "Para empezar, solicita un nuevo documento.",
     CLEAR_DOC:             "Limpiar documento",
     DOWNLOAD_PDF:          "Descarga el PDF",
     CHOOSE_ROOT_DOC:       "Seleccione el tipo de documento a vaciar"

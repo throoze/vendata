@@ -5,8 +5,8 @@ class User < ActiveRecord::Base
             :confirmable, :omniauthable
     include DeviseTokenAuth::Concerns::User
 
-    has_many :scrappings
-    has_many :scrapped, through: :scrappings, source: :source
+    has_many :scrapings
+    has_many :scrapped, through: :scrapings, source: :source
     has_many :validations
     has_many :validated, through: :validations, source: :source
     has_many :flags

@@ -3,8 +3,8 @@ require 'net/http'
 class Source < ActiveRecord::Base
     after_find :fetch_oembed
 
-    has_many :scrappings
-    has_many :scrappers, through: :scrappings, :source => :user
+    has_many :scrapings
+    has_many :scrappers, through: :scrapings, :source => :user
     has_many :validations
     has_many :validators, through: :validations, :source => :user
     has_many :flags

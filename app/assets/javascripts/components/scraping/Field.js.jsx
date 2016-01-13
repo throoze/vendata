@@ -1,4 +1,4 @@
-// ./components/scrapping/ScrappingForm.js.jsx
+// ./components/scraping/ScrapingForm.js.jsx
 var React   = require('react');
 var BS      = require('react-bootstrap');
 var Strings = VendataConstants.Strings;
