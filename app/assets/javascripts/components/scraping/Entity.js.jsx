@@ -12,7 +12,7 @@ var Entity = React.createClass({
     getInitialState: function(){
         var state = {
             entity_chosen: false,
-            entity: null
+            entity: "select"
         };
         return state;
     },
@@ -24,21 +24,21 @@ var Entity = React.createClass({
     },
 
     _chooseAlternative: function(e) {
-        if (this.refs.choose_alternative.getValue() == "select") {
+        if (e.target.value == "select") {
             this.setState({
-                entity: null,
+                entity: "select",
                 entity_chosen: false
             });
         } else {
             this.setState({
-                entity: this.refs.choose_alternative.getValue(),
+                entity:e.target.value,
                 entity_chosen: true
             });
         }
     },
 
     _findEntity: function() {
-        if (this.props.type !== null){
+        if (this.props.type !== null && this.props.type !== undefined){
             var schemata = this.props.schemata;
             var entity = {
                     description: schemata.descriptions[this.props.type],
@@ -65,7 +65,7 @@ var Entity = React.createClass({
     },
     
     render: function() {
-        var wrapper = this.props.wrapper;
+        var type = this.props.type;
         var entity = this._findEntity();
         var schemata = this.props.schemata;
         var abstract = entity.description.abstract !== undefined && 
@@ -74,17 +74,19 @@ var Entity = React.createClass({
         var fields = [];
         if (abstract) {
             fields.push(
-                <Input key={this.state.entity+"-input-select"} type="select" placeholder={Strings.CHOOSE_ALTERNATIVE_ENTITY} onChange={this._chooseAlternative} ref="choose_alternative">
-                    <option key={this.state.entity+"-option-select"} value="select">{Strings.CHOOSE_ALTERNATIVE_ENTITY}</option>
-                    {alternatives.map(function(alternative){
-                        return (
-                            <option key={alternative} value={alternative}>{schemata.descriptions[alternative].human_readable}</option>
-                            );
-                    })}
-                </Input>
+                <div key={type+"-input-select"} className="form-group">
+                    <select type="select" selected={this.state.entity} onChange={this._chooseAlternative} ref="choose_alternative" className="form-control">
+                        <option key={type+"-option-default"} value="select">{Strings.CHOOSE_ALTERNATIVE_ENTITY}</option>
+                        {alternatives.map(function(alternative){
+                            return (
+                                <option key={type+"-option-"+alternative} value={alternative}>{schemata.descriptions[alternative].human_readable}</option>
+                                );
+                        })}
+                    </select>
+                </div>
                 );
             if (this.state.entity_chosen) {
-                fields.push(<Entity key={this.state.entity} type={this.state.entity} schemata={schemata} ref="entity"/>);
+                fields.push(<Entity key={this.props.type+"-"+this.state.entity} type={this.state.entity} schemata={schemata} ref="entity"/>);
             }
         } else {
             for (var key in entity.fields){
