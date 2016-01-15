@@ -13,7 +13,7 @@ module.exports = {
       password_confirmation: password_confirmation,
       role:                  role
     });
-    WebAPIUtils.create(email, password, password_confirmation);
+    WebAPIUtils.create(email, password, password_confirmation,role);
   },
 
   login: function(email, password) {
@@ -30,6 +30,13 @@ module.exports = {
       type: ActionTypes.LOGOUT_REQUEST
     });
     WebAPIUtils.logout(client, access_token, uid);
+  },
+
+  update: function(client, access_token, uid, expiry, body) {
+    VendataAppDispatcher.handleViewAction({
+      type: ActionTypes.UPDATE_REQUEST
+    });
+    WebAPIUtils.logout(client, access_token, uid, expiry, body);
   }
 
 };

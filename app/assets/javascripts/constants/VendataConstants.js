@@ -47,6 +47,8 @@ module.exports = {
     LOGIN_RESPONSE: null,
     LOGOUT_REQUEST: null,
     LOGOUT_REPONSE: null,
+    UPDATE_REQUEST: null,
+    UPDATE_RESPONSE: null,
 
     // Routes
     REDIRECT: null,

@@ -76,7 +76,7 @@ module.exports = {
         }
       });
   },
-   login: function(email, password) {
+  login: function(email, password) {
     request.post('http://localhost:3000/api/v1/auth/sign_in')
       .send({ email: email, password: password })
       .end(function(error, res){
@@ -94,16 +94,35 @@ module.exports = {
         }
       });
   },
-   logout: function(client, access_token, uid) {
-   request.del('http://localhost:3000/api/v1/auth/sign_out')
-      .set({ 'client': client, 'access-token': access_token,'Uid':uid })
+  logout: function(client, access_token, uid) {
+    request.del('http://localhost:3000/api/v1/auth/sign_out')
+      .set({ 'client': client, 'access-token': access_token,'uid':uid })
       .end(function(error,res){
           if (res) {
             if (res.error) {
               var errorMsgs = _getErrors(res);
               ServerActionCreators.receiveLogOut(null, errorMsgs);
             } else {
-              ServerActionCreators.receiveLogOut("OK",errorMsgs);
+              ServerActionCreators.receiveLogOut("OK",null);
+            }
+          }
+      });
+  },
+  update: function(client, access_token, uid, expiry, body) {
+    request.put('http://localhost:3000/api/v1/auth/')
+      .set({ 'client': client, 'access-token': access_token,'uid':uid, 'expiry': expiry, 'token-type': 'Bearer'})
+      .send(body)
+      .end(function(error,res){
+          if (res) {
+            if (res.error) {
+              var errorMsgs = _getErrors(res);
+              ServerActionCreators.receiveUpdate(null, errorMsgs);
+            } else {
+              json = JSON.parse(res.text);
+              json.email = json.data.email;
+              json.client = res.header['client'];
+              json.access_token = res.header['access-token'];
+              ServerActionCreators.receiveUpdate(json,null);
             }
           }
       });
