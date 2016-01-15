@@ -1,5 +1,4 @@
 // ./components/scraping/Scraping.js.jsx
-var React                   = require('react');
 var ScrapingActionCreators  = require('../../actions/ScrapingActionCreators');
 var ScrapingStore           = require('../../stores/ScrapingStore');
 var BS                      = require('react-bootstrap');
@@ -7,8 +6,8 @@ var ButtonToolbar           = BS.ButtonToolbar,
     ButtonGroup             = BS.ButtonGroup,
     Button                  = BS.Button,
     LoadingButton           = require('../common/LoadingButton');
-var DocumentVisor           = require('./DocumentVisor'),
-    ScrapingForm            = require('./ScrapingForm');
+var DocumentVisor           = require('./DocumentVisor');
+var ScrapingForm            = require('./ScrapingForm');
 
 var ScrapingToolbar = React.createClass({
 

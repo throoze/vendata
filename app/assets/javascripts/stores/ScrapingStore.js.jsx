@@ -13,7 +13,7 @@ var _state = {
   schemata: null,
   doc: null,
   scraping: []
-}
+};
 
 var ScrapingStore = assign({}, EventEmitter.prototype, {
 
@@ -80,8 +80,8 @@ var ScrapingStore = assign({}, EventEmitter.prototype, {
   },
 
   getEmbeddedVisor: function(){
-    var visor = null
-    if (!(_state.doc === null)) {
+    var visor = null;
+    if ( _state.doc !== null ) {
       visor = _state.doc.oembed;
     }
     return visor;
@@ -109,7 +109,7 @@ ScrapingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       }
       if (action.errors) {
         _state.errors = action.errors;
-      };
+      }
       ScrapingStore.emitSchemataChange();
       break;
 
@@ -121,7 +121,7 @@ ScrapingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       }
       if (action.errors) {
         _state.errors = action.errors;
-      };
+      }
       ScrapingStore.emitChange();
       break;
 

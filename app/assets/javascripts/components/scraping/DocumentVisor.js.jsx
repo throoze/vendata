@@ -1,12 +1,11 @@
 // ./components/scraping/DocumentVisor.js.jsx
-var React          = require('react');
 var ScrapingStore = require('../../stores/ScrapingStore');
 var container      = VendataConstants.DocumentCloud.params.container;
 
 function getStateFromStores(){
     return {
         doc: ScrapingStore.getDocument()
-    }
+    };
 }
 // <GreenJello> throoze, you can use shouldComponentUpdate as an optimization,
 // and you can use componentWillReceiveProps to handle new props being passed
@@ -55,7 +54,7 @@ var DocumentVisor = React.createClass({
     render: function(){
         var start_message = VendataConstants.Strings.SCRAPING_REQUEST_DOC;
         return (
-            <div id="document-visor" ref="document-visor" >
+            <div id="document-visor" >
                 <h2 className="start-message">{start_message}</h2>
             </div>
         );

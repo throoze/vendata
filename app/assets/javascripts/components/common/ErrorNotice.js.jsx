@@ -1,5 +1,4 @@
 // ./components/common/ErrorNotice.js.jsx
-var React = require('react');
 
 var ErrorNotice = React.createClass({
   render: function() {

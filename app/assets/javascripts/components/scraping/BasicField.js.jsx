@@ -1,5 +1,4 @@
 // ./components/scraping/BasicField.js.jsx
-var React   = require('react');
 var BS      = require('react-bootstrap');
 var Strings = VendataConstants.Strings;
 var Input   = BS.Input;
@@ -16,6 +15,7 @@ var BasicField = React.createClass({
     _chooseType: function() {
         var type = "";
         if (this.props.field.options === null || this.props.field.options === undefined) {
+            console.log('BasicField: field type: ', this.props.field.type);
             switch (this.props.field.type) {
                 case "boolean":
                     type = "checkbox";
@@ -23,6 +23,8 @@ var BasicField = React.createClass({
                 case "date":
                 case "string":
                 case "number":
+                    type = "text";
+                    break;
                 default:
                     type = "text";
             }
@@ -87,14 +89,18 @@ var BasicField = React.createClass({
 
     _renderOptions: function() {
         if (this.props.field.options !== undefined){
-            var options = [];
-            for (var i = 0; i < this.props.field.options.length; i++) {
-                options.push(
-                    <option key={this.props.fieldname+this.props.field.options[i]} value={this.props.field.options[i]}>
-                        {this._labelify(this.props.field.options[i])}
-                    </option>);
-            }
-            return options;
+            var fieldname = this.props.fieldname;
+            var field = this.props.field;
+            var type = this.props.type;
+            var labelify = this._labelify;
+            
+            return this.props.field.options.map(function(opt){
+                return (
+                    <option key={type+"-"+fieldname+"-"+opt} value={opt}>
+                        {labelify(opt)}
+                    </option>
+                    );
+            });
         } else {
             return null;
         }

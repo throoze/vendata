@@ -99,8 +99,8 @@ module.exports = {
       .set({ 'client': client, 'access-token': access_token,'Uid':uid })
       .end(function(error,res){
           if (res) {
-            if (res.error) {
               var errorMsgs = _getErrors(res);
+            if (res.error) {
               ServerActionCreators.receiveLogOut(null, errorMsgs);
             } else {
               ServerActionCreators.receiveLogOut("OK",errorMsgs);

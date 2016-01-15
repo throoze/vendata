@@ -1,56 +1,54 @@
-// ./components/scraping/Field.js.jsx
-var React         = require('react');
-var BS            = require('react-bootstrap');
-var ScrapingStore = require('../../stores/ScrapingStore');
-var BasicField    = require('./Field');
-var ListField     = require('./ListField');
-var Entity        = require('./Entity');
-var Strings       = VendataConstants.Strings;
-var Utils         = VendataConstants.Utils;
-var Input         = BS.Input;
-var Panel         = BS.Panel;
+// // ./components/scraping/Field.js.jsx
+// //var React         = require('react');
+// //var BasicField    = require('./BasicField');
+// //var ListField     = require('./ListField');
+// //var Entity        = require('./Entity');
+// var Strings       = VendataConstants.Strings;
+// var Utils         = VendataConstants.Utils;
 
-var Field = React.createClass({
+// var Field = React.createClass({
 
-    _chooseType: function() {
-        var choose = null;
-        var type = this.props.type;
-        switch (type) {
-            case "boolean":
-            case "date":
-            case "string":
-            case "number":
-                choose = "BasicField";
-                break;
-            default:
-                if (Utils.startsWith(type, "[") && Utils.endsWith(type, "]")) {
-                    choose = "ListField";
-                } else {
-                    choose = "Entity";
-                }
-        }
-        return choose;
-    },
+//     getInitialState: function(){
+//         return { type: null };
+//     },
 
-    render: function() {
-        var type = this._chooseType();
-        console.log('Field: this.props.type: ', this.props.type);
-        console.log('Field: this._chooseType(): ', type);
-        var field = null;
-        switch(type){
-            case "BasicField":
-                field = (<BasicField {...this.props}/>);
-                break;
-            case "Entity":
-                field = (<Entity {...this.props}/>);
-                break;
-            case "ListField":
-                field = (<ListField {...this.props} type={Utils.peel(this.props.field.type)}/>);
-                break;
-            default:
-        }
-        return field;
-    }
-});
+//     componentDidMount: function() {
+//         this._chooseType();
+//     },
 
-module.exports = Field;
+//     _chooseType: function() {
+//         var type = this.props.type;
+//         switch (type) {
+//             case "boolean":
+//             case "date":
+//             case "string":
+//             case "number":
+//                 this.setState({ type: "BasicField" });
+//                 break;
+//             default:
+//                 if (Utils.startsWith(type, "[") && Utils.endsWith(type, "]")) {
+//                     this.setState({ type: "ListField" });
+//                 } else {
+//                     this.setState({ type: "Entity" });
+//                 }
+//         }
+//     },
+
+//     render: function() {
+//         switch(this.state.type){
+//             case "BasicField":
+//                 console.log('Field: -> BasicField.  this.props: ',this.props);
+//                 return (<BasicField {...this.props}/>);
+//             case "Entity":
+//                 console.log('Field: -> Entity.  this.props: ',this.props);
+//                 return (<Entity {...this.props}/>);
+//             case "ListField":
+//                 console.log('Field: -> ListField.  this.props: ',this.props);
+//                 return (<ListField {...this.props} type={Utils.peel(this.props.field.type)}/>);
+//             default:
+//                 return null;
+//         }
+//     }
+// });
+
+// module.exports = Field;
