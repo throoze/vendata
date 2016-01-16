@@ -22,13 +22,11 @@
         background-size: cover;
     }
 }
-
-.btn {
+.btn:not(.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-link) {
+    background-color: $vendata-color-bright;
     border-color: $vendata-color-darkest;
-    background-color: $vendata-color;
 }
-
-.btn:hover {
-    background-color: $vendata-color-dark;
-    color: $white;
+.btn:not(.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-link):hover {
+  background-color: $vendata-color-dark;
+  color: $white;
 }

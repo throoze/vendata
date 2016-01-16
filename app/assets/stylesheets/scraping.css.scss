@@ -34,14 +34,19 @@
             float: right;
             margin-right: 1%;
             border-color: $vendata-color-darkest;
-            .btn, .panel-heading {
-              background-color: $vendata-color-bright;
-
+            margin-bottom: 0px; 
+            .panel-heading {
+                background-color: $vendata-color-bright;
+                border-color: $vendata-color-darkest;
             }
-            .btn, .panel-heading {
-              border-color: $vendata-color-darkest;
+            > .panel-body {
+                overflow-y: auto;
             }
-            .btn:hover {
+            .btn:not(.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-link) {
+                background-color: $vendata-color-bright;
+                border-color: $vendata-color-darkest;
+            }
+            .btn:not(.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-link):hover {
               background-color: $vendata-color-dark;
               color: $white;
             }

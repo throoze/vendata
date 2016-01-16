@@ -83,6 +83,7 @@ module.exports = {
 
     Strings: {
         LOADING:                   "Cargando...",
+        SEARCHING:                 "Buscando...",
         SUBMIT:                    "Enviar",
         DELETE:                    "Eliminar",
         ADD:                       "Añadir otro",

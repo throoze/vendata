@@ -63,7 +63,6 @@ var Scraping = React.createClass({
 
     componentDidMount: function() {
         if ((this.props.isLoggedIn !== undefined) && (this.props.isLoggedIn !== null) && !this.props.isLoggedIn) {
-            console.log("User is not logged in. Context.router: ", this.context.router);
             this.context.router.transitionTo("app");
         }
         ScrapingStore.addChangeListener(this._onChange);

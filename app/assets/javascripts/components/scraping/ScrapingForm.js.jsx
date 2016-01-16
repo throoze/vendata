@@ -4,6 +4,7 @@ var BS            = require('react-bootstrap');
 var ScrapingStore = require('../../stores/ScrapingStore');
 var Strings       = VendataConstants.Strings;
 var Utils         = VendataConstants.Utils;
+var Select        = require('react-select');
 var Panel         = BS.Panel,
     Input         = BS.Input,
     Button        = BS.Button;
@@ -38,9 +39,9 @@ var BasicField = React.createClass({
         return type;
     },
 
-    _handleChange: function() {
+    _handleChange: function(value) {
         this.setState({
-            value: this.refs[this._setRef()].getValue()
+            value: value
         });
     },
 
@@ -91,19 +92,11 @@ var BasicField = React.createClass({
         return "input";
     },
 
-    _renderOptions: function() {
+    _getOptions: function() {
         if (this.props.field.options !== undefined && this.props.field.options !== null){
-            var fieldname = this.props.fieldname;
-            var field = this.props.field;
-            var type = this.props.type;
             var labelify = this._labelify;
-            
             return this.props.field.options.map(function(opt){
-                return (
-                    <option key={type+"-"+fieldname+"-"+opt} value={opt}>
-                        {labelify(opt)}
-                    </option>
-                    );
+                return { value: opt , label: labelify(opt) };
             });
         } else {
             return null;
@@ -113,22 +106,19 @@ var BasicField = React.createClass({
 
     render: function(){
         var output = null;
-        var options = this._renderOptions(); 
+        var options = this._getOptions(); 
         if (options !== null) {
             output = (
-                <Input  type={this._setType()}
-                        placeholder={this._setPlaceholder()}
-                        help={this._setHelp()}
-                        bsStyle={this._setValidation()}
-                        hasFeedback
-                        ref={this._setRef()}
-                        groupClassName="group-class"
-                        labelClassName="label-class"
-                        onChage={this._handleChange} >
-                    {options}
-                    {this.props.children}
-                </Input>
-                );
+                <Select
+                    name={this._setLabel()}
+                    options={options}
+                    value={this.state.value}
+                    noResultsText={Strings.NO_RESULTS}
+                    placeholder={this._setLabel()} /*Strings.PLACEHOLDER_CHOOSE*/
+                    searchingText={Strings.SEARCHING}
+                    className="form-group group-class"
+                    onChange={this._handleChange}/>
+                    );
         } else {
             output = (
                 <Input  type={this._setType()}
@@ -149,13 +139,11 @@ var BasicField = React.createClass({
 var ListField = React.createClass({
     render: function() {
         var childType = Utils.peel(this.props.field.type);
+        var extra = <Button className="remove" bsStyle="danger">{Strings.DELETE}</Button>;
         return (
             <Panel>
                 <div className="fields-container">
-                    <div>
-                        <Field {...this.props} />
-                        <Button className="remove" bsStyle="danger">{Strings.DELETE}</Button>
-                    </div>
+                    <Field {...this.props} extra={extra}/>
                 </div>
                 <Button className="add-new" bsStyle="success">{Strings.ADD}</Button>
             </Panel>
@@ -195,44 +183,45 @@ var AbstractEntity = React.createClass({
     getInitialState: function(){
         var state = {
             entity_chosen: false,
-            entity: "select"
+            entity: null
         };
         return state;
     },
 
-    _chooseAlternative: function(e) {
-        if (e.target.value == "select") {
-            this.setState({
-                entity: "select",
-                entity_chosen: false
-            });
-        } else {
-            this.setState({
-                entity:e.target.value,
-                entity_chosen: true
-            });
+    _chooseAlternative: function(value) {
+        var chosen = true;
+        if (value === null || value === undefined || value == "") {
+            chosen = false;
         }
+        this.setState({
+            entity: value,
+            entity_chosen: chosen
+        });
     },
 
     render: function() {
         var type = this.props.type;
-        var alternatives = ["select"].concat(this.props.schemata.parenthood[this.props.type]);
+        var alternatives = this.props.schemata.parenthood[this.props.type];
         var schemata = this.props.schemata;
         var entity = null;
         if (this.state.entity_chosen){
             entity = (<Entity {...this.props} type={this.state.entity} />);
         }
+        options = alternatives.map(function(alt){
+                    var msg = schemata.descriptions[alt].human_readable;
+                    return { value: alt, label: msg };
+                });
         return (
             <Panel>
-                <div className="form-group">
-                    <select className="form-control" onChange={this._chooseAlternative} ref={type+"-options"}>
-                        {alternatives.map(function(alt){
-                            var msg = alt != "select" ? schemata.descriptions[alt].human_readable
-                            :Strings.CHOOSE_ALTERNATIVE_ENTITY;
-                            return (<option key={alt+"-option"} value={alt}>{msg}</option>);
-                        })}
-                    </select>
-                </div>
+                <Select
+                    name="options"
+                    options={options}
+                    value={this.state.entity} 
+                    className="form-group group-class"
+                    noResultsText={Strings.NO_RESULTS}
+                    placeholder={Strings.CHOOSE_ALTERNATIVE_ENTITY}
+                    searchingText={Strings.SEARCHING}
+                    onChange={this._chooseAlternative}/>
                 {entity}
             </Panel>
             );
@@ -267,7 +256,8 @@ var Entity = React.createClass({
                                    ? schema.fields[field].hidden : false;
                         if (!hidden) {
                             return (
-                                <Field key={type+"-"+field}
+                                <Field {...this.props}
+                                   key={type+"-"+field}
                                    type={schema.fields[field].type}
                                    fieldname={field}
                                    field={schema.fields[field]}
@@ -312,12 +302,11 @@ var Field = React.createClass({
     render: function() {
         switch(this.state.type){
             case "BasicField":
-                return (<BasicField {...this.props}/>);
+                return (<div><BasicField {...this.props} extra={null}/>{this.props.extra}</div>);
             case "Entity":
-                console.log('Field: -> Entity.  this.props: ',this.props);
-                return (<Entity {...this.props}/>);
+                return (<div><Entity {...this.props} extra={null}/>{this.props.extra}</div>);
             case "ListField":
-                return (<ListField {...this.props} type={Utils.peel(this.props.field.type)}/>);
+                return (<div><ListField {...this.props} extra={null} type={Utils.peel(this.props.field.type)}/>{this.props.extra}</div>);
             default:
                 return null;
         }
@@ -339,6 +328,21 @@ var ScrapingForm = React.createClass({
 
     componentDidMount: function() {
         ScrapingStore.addChangeListener(this._onChange);
+        var panel = $("#scraping-form");
+        var heading = $("#scraping-form > .panel-heading");
+        var body = $("#scraping-form > .panel-body");
+        panel.css('max-height', $(window).height() - 85);
+        body.css('max-height', $(window).height() - 85 - $(heading).height());
+    },
+
+    shouldComponentUpdate: function(nextProps, nextState) {
+        ScrapingStore.addChangeListener(this._onChange);
+        var panel = $("#scraping-form");
+        var heading = $("#scraping-form > .panel-heading");
+        var body = $("#scraping-form > .panel-body");
+        panel.css('max-height', $(window).height() - 85);
+        body.css('max-height', $(window).height() - 85 - 22 - $(heading).height());
+        return true;
     },
 
     componentWillUnmount: function() {
@@ -361,13 +365,13 @@ var ScrapingForm = React.createClass({
             var url = "https://assets.documentcloud.org/documents/";
             url += head +"/" + tail + ".pdf";
             downloadPDF = (
-                <Button key="scraping-download-document" bsStyle="info" href={url} target="_blank" >{Strings.DOWNLOAD_PDF}</Button>
+                <Button key="scraping-download-document" href={url} target="_blank" >{Strings.DOWNLOAD_PDF}</Button>
             );
         }
         var title = (<h3>{Strings.SCRAPING_FORM_TITLE}</h3>);
         if (this.state.doc) {
             return (
-                <Panel id="scraping-form" header={title} bsStyle={"primary"}>
+                <Panel id="scraping-form" header={title} bsStyle={"primary"} >
                     {downloadPDF}
                     <Field schemata={this.props.schemata} type={this.props.schemata.root_collection} />
                 </Panel>
