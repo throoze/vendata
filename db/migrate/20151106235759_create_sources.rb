@@ -11,7 +11,7 @@ class CreateSources < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    create_table :scrappings do |t|
+    create_table :scrapings do |t|
       t.belongs_to :user, index: true, foreign_key: true
       t.belongs_to :source, index: true, foreign_key: true
 

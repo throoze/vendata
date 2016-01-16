@@ -1,5 +1,4 @@
 // ./components/layouts/NavigationBar.js.jsx
-var React          = require('react');
 var ReactRouter    = require('react-router');
 var BS             = require('react-bootstrap');
 var Link           = ReactRouter.Link;
@@ -69,7 +68,7 @@ NavigationBar = React.createClass({
         var rightItem = this.props.isLoggedIn ? (
             <NavDropdown eventKey={4} title={this.props.email} id="collapsible-nav-dropdown">
                 <MenuItem eventKey={1}>Perfil</MenuItem>
-                <MenuItem eventKey={2}><Link to="scrapping">Scrapping</Link></MenuItem>
+                <MenuItem eventKey={2}><Link to="scraping">Scraping</Link></MenuItem>
                 <MenuItem divider />
                 <MenuItem eventKey={3}>
                     <Button  onClick={this._handleLogout} bsStyle="primary" bsSize="small">Logout</Button>

@@ -1,5 +1,4 @@
-// ./scripts/components/VendataApp.js.jsx
-var React         = require('react');
+// ./scripts/components/Vendata.js.jsx
 var ReactRouter   = require('react-router');
 var RouteHandler  = ReactRouter.RouteHandler;
 var NavigationBar = require('../components/layouts/NavigationBar'),

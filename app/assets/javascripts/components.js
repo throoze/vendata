@@ -15,9 +15,9 @@ window.VendataConstants = require('./constants/VendataConstants.js');
 
 
 // Components:
-window.Vendata   = require('./components/Vendata');
-window.Login     = require('./components/session/Login');
-window.Scrapping = require('./components/scrapping/Scrapping');
+window.Vendata       = require('./components/Vendata');
+window.Login         = require('./components/session/Login');
+window.Scraping      = require('./components/scraping/Scraping');
 // Routing
 window.Router  = require('./routes');
 

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ScrappingTest < ActiveSupport::TestCase
+class ScrapingControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end

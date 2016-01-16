@@ -1,5 +1,5 @@
-class Api::V1::ScrappingController < ApplicationController
-    def get_new_scrapping
+class Api::V1::ScrapingController < ApplicationController
+    def get_new_scraping
         # TODO: Determine criteria based on user privileges
         criteria = {:status => :pending, :is_extraordinary => false}
         offset = rand(Source.where(criteria).count)
@@ -7,12 +7,12 @@ class Api::V1::ScrappingController < ApplicationController
         render status: :ok, json: { :source => rand_record }
     end
 
-    def new_scrapping
-        render status: :ok, json: { :message => "Vendata: new_scrapping not yet implemented " }
+    def new_scraping
+        render status: :ok, json: { :message => "Vendata: new_scraping not yet implemented " }
     end
 
     def get_new_validation
-        sources = Source.where(:status => :scrapped).joins(:scrappers).where.not(scrappings: { user: current_user})
+        sources = Source.where(:status => :scrapped).joins(:scrappers).where.not(scrapings: { user: current_user})
         offset = rand(sources.count)
         rand_record = sources.offset(offset).first
         render status: :ok, json: { :source => rand_record }

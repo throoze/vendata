@@ -6,13 +6,16 @@
     width: 100%;
     overflow: hidden;
     .inner {
+        background-image: image-url("vendata.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 50%;
+        margin: 0 auto;
+        height: 0;
+        padding-top: 29.475806452%; /* (img-height / img-width * width) */
+                /* (731 / 1240 * 100) */
         position: absolute;
         top: 150px;
         left: 25%;
-        background-image: image-url("vendata.png");
-        background-size: cover;
-        margin: 0px auto;
-        width: 50%;
-        height: 60%;
     }
 }

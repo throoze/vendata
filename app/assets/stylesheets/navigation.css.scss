@@ -2,12 +2,31 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.logo-image {
+@import "global";
+.navbar-brand {
     position: absolute;
-    top: 0px;
-    width: 85px;
-    height: 50px;
-    margin: 0px;
-    background-image: image-url('vendata.png');
-    background-size: cover;
+    .logo-image {
+        background-image: image-url('vendata.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 0;
+        margin: 0 auto;
+        height: 100%;
+        padding-left: 58.951612903%; /* (img-height / img-width * width) */
+                /* (731 / 1240 * 100) */
+        position: absolute;
+        top: 0px;
+        width: 85px;
+        height: 50px;
+        margin: 0px;
+        background-size: cover;
+    }
+}
+.btn:not(.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-link) {
+    background-color: $vendata-color-bright;
+    border-color: $vendata-color-darkest;
+}
+.btn:not(.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-link):hover {
+  background-color: $vendata-color-dark;
+  color: $white;
 }

@@ -1,4 +1,4 @@
-// ./actions/ScrappingActionCreators.js.jsx
+// ./actions/ScrapingActionCreators.js.jsx
 var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
 var WebAPIUtils          = require('../utils/WebAPIUtils.js');
 var ActionTypes          = VendataConstants.ActionTypes;
@@ -12,16 +12,17 @@ module.exports = {
     WebAPIUtils.loadSchemata();
   },
 
-  loadDocumentForScrapping: function() {
+  loadDocumentForScraping: function() {
     var container = VendataConstants.DocumentCloud.params.container;
     $(container).empty();
     var margin = (($(window).height() - 85) / 2) - 50;
     var style = 'margin-top: '+margin.toString()+'px';
-    $(container).append("<div class='loader pulse-loader' style='"+style+"'></div>");
+    var inner = '<div class="double-bounce1"></div><div class="double-bounce2"></div>';
+    $(container).append("<div class='spinner' style='"+style+"'>"+inner+"</div>");
     VendataAppDispatcher.handleViewAction({
-        type: ActionTypes.LOAD_DOC_FOR_SCRAPPING
+        type: ActionTypes.LOAD_DOC_FOR_SCRAPING
     });
-    WebAPIUtils.loadDocumentForScrapping();
+    WebAPIUtils.loadDocumentForScraping();
   },
 
   clearDoc: function() {

@@ -1,0 +1,102 @@
+// Place all the styles related to the scraping controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "variables";
+
+#scraping {
+    width: 100%;
+    margin: 0px;
+    .scraping-container {
+        #document-visor {
+            width: 50%;
+            float: left;
+            margin-left: 1%;
+            .DV-docViewer {
+                border-radius: 4px;
+            }
+            .loader {
+                display: block;
+                margin-top: 30%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .start-message {
+                color: #969696;
+                display: block;
+                margin-top: 30%;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+        }
+        #scraping-form {
+            width: 48%;
+            float: right;
+            margin-right: 1%;
+            border-color: $vendata-color-darkest;
+            margin-bottom: 0px; 
+            .panel-heading {
+                background-color: $vendata-color-bright;
+                border-color: $vendata-color-darkest;
+            }
+            > .panel-body {
+                overflow-y: auto;
+                margin: 1px;
+            }
+            .btn:not(.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-link) {
+                background-color: $vendata-color-bright;
+                border-color: $vendata-color-darkest;
+            }
+            .btn:not(.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-link):hover {
+              background-color: $vendata-color-dark;
+              color: $white;
+            }
+        }
+    }
+}
+
+// Double bouncer spinner
+.spinner {
+    width: 40px;
+    height: 40px;
+
+    position: relative;
+    margin: 100px auto;
+}
+
+.double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    // background-color: #333;
+    background-color: $vendata-color;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+  
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+    0%, 100% { -webkit-transform: scale(0.0) }
+    50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+    0%, 100% { 
+      transform: scale(0.0);
+      -webkit-transform: scale(0.0);
+    } 50% { 
+      transform: scale(1.0);
+      -webkit-transform: scale(1.0);
+    }
+}
+
+// En of double bouncer spinner
