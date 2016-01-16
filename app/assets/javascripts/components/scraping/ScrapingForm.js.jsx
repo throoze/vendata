@@ -341,7 +341,7 @@ var ScrapingForm = React.createClass({
         var heading = $("#scraping-form > .panel-heading");
         var body = $("#scraping-form > .panel-body");
         panel.css('max-height', $(window).height() - 85);
-        body.css('max-height', $(window).height() - 85 - 22 - $(heading).height());
+        body.css('max-height', $(window).height() - 85 - 22 - 1 - $(heading).height());
         return true;
     },
 

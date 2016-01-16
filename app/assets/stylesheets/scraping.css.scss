@@ -41,6 +41,7 @@
             }
             > .panel-body {
                 overflow-y: auto;
+                margin: 1px;
             }
             .btn:not(.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger, .btn-link) {
                 background-color: $vendata-color-bright;
