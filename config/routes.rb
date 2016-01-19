@@ -18,6 +18,7 @@ Rails.application.routes.draw do
         end
       end
       namespace :scraping do
+        get 'constant', action: 'constant', as: 'get_constant'
         get 'new', action: 'get_new_scraping', as: 'get_new_scraping'
         get 'validation/new', action: 'get_new_validation', as: 'get_new_validation'
         post 'new', action: 'new_scraping', as: 'new_scraping'

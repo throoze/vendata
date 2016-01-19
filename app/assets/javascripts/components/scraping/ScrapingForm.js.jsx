@@ -53,18 +53,12 @@ var BasicField = React.createClass({
         return this.state.type;
     },
 
-    _labelify: function(str) {
-        return str.split("_").map(function(word){
-            return word.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
-        }).join(" ");
-    },
-
     _setLabel: function() {
         var label = "";
         if (this.props.field.label !== null && this.props.field.label !== undefined) {
             label = this.props.field.label;
         } else {
-            label = this._labelify(this.props.fieldname);
+            label = Utils.labelify(this.props.fieldname);
         }
         return label;
     },
@@ -94,9 +88,8 @@ var BasicField = React.createClass({
 
     _getOptions: function() {
         if (this.props.field.options !== undefined && this.props.field.options !== null){
-            var labelify = this._labelify;
             return this.props.field.options.map(function(opt){
-                return { value: opt , label: labelify(opt) };
+                return { value: opt , label: Utils.labelify(opt) };
             });
         } else {
             return null;
@@ -111,6 +104,7 @@ var BasicField = React.createClass({
             output = (
                 <Select
                     name={this._setLabel()}
+                    allowCreate
                     options={options}
                     value={this.state.value}
                     noResultsText={Strings.NO_RESULTS}
@@ -120,17 +114,32 @@ var BasicField = React.createClass({
                     onChange={this._handleChange}/>
                     );
         } else {
-            output = (
-                <Input  type={this._setType()}
-                        placeholder={this._setPlaceholder()}
-                        help={this._setHelp()}
-                        bsStyle={this._setValidation()}
-                        hasFeedback
-                        ref={this._setRef()}
-                        groupClassName="group-class"
-                        labelClassName="label-class"
-                        onChage={this._handleChange} />
-                );
+            if (this.props.field.type == "boolean") {
+                output = (
+                    <Input  type={this._setType()}
+                            label={this._setLabel()}
+                            placeholder={this._setPlaceholder()}
+                            help={this._setHelp()}
+                            bsStyle={this._setValidation()}
+                            hasFeedback
+                            ref={this._setRef()}
+                            groupClassName="group-class"
+                            labelClassName="label-class"
+                            onChage={this._handleChange} />
+                    );
+            } else {
+                output = (
+                    <Input  type={this._setType()}
+                            placeholder={this._setPlaceholder()}
+                            help={this._setHelp()}
+                            bsStyle={this._setValidation()}
+                            hasFeedback
+                            ref={this._setRef()}
+                            groupClassName="group-class"
+                            labelClassName="label-class"
+                            onChage={this._handleChange} />
+                    );
+            }
         }
         return output;
     }
@@ -143,40 +152,14 @@ var ListField = React.createClass({
         return (
             <Panel>
                 <div className="fields-container">
-                    <Field {...this.props} extra={extra}/>
+                    <label>{Utils.labelify(this.props.fieldname)}</label>
+                    <Field {...this.props} extra={extra} fieldname={null}/>
                 </div>
                 <Button className="add-new" bsStyle="success">{Strings.ADD}</Button>
             </Panel>
         );
     }
 });
-
-function findSchema(props) {
-    if (props.type !== null && props.type !== undefined){
-        var schemata = props.schemata;
-        var entity = {
-                description: schemata.descriptions[props.type],
-                parenthood: schemata.parenthood[props.type],
-                inheritance: schemata.inheritance[props.type],
-                constraints: schemata.constraints[props.type],
-                fields: {}
-            };
-        parents = entity.inheritance.reverse();
-        for (var parent in parents) {
-            $.extend(entity.fields, schemata.descriptions[parents[parent]].fields);
-        }
-        $.extend(entity.fields, entity.description.fields);
-        return entity;
-    } else {
-        return {
-                description: null,
-                parenthood: null,
-                inheritance: null,
-                constraints: null,
-                fields: null
-            };
-    }
-} 
 
 var AbstractEntity = React.createClass({
 
@@ -205,7 +188,7 @@ var AbstractEntity = React.createClass({
         var schemata = this.props.schemata;
         var entity = null;
         if (this.state.entity_chosen){
-            entity = (<Entity {...this.props} type={this.state.entity} />);
+            entity = (<Entity {...this.props} type={this.state.entity} fieldname={null} />);
         }
         options = alternatives.map(function(alt){
                     var msg = schemata.descriptions[alt].human_readable;
@@ -213,6 +196,7 @@ var AbstractEntity = React.createClass({
                 });
         return (
             <Panel>
+                <label>{Utils.labelify(this.props.fieldname)}</label>
                 <Select
                     name="options"
                     options={options}
@@ -229,6 +213,38 @@ var AbstractEntity = React.createClass({
 
 });
 
+var Constant = React.createClass({
+    getInitialState: function(){
+        return { constants: [], value: null };
+    },
+
+    _choose: function(value){
+        this.setState({ value: value });
+    },
+
+    _add_new_constant: function(){
+
+    },
+
+    render: function() {
+        return (
+            <Panel>
+                <label>{Utils.labelify(this.props.fieldname)}</label>
+                <Select
+                    name="constants"
+                    options={this.state.constants}
+                    value={this.state.value} 
+                    className="form-group group-class"
+                    noResultsText={Strings.NO_RESULTS}
+                    placeholder={Strings.CHOOSE_ALTERNATIVE_ENTITY}
+                    searchingText={Strings.SEARCHING}
+                    onChange={this._choose}/>
+                <Button className="add-new" bsStyle="success" onClick={this._add_new_constant}>{Strings.ADD}</Button>
+            </Panel>
+            );
+    }
+});
+
 var Entity = React.createClass({
 
     getDefaultProps: function() {
@@ -237,36 +253,69 @@ var Entity = React.createClass({
         };
     },
 
+    _findSchema: function(props) {
+        if (props.type !== null && props.type !== undefined){
+            var schemata = props.schemata;
+            var entity = {
+                    description: schemata.descriptions[props.type],
+                    parenthood: schemata.parenthood[props.type],
+                    inheritance: schemata.inheritance[props.type],
+                    constraints: schemata.constraints[props.type],
+                    fields: {}
+                };
+            parents = entity.inheritance.reverse();
+            for (var parent in parents) {
+                $.extend(entity.fields, schemata.descriptions[parents[parent]].fields);
+            }
+            $.extend(entity.fields, entity.description.fields);
+            return entity;
+        } else {
+            return {
+                    description: null,
+                    parenthood: null,
+                    inheritance: null,
+                    constraints: null,
+                    fields: null
+                };
+        }
+    },
+
     render: function() {
         var type = this.props.type;
-        var schema = findSchema(this.props);
+        var schema = this._findSchema(this.props);
         var schemata = this.props.schemata;
         var abstract = (schema.description.abstract !== undefined) && 
                        (schema.description.abstract !== null)? schema.description.abstract : false;
+        var is_constant = schema.description.constant; 
         var fields = [];
 
         if (abstract) {
             return (<AbstractEntity {...this.props} />);
         } else {
-            return (
-                <Panel>
-                    {(Object.keys(schema.fields)).map(function(field){
-                        var hidden = schema.fields[field].hidden !== null 
-                                  && schema.fields[field].hidden !== undefined
-                                   ? schema.fields[field].hidden : false;
-                        if (!hidden) {
-                            return (
-                                <Field {...this.props}
-                                   key={type+"-"+field}
-                                   type={schema.fields[field].type}
-                                   fieldname={field}
-                                   field={schema.fields[field]}
-                                   schemata={schemata}/>
-                            );
-                        }
-                    })}
-                </Panel>
-                );
+            if (is_constant){
+                return (<Constant {...this.props} />);
+            } else {
+                return (
+                    <Panel>
+                        <label>{Utils.labelify(this.props.fieldname)}</label>
+                        {(Object.keys(schema.fields)).map(function(field){
+                            var hidden = schema.fields[field].hidden !== null 
+                                      && schema.fields[field].hidden !== undefined
+                                       ? schema.fields[field].hidden : false;
+                            if (!hidden) {
+                                return (
+                                    <Field {...this.props}
+                                       key={type+"-"+field}
+                                       type={schema.fields[field].type}
+                                       fieldname={field}
+                                       field={schema.fields[field]}
+                                       schemata={schemata}/>
+                                );
+                            }
+                        })}
+                    </Panel>
+                    );
+            }
         }
     }
 });
@@ -370,10 +419,11 @@ var ScrapingForm = React.createClass({
         }
         var title = (<h3>{Strings.SCRAPING_FORM_TITLE}</h3>);
         if (this.state.doc) {
+            var fieldname = this.props.schemata.descriptions[this.props.schemata.root_collection].human_readable;
             return (
                 <Panel id="scraping-form" header={title} bsStyle={"primary"} >
                     {downloadPDF}
-                    <Field schemata={this.props.schemata} type={this.props.schemata.root_collection} />
+                    <Field schemata={this.props.schemata} type={this.props.schemata.root_collection} fieldname={fieldname}/>
                 </Panel>
             );
         } else {

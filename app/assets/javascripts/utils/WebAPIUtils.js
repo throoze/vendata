@@ -6,108 +6,131 @@ var APIEndpoints         = VendataConstants.APIEndpoints;
 var DocumentCloud        = VendataConstants.DocumentCloud;
 
 function _getErrors(res) {
-  var errorMsgs = ["Se produjo un error, por favor intente de nuevo"];
-  var json = null;
-  if ((json = JSON.parse(res.text))) {
-    if (json['errors']) {
-      errorMsgs = json['errors'];
-    } else if (json['error']) {
-      errorMsgs = [json['error']];
+    var errorMsgs = ["Se produjo un error, por favor intente de nuevo"];
+    var json = null;
+    if ((json = JSON.parse(res.text))) {
+        if (json['errors']) {
+            errorMsgs = json['errors'];
+        } else if (json['error']) {
+            errorMsgs = [json['error']];
+        }
     }
-  }
-  return errorMsgs;
+    return errorMsgs;
 }
 
 
 module.exports = {
-  
-  loadSchemata: function(){
-    var json      = null;
-    var errorMsgs = null;
-    request.get(APIEndpoints.SCHEMATA)
-      .send()
-      .set('Accept', 'application/json')
-      .end(function(error, res){
-        if (res) {
-          if (res.error) {
-            var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveSchemata(null, errorMsgs);
-          } else {
-            json = JSON.parse(res.text);
-            ServerActionCreators.receiveSchemata(json, null);
-          }
-        }
-      });
-  },
-  
-  loadDocumentForScraping: function(){
-    var json      = null;
-    var errorMsgs = null;
-    var result    = {};
-    request.get(APIEndpoints.SCRAPING_GET_DOC_FOR_SCRAPING)
-      .send()
-      .set('Accept', 'application/json')
-      .end(function(error, res){
-        if (res) {
-          if (res.error) {
-            var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveDocumentForScraping(null, errorMsgs);
-          } else {
-            json = JSON.parse(res.text);
-            result.doc = json.source;
-            ServerActionCreators.receiveDocumentForScraping(result, null);
-          }
-        }
-      });
-  },
 
-  signup: function(email, password, password_confirmation) {
-    request.post('http://localhost:3000/api/v1/auth')
-      .send({ email: email, password: password, password_confirmation: password_confirmation })
-      .end(function(error, res){
-        if (res) {
-          if (res.error) {
-            var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveSignIn(null, errorMsgs);
-          } else {
-            json = JSON.parse(res.text);
-            ServerActionCreators.receiveSignIn(json, null);
-          }
-        }
-      });
-  },
-   login: function(email, password) {
-    request.post('http://localhost:3000/api/v1/auth/sign_in')
-      .send({ email: email, password: password })
-      .end(function(error, res){
-        if (res) {
-          if (res.error) {
-            var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveLogIn(null, errorMsgs);
-          } else {
-            json = JSON.parse(res.text);
-            json.email = json.data.email;
-            json.client = res.header['client'];
-            json.access_token = res.header['access-token'];
-            ServerActionCreators.receiveLogIn(json, null);
-          }
-        }
-      });
-  },
-   logout: function(client, access_token, uid) {
-   request.del('http://localhost:3000/api/v1/auth/sign_out')
-      .set({ 'client': client, 'access-token': access_token,'Uid':uid })
-      .end(function(error,res){
-          if (res) {
-              var errorMsgs = _getErrors(res);
-            if (res.error) {
-              ServerActionCreators.receiveLogOut(null, errorMsgs);
-            } else {
-              ServerActionCreators.receiveLogOut("OK",errorMsgs);
-            }
-          }
-      });
-  },
+    loadSchemata: function(){
+        var json      = null;
+        var errorMsgs = null;
+        request.get(APIEndpoints.SCHEMATA)
+            .send()
+            .set('Accept', 'application/json')
+            .end(function(error, res){
+                if (res) {
+                    if (res.error) {
+                        var errorMsgs = _getErrors(res);
+                        ServerActionCreators.receiveSchemata(null, errorMsgs);
+                    } else {
+                        json = JSON.parse(res.text);
+                        ServerActionCreators.receiveSchemata(json, null);
+                    }
+                }
+        });
+    },
+
+    loadDocumentForScraping: function(){
+        var json      = null;
+        var errorMsgs = null;
+        var result    = {};
+        request.get(APIEndpoints.SCRAPING_GET_DOC_FOR_SCRAPING)
+            .send()
+            .set('Accept', 'application/json')
+            .end(function(error, res){
+                if (res) {
+                    if (res.error) {
+                        var errorMsgs = _getErrors(res);
+                        ServerActionCreators.receiveDocumentForScraping(null, errorMsgs);
+                    } else {
+                        json = JSON.parse(res.text);
+                        result.doc = json.source;
+                        ServerActionCreators.receiveDocumentForScraping(result, null);
+                    }
+                }
+            });
+    },
+
+    loadConstantClass: function(classname) {
+        var json      = null;
+        var errorMsgs = null;
+        var result    = {};
+        request.get(APIEndpoints.SCRAPING_LOAD_CONSTANT_CLASS)
+            .send()
+            .set('Accept', 'application/json')
+            .end(function(error, res){
+                if (res) {
+                    if (res.error) {
+                        var errorMsgs = _getErrors(res);
+                        ServerActionCreators.receiveConstantClass(null, errorMsgs);
+                    } else {
+                        json = JSON.parse(res.text);
+                        result.doc = json.source;
+                        ServerActionCreators.receiveConstantClass(result, null);
+                    }
+                }
+            });
+    },
+
+    signup: function(email, password, password_confirmation) {
+        request.post('http://localhost:3000/api/v1/auth')
+            .send({ email: email, password: password, password_confirmation: password_confirmation })
+            .end(function(error, res){
+                if (res) {
+                    if (res.error) {
+                        var errorMsgs = _getErrors(res);
+                        ServerActionCreators.receiveSignIn(null, errorMsgs);
+                    } else {
+                        json = JSON.parse(res.text);
+                        ServerActionCreators.receiveSignIn(json, null);
+                    }
+                }
+            });
+    },
+
+    login: function(email, password) {
+        request.post('http://localhost:3000/api/v1/auth/sign_in')
+            .send({ email: email, password: password })
+            .end(function(error, res){
+                if (res) {
+                    if (res.error) {
+                        var errorMsgs = _getErrors(res);
+                        ServerActionCreators.receiveLogIn(null, errorMsgs);
+                    } else {
+                        json = JSON.parse(res.text);
+                        json.email = json.data.email;
+                        json.client = res.header['client'];
+                        json.access_token = res.header['access-token'];
+                        ServerActionCreators.receiveLogIn(json, null);
+                    }
+                }
+            });
+    },
+
+    logout: function(client, access_token, uid) {
+        request.del('http://localhost:3000/api/v1/auth/sign_out')
+            .set({ 'client': client, 'access-token': access_token,'Uid':uid })
+            .end(function(error,res){
+                if (res) {
+                    var errorMsgs = _getErrors(res);
+                    if (res.error) {
+                        ServerActionCreators.receiveLogOut(null, errorMsgs);
+                    } else {
+                        ServerActionCreators.receiveLogOut("OK",errorMsgs);
+                    }
+                }
+            });
+    }
 };
 
 // Default Auth configuration for J-Toker:

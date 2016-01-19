@@ -6,13 +6,13 @@ class User < ActiveRecord::Base
     include DeviseTokenAuth::Concerns::User
 
     has_many :scrapings
-    has_many :scrapped, through: :scrapings, source: :source
+    has_many :scraped, through: :scrapings, source: :source
     has_many :validations
     has_many :validated, through: :validations, source: :source
     has_many :flags
     has_many :flagged, through: :flags, source: :source
 
-    ROLES = [:banned, :scrapper, :validator, :admin]
+    ROLES = [:banned, :scraper, :validator, :admin]
 
     def role?(base_role)
         ROLES.index(base_role.to_s) <= ROLES.index(role)

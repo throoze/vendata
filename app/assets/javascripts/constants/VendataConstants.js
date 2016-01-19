@@ -23,10 +23,11 @@ module.exports = {
         SCHEMATA_CONSTRAINTS:  Root + "/schemata/constraints",  // GET
 
         // Scraping
-        SCRAPING_GET_DOC_FOR_SCRAPING:  Root + "/scraping/new.json",          // GET
-        SCRAPING_POST_SCRAPPED_DOC:      Root + "/scraping/new",               // POST
+        SCRAPING_GET_DOC_FOR_SCRAPING:   Root + "/scraping/new.json",          // GET
+        SCRAPING_POST_SCRAPED_DOC:       Root + "/scraping/new",               // POST
         SCRAPING_GET_DOC_FOR_VALIDATING: Root + "/scraping/validate/new.json", // GET
-        SCRAPING_POST_VALIDATED_DOC:     Root + "/scraping/validate/new"       // POST
+        SCRAPING_POST_VALIDATED_DOC:     Root + "/scraping/validate/new",      // POST
+        SCRAPING_LOAD_CONSTANT_CLASS:    Root + "/scraping/constant"       // POST
     },
 
     Events: {
@@ -63,7 +64,10 @@ module.exports = {
         VALIDATE_DOC: null,
         RECEIVE_VALIDATED_DOC: null,
         CLEAR_DOC: null,
-        RECEIVE_CLEAR_DOC: null
+        RECEIVE_CLEAR_DOC: null,
+        LOAD_CONSTANT_CLASS: null,
+        RECEIVE_CONSTANT_CLASS: null
+
     }),
 
     DocumentCloud : {
@@ -86,7 +90,7 @@ module.exports = {
         SEARCHING:                 "Buscando...",
         SUBMIT:                    "Enviar",
         DELETE:                    "Eliminar",
-        ADD:                       "Añadir otro",
+        ADD:                       "Agregar",
         PLACEHOLDER_TEXT:          "Introduzca el texto",
         PLACEHOLDER_EMAIL:         "Introduzca el correo electrónico",
         PLACEHOLDER_PASSWORD:      "Introduzca la contraseña",
@@ -103,7 +107,8 @@ module.exports = {
         SCRAPING_REQUEST_DOC:      "Para empezar, solicita un nuevo documento.",
         CLEAR_DOC:                 "Limpiar documento",
         DOWNLOAD_PDF:              "Descarga el PDF",
-        CHOOSE_ALTERNATIVE_ENTITY: "Seleccione el tipo de elemento a vaciar"
+        CHOOSE_ALTERNATIVE_ENTITY: "Seleccione el tipo de elemento a vaciar",
+        NO_RESULTS:                "No se encontraron resultados"
     },
 
     Utils: {
@@ -112,11 +117,19 @@ module.exports = {
         },
 
         endsWith: function (string, suffix) {
-            return suffix == '' || string.slice(-suffix.length) == suffix;
+            return suffix === '' || string.slice(-suffix.length) == suffix;
         },
 
         peel: function (string) {
             return string.substring(1, string.length-1);
+        },
+
+        labelify: function(string) {
+            if (string !== null) {
+                return string.split("_").map(function(word){
+                    return word.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+                }).join(" ");
+            } else { return null; }
         }
     }
 };

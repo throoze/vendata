@@ -1,11 +1,11 @@
 // ./stores/ScrapingStore.js.jsx
-var EventEmitter            = require('events').EventEmitter,
-    assign                  = require('object-assign');
-var VendataAppDispatcher    = require('../dispatcher/VendataAppDispatcher.js');
-var ActionTypes             = VendataConstants.ActionTypes;
+var EventEmitter           = require('events').EventEmitter,
+    assign                 = require('object-assign');
+var VendataAppDispatcher   = require('../dispatcher/VendataAppDispatcher.js');
+var ActionTypes            = VendataConstants.ActionTypes;
 var ScrapingActionCreators = require('../actions/ScrapingActionCreators');
-var CHANGE                  = VendataConstants.Events.CHANGE;
-var CHANGE_SCHEMATA         = VendataConstants.Events.CHANGE_SCHEMATA;
+var CHANGE                 = VendataConstants.Events.CHANGE;
+var CHANGE_SCHEMATA        = VendataConstants.Events.CHANGE_SCHEMATA;
 
 // Inner state inicialization
 var _state = {

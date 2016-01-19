@@ -61,6 +61,7 @@ Schema.create([
             Documento: {
                 classname: "Documento",
                 human_readable: "Documento",
+                constant: false,
                 abstract: true,
                 fields: {
                     numero: { type: "string", label: "Número" },
@@ -71,6 +72,8 @@ Schema.create([
             GacetaOficial: {
                 classname: "GacetaOficial",
                 human_readable: "Gaceta Oficial",
+                constant: false,
+                abstract: false,
                 extends: ["Documento"],
                 fields: {
                     tipo:   {
@@ -84,10 +87,10 @@ Schema.create([
             },
             ActoNormativo: {
                 classname: "ActoNormativo",
-                abstract: true,
                 human_readable: "Acto Normativo",
+                constant: false,
+                abstract: true,
                 extends: ["Documento"],
-                is_root: false,
                 fields: {
                     emisor: { type: "Organismo" },
                     efecto: { type: "Efecto" }
@@ -96,6 +99,8 @@ Schema.create([
             AprobacionDeLey: {
                 classname: "AprobacionDeLey",
                 human_readable: "Aprobacion De Ley",
+                constant: false,
+                abstract: false,
                 extends: ["ActoNormativo", "Documento"],
                 fields: {
                     deroga: {
@@ -107,49 +112,67 @@ Schema.create([
             Decreto: {
                 classname: "Decreto",
                 human_readable: "Decreto",
+                constant: false,
+                abstract: false,
                 extends: ["ActoNormativo", "Documento"]
             },
             Resolucion: {
                 classname: "Resolucion",
                 human_readable: "Resolucion",
+                constant: false,
+                abstract: false,
                 extends: ["ActoNormativo", "Documento"]
             },
             LeyAprobatoria: {
                 classname: "LeyAprobatoria",
                 human_readable: "Ley Aprobatoria",
+                constant: false,
+                abstract: false,
                 extends: ["ActoNormativo", "Documento"]
             },
             Providencia: {
                 classname: "Providencia",
                 human_readable: "Providencia",
+                constant: false,
+                abstract: false,
                 extends: ["ActoNormativo", "Documento"]
             },
             AcuerdoActoNormativo: {
                 classname: "AcuerdoActoNormativo",
                 human_readable: "Acuerdo",
+                constant: false,
+                abstract: false,
                 extends: ["ActoNormativo", "Documento"]
             },
             Requisitoria: {
                 classname: "Requisitoria",
                 human_readable: "Requisitoria",
+                constant: false,
+                abstract: false,
                 extends: ["ActoNormativo", "Documento"]
             },
             Autorizacion: {
                 classname: "Autorizacion",
                 human_readable: "Autorizacion",
+                constant: false,
+                abstract: false,
                 extends: ["ActoNormativo", "Documento"]
             },
             Pais: {
                 classname: "Pais",
                 human_readable: "Pais",
+                constant: true,
+                abstract: false,
                 fields: {
                     nombre: { type: "string" },
                     nacionalidad: { type: "string" }
                 }
             },
             Nacionalidad: {
-                classname: "Pais",
-                human_readable: "Pais",
+                classname: "Nacionalidad",
+                human_readable: "Nacionalidad",
+                constant: true,
+                abstract: false,
                 fields: {
                     nacionalidad: { type: "string" },
                     pais: { type: "string" }
@@ -158,6 +181,8 @@ Schema.create([
             OrganismoInternacional: {
                 classname: "OrganismoInternacional",
                 human_readable: "Organismo Internacional",
+                constant: true,
+                abstract: false,
                 fields: {
                     nombre: { type: "string" },
                     acronimo: { type: "string" }
@@ -166,6 +191,8 @@ Schema.create([
             Ciudadano: {
                 classname: "Ciudadano",
                 human_readable: "Ciudadano",
+                constant: true,
+                abstract: false,
                 fields: {
                     nombre: { type: "string" },
                     cedula: { type: "string" },
@@ -189,6 +216,7 @@ Schema.create([
             },
             Institucion: {
                 classname: "Institucion",
+                constant: true,
                 abstract: true,
                 human_readable: "Institucion",
                 fields: {
@@ -199,6 +227,8 @@ Schema.create([
             Organismo: {
                 classname: "Organismo",
                 human_readable: "Organismo",
+                constant: true,
+                abstract: false,
                 extends: ["Institucion"],
                 fields: {
                     depende_de: {
@@ -209,6 +239,7 @@ Schema.create([
             },
             Empresa: {
                 classname: "Empresa",
+                constant: true,
                 abstract: true,
                 human_readable: "Empresa",
                 extends: ["Institucion"]
@@ -216,6 +247,8 @@ Schema.create([
             EmpresaPrivada: {
                 classname: "EmpresaPrivada",
                 human_readable: "Empresa Privada",
+                constant: true,
+                abstract: false,
                 extends: ["Empresa", "Institucion"],
                 fields: {
                     registro_mercantil: { type: "string" }
@@ -224,6 +257,8 @@ Schema.create([
             EmpresaEstatal: {
                 classname: "EmpresaEstatal",
                 human_readable: "Empresa Estatal",
+                constant: true,
+                abstract: false,
                 extends: ["Empresa", "Institucion"],
                 fields: {
                     capital_inicial: { type: "number" },
@@ -242,17 +277,22 @@ Schema.create([
             CuerpoPolicial: {
                 classname: "CuerpoPolicial",
                 human_readable: "Cuerpo Policial",
+                constant: true,
+                abstract: false,
                 extends: ["Institucion"]
             },
             EntidadBancaria: {
                 classname: "EntidadBancaria",
                 human_readable: "Entidad Bancaria",
+                constant: true,
+                abstract: false,
                 extends: ["Institucion"]
             },
             Efecto: {
                 classname: "Efecto",
-                abstract: true,
                 human_readable: "Efecto",
+                constant: false,
+                abstract: true,
                 fields: {
                     fecha: { type: "date" }
                 }
@@ -260,6 +300,8 @@ Schema.create([
             Cargo: {
                 classname: "Cargo",
                 human_readable: "Cargo",
+                constant: true,
+                abstract: false,
                 fields: {
                     nombre: { type: "string" }
                 }
@@ -267,6 +309,8 @@ Schema.create([
             Rango: {
                 classname: "Rango",
                 human_readable: "Rango",
+                constant: true,
+                abstract: false,
                 fields: {
                     nombre: { type: "string" }
                 }
@@ -274,6 +318,8 @@ Schema.create([
             IntervencionDeInstitucion: {
                 classname: "IntervencionDeInstitucion",
                 human_readable: "Intervencion De Institucion",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     institucion: { type: "Institucion" },
@@ -284,6 +330,8 @@ Schema.create([
                 classname: "ProrrogaDeIntervencion",
                 human_readable: "Prorroga De Intervencion",
                 extends: ["Efecto"],
+                constant: false,
+                abstract: false,
                 fields: {
                     institucion: { type: "Institucion" },
                     motivo: { type: "string" },
@@ -294,14 +342,14 @@ Schema.create([
             Designacion: {
                 classname: "Designacion",
                 human_readable: "Designacion",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     ciudadano: { type: "Ciudadano" },
                     status: {
                         type: "string",
-                        constraints: {
-                            valueIn: ["fijo", "encargado", "ratificado"]
-                        }
+                        options: ["fijo", "encargado", "ratificado"]
                     },
                     cargo: { type: "Cargo" },
                     fecha_fin: {
@@ -315,6 +363,8 @@ Schema.create([
             Expropiacion: {
                 classname: "Expropiacion",
                 human_readable: "Expropiacion",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     terreno: { type: "string" },
@@ -326,6 +376,8 @@ Schema.create([
             CreditoAdicional: {
                 classname: "CreditoAdicional",
                 human_readable: "Credito Adicional",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     beneficiario: { type: "Institucion" },
@@ -336,6 +388,8 @@ Schema.create([
             AscensoMilitar: {
                 classname: "AscensoMilitar",
                 human_readable: "Ascenso Militar",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     ciudadanos: { type: "[Ciudadano]" },
@@ -348,8 +402,7 @@ Schema.create([
                     },
                     componente_militar: {
                         type: "string",
-                        constraints: {
-                            valueIn: [
+                        options: [
                                 "Fuerzas Armadas",
                                 "Aviacion",
                                 "Naval",
@@ -357,19 +410,21 @@ Schema.create([
                                 "Milicia",
                                 "Guardia de Honor"
                             ]
-                        }
                     }
                 }
             },
             LicenciaDeExploracionYExplotacion: {
                 classname: "LicenciaDeExploracionYExplotacion",
                 human_readable: "Licencia De Exploracion Y Explotacion",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"]
             },
             Acuerdo: {
                 classname: "Acuerdo",
-                abstract: true,
                 human_readable: "Acuerdo",
+                constant: false,
+                abstract: true,
                 extends: ["Efecto"],
                 fields: {
                     paises_firmantes: { type: "[Pais]" },
@@ -380,26 +435,36 @@ Schema.create([
             AcuerdoBilateral: {
                 classname: "AcuerdoBilateral",
                 human_readable: "Acuerdo Bilateral",
+                constant: false,
+                abstract: false,
                 extends: ["Acuerdo", "Efecto"]
             },
             AcuerdoMarcoDeCooperacion: {
                 classname: "AcuerdoMarcoDeCooperacion",
                 human_readable: "Acuerdo Marco De Cooperacion",
+                constant: false,
+                abstract: false,
                 extends: ["Acuerdo", "Efecto"]
             },
             AcuerdoComplementarioAlAcuerdoMarcoDeCooperacion: {
                 classname: "AcuerdoComplementarioAlAcuerdoMarcoDeCooperacion",
                 human_readable: "Acuerdo Complementario Al Acuerdo Marco De Cooperacion",
+                constant: false,
+                abstract: false,
                 extends: ["Acuerdo", "Efecto"]
             },
             AcuerdoComplementarioDeCooperacion: {
                 classname: "AcuerdoComplementarioDeCooperacion",
                 human_readable: "Acuerdo Complementario De Cooperacion",
+                constant: false,
+                abstract: false,
                 extends: ["Acuerdo", "Efecto"]
             },
             EstablecimientoDeSedeDiplomatica: {
                 classname: "EstablecimientoDeSedeDiplomatica",
                 human_readable: "Establecimiento De Sede Diplomatica",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     organismo: { type: "OrganismoInternacional" }
@@ -408,6 +473,8 @@ Schema.create([
             DelegacionDeFunciones: {
                 classname: "DelegacionDeFunciones",
                 human_readable: "Delegacion De Funciones",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     ciudadano: { type: "Ciudadano" },
@@ -418,6 +485,8 @@ Schema.create([
             OrdenDeAprehension: {
                 classname: "OrdenDeAprehension",
                 human_readable: "Orden De Aprehension",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     ciudadano: { type: "Ciudadano" },
@@ -428,6 +497,8 @@ Schema.create([
             Jubilacion: {
                 classname: "Jubilacion",
                 human_readable: "Jubilacion",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     ciudadano: { type: "Ciudadano" },
@@ -439,20 +510,20 @@ Schema.create([
             Ley: {
                 classname: "Ley",
                 human_readable: "Ley",
+                constant: true,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
-                    titulo: { type: "string" },
+                    titulo: { type: "string", label: "Título" },
                     fecha_de_aprobacion: { type: "date" },
                     tipo: {
                         type: "string",
-                        constraints: {
-                            valueIn: [
+                        options: [
                                 "organica",
                                 "ordinaria",
                                 "decreto ley",
                                 "ley habilitante"
                             ]
-                        }
                     },
                     contenido: {
                         type: "string",
@@ -463,6 +534,8 @@ Schema.create([
             CreacionDeEmpresaEstatal: {
                 classname: "CreacionDeEmpresaEstatal",
                 human_readable: "Creacion De Empresa Estatal",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     empresa: { type: "Empresa" }
@@ -471,6 +544,8 @@ Schema.create([
             CreacionDeOrganismoPublico: {
                 classname: "CreacionDeOrganismoPublico",
                 human_readable: "Creacion De Organismo Publico",
+                constant: false,
+                abstract: false,
                 extends: ["Efecto"],
                 fields: {
                     organismo: { type: "Organismo" },
@@ -712,11 +787,11 @@ admin.skip_confirmation!
 admin.confirm!
 admin.save
 
-# Scrapper user
-scrapper = User.new({email: "scrapper@gmail.com", password: "12345678", password_confirmation: "12345678", role: :scrapper})
-scrapper.skip_confirmation!
-scrapper.confirm!
-scrapper.save
+# Scraper user
+scraper = User.new({email: "scraper@gmail.com", password: "12345678", password_confirmation: "12345678", role: :scraper})
+scraper.skip_confirmation!
+scraper.confirm!
+scraper.save
 
 # Validator user
 validator = User.new({email: "validator@gmail.com", password: "12345678", password_confirmation: "12345678", role: :validator})
