@@ -9,9 +9,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :password_confirmation
     devise_parameter_sanitizer.for(:sign_in).push(:email,:password)
-    devise_parameter_sanitizer.for(:account_update) do |user_params|
-      user_params.permit(:role, :email, :nickname, :name, :password, :password_confirmation)
-    end
+    devise_parameter_sanitizer.for(:account_update).push(:role, :email, :nickname, :name, :password, :password_confirmation)
   end
 
   def index

@@ -2,6 +2,8 @@ var React         = require('react');
 
 var SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx');
 
+var Strings = require('../../constants/VendataConstants.js').Strings;
+
 var SessionStore  = require('../../stores/SessionStore.js.jsx');
 var NavigationBar = require('../../components/layouts/NavigationBar.js.jsx');
 var BS            = require('react-bootstrap');
@@ -13,7 +15,8 @@ var Input         = BS.Input,
     ListGroupItem = BS.ListGroupItem,
     Button        = BS.Button,
     ButtonToolbar = BS.ButtonToolbar,
-    ButtonInput   = BS.ButtonInput;
+    ButtonInput   = BS.ButtonInput,
+    Collapse      = BS.Collapse;
 
 
 function getStateFromStores() {
@@ -21,6 +24,10 @@ function getStateFromStores() {
         isLoggedIn: SessionStore.isLoggedIn(),
         user: JSON.parse(SessionStore.getUser()),
         email:SessionStore.getEmail(),
+        access_token:SessionStore.getAccessToken(),
+        client:SessionStore.getClient(),
+        expiry:SessionStore.getExpiry(),
+
       // t.string :nickname
       // t.string :image
       // t.string :email
@@ -56,36 +63,73 @@ Profile = React.createClass({
     },
 
     _checkStateValue: function(e) {
-        e === null ? "Campo Vacio" : e ; 
+        var resp = "";
+        e === null ? resp = " Campo Vacio" : resp = e ; 
+        return resp;
     },
 
     render: function() {
-        var title = "Profile";
-        var actions = "Actions";
+        var PossibleActions = this.state.user.role === "Admin" ? (
+            <div>
+                <Button bsStyle="primary" onClick={this._openCreate}>{Strings.CREATE_ACTION}</Button>
+                <Collapse in={this.state.openCreate}>
+                    <div>
+                        <Panel>  
+                          <Create></Create>
+                        </Panel>
+                    </div>
+                </Collapse>
+                <Button bsStyle="primary" onClick={this._openUpdate}>{Strings.UPDATE_ACTION}</Button>
+                 <Collapse in={this.state.openUpdate}>
+                    <div>
+                        <Panel>
+                          <Update
+                            uEmail          = {this.state.email}
+                            uClient         = {this.state.client}
+                            uAccessToken    = {this.state.access_token}
+                            uExpiry         = {this.state.expiry}
+                            uName           = {this.state.user.name}
+                            uNickname       = {this.state.user.nickname}
+                            uRole           = {this.state.user.role}
+                          ></Update>
+                        </Panel>
+                    </div>
+                </Collapse>
+            </div>
+            ):(
+            <div>
+                <Button bsStyle="primary" onClick={this._openUpdate}>{Strings.UPDATE_ACTION}</Button>
+                <Collapse in={this.state.openUpdate}>
+                    <div>
+                        <Panel>
+                          <Update
+                            uEmail          = {this.state.email}
+                            uClient         = {this.state.client}
+                            uAccessToken    = {this.state.access_token}
+                            uExpiry         = {this.state.expiry}
+                            uName           = {this.state.user.name}
+                            uNickname       = {this.state.user.nickname}
+                            uRole           = {this.state.user.role}
+                          ></Update>
+                        </Panel>
+                    </div>
+                </Collapse>
+            </div> 
+            );
         return (
             <div className="profile-panel">
-                <Panel header={title} >
+                <Panel header={Strings.PROFILE}>
                     <Panel>
                         <ListGroup fill>
-                            <ListGroupItem>Rol:{this._checkStateValue(this.state.user.role)}</ListGroupItem>
-                            <ListGroupItem>Nombre:{this.state.user.name}</ListGroupItem>
-                            <ListGroupItem>Apodo:{this.state.user.nickname}</ListGroupItem>
-                            <ListGroupItem>Email:{this.state.user.email}</ListGroupItem>
+                            <ListGroupItem><b>Rol</b> : {this.state.user.role}</ListGroupItem>
+                            <ListGroupItem><b>Nombre</b> : {this.state.user.name}</ListGroupItem>
+                            <ListGroupItem><b>Apodo</b> : {this.state.user.nickname}</ListGroupItem>
+                            <ListGroupItem><b>Email</b> : {this.state.user.email}</ListGroupItem>
                         </ListGroup>
                     </Panel>
                 </Panel>
-
-                <Panel header={actions}>
-                    <div>
-                            <Button bsStyle="primary" onClick={this._openCreate}>Create New User</Button>
-                            <Panel collapsible expanded={this.state.openCreate}>
-                              <Create></Create>
-                            </Panel>
-                            <Button bsStyle="primary" onClick={this._openUpdate}>Update My Information</Button>
-                            <Panel collapsible  expanded={this.state.openUpdate}>
-                              <Update></Update>
-                            </Panel>
-                    </div>
+                <Panel header={Strings.ACTIONS}>
+                   {PossibleActions}
                 </Panel>
             </div>
         );

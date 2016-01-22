@@ -36,7 +36,15 @@ module.exports = {
     VendataAppDispatcher.handleViewAction({
       type: ActionTypes.UPDATE_REQUEST
     });
-    WebAPIUtils.logout(client, access_token, uid, expiry, body);
-  }
+    WebAPIUtils.update(client, access_token, uid, expiry, body);
+  },
+
+  loadUser: function() {
+    VendataAppDispatcher.handleViewAction({
+      type: ActionTypes.LOAD_USER
+    });
+    WebAPIUtils.loadUser();
+  },
+
 
 };

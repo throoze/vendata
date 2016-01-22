@@ -50,7 +50,15 @@ module.exports = {
       json: json,
       errors: errors
     });
-  }
+  },
+
+  receiveLoadUser: function(json, errors){
+    VendataAppDispatcher.handleServerAction({
+      type: ActionTypes.RECEIVE_LOAD_USER,
+      json: json,
+      errors: errors
+    });
+  },
 
  // ... 
 };

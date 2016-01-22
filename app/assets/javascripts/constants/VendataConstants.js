@@ -12,7 +12,9 @@ module.exports = {
   APIEndpoints: {
     // Auth
     LOGIN:        Root + "/auth/sign_in",
-    REGISTRATION: Root + "/auth",
+    REGISTRATION: Root + "/auth/",
+    LOGOUT:       Root + "/auth/sign_out",
+    UPDATE:       Root + "/auth/",
 
     // Schemata
     SCHEMATA:              Root + "/schemata",              // GET
@@ -49,6 +51,8 @@ module.exports = {
     LOGOUT_REPONSE: null,
     UPDATE_REQUEST: null,
     UPDATE_RESPONSE: null,
+    LOAD_USER: null,
+    RECEIVE_LOAD_USER: null,
 
     // Routes
     REDIRECT: null,
@@ -102,7 +106,17 @@ module.exports = {
     SCRAPPING_REQUEST_DOC: "Para empezar, solicita un nuevo documento.",
     CLEAR_DOC:             "Limpiar documento",
     DOWNLOAD_PDF:          "Descarga el PDF",
-    CHOOSE_ROOT_DOC:       "Seleccione el tipo de documento a vaciar"
+    CHOOSE_ROOT_DOC:       "Seleccione el tipo de documento a vaciar",
+
+    PROFILE:               "Perfil",
+    ACTIONS:               "Acciones",
+    ROLE:                  "Rol",
+    NAME:                  "Nombre",
+    NICKNAME:              "Nickname",
+    EMAIL:                 "Email",
+    UPDATE_ACTION:         "Actualizar Informacion",
+    CREATE_ACTION:         "Crear Usuario" 
+
   }
 
 };
