@@ -12,7 +12,9 @@ var _accessToken = sessionStorage.getItem('accessToken') ;
 var _email = sessionStorage.getItem('email');
 var _client = sessionStorage.getItem('client');
 var _user = sessionStorage.getItem('user');
+var _expiry = sessionStorage.getItem('expiry');
 var _errors = [];
+var _resCreate = "";
 
 var SessionStore = assign({}, EventEmitter.prototype, {
 
@@ -48,9 +50,13 @@ var SessionStore = assign({}, EventEmitter.prototype, {
     return _email;
   },
 
+  getExpiry: function() {
+    return _expiry;
+  },
+
   getErrors: function() {
     return _errors;
-  }
+  },
 
 });
 
@@ -63,9 +69,16 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
   // errors
   switch(action.type) {
 
-    case ActionTypes.SIGN_UP_RESPONSE:
+    case ActionTypes.CREATE_RESPONSE:
+      console.log("respuesta ok");
       if (action.errors) {
+        console.log("hubo error");
+        console.log(action.errors+ " AQUI");
         _errors = action.errors;
+      }
+      else {
+        console.log("no hubo error");
+        _errors = ["Exito!"];
       }
       SessionStore.emitChange();
       break;
@@ -77,11 +90,13 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
           _accessToken = action.json.access_token;
           _email = action.json.email;
           _client = action.json.client;
+          _expiry = action.json.expiry;
           _user =  JSON.stringify(action.json.data);
           // Token will always live in the session, so that the API can grab it with no hassle
           sessionStorage.setItem('accessToken', _accessToken);
           sessionStorage.setItem('email', _email);
           sessionStorage.setItem('client', _client);
+          sessionStorage.setItem('expiry', _expiry);
           sessionStorage.setItem('user', _user);
         }
       
@@ -89,6 +104,7 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
           _errors = action.errors;
       }
       
+      //_errors = [];
       SessionStore.emitChange();
       break;
 
@@ -97,10 +113,48 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       _email = null;
       _client = null;
       _user = null;
+      _expiry = null;
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('email');
       sessionStorage.removeItem('client');
+      sessionStorage.removeItem('expiry');
       sessionStorage.removeItem('user');
+      SessionStore.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_LOAD_USER:
+
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      SessionStore.emitChange();
+      break;
+
+    case ActionTypes.UPDATE_RESPONSE:
+
+      if (action.json && action.json.access_token) {
+          _accessToken = action.json.access_token;
+          _email = action.json.email;
+          _client = action.json.client;
+          _expiry = action.json.expiry;
+          _user =  JSON.stringify(action.json.data);
+          // Token will always live in the session, so that the API can grab it with no hassle
+          sessionStorage.setItem('accessToken', _accessToken);
+          sessionStorage.setItem('email', _email);
+          sessionStorage.setItem('client', _client);
+          sessionStorage.setItem('expiry', _expiry);
+          sessionStorage.setItem('user', _user);
+      };
+
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else {
+        _errors = "";
+      };
+
+
+
       SessionStore.emitChange();
       break;
 

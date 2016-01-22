@@ -61,23 +61,23 @@ module.exports = {
       });
   },
 
-  signup: function(email, password, password_confirmation) {
-    request.post('http://localhost:3000/api/v1/auth')
-      .send({ email: email, password: password, password_confirmation: password_confirmation })
+  create: function(email, password, password_confirmation) {
+    request.post(APIEndpoints.REGISTRATION)
+      .send({email: email, password: password, password_confirmation: password_confirmation})
       .end(function(error, res){
         if (res) {
           if (res.error) {
             var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveSignIn(null, errorMsgs);
+            ServerActionCreators.receiveCreate(null, errorMsgs);
           } else {
             json = JSON.parse(res.text);
-            ServerActionCreators.receiveSignIn(json, null);
+            ServerActionCreators.receiveCreate(json, null);
           }
         }
       });
   },
-   login: function(email, password) {
-    request.post('http://localhost:3000/api/v1/auth/sign_in')
+  login: function(email, password) {
+    request.post(APIEndpoints.LOGIN)
       .send({ email: email, password: password })
       .end(function(error, res){
         if (res) {
@@ -89,25 +89,53 @@ module.exports = {
             json.email = json.data.email;
             json.client = res.header['client'];
             json.access_token = res.header['access-token'];
+            json.expiry = res.header['expiry'];
             ServerActionCreators.receiveLogIn(json, null);
           }
         }
       });
   },
-   logout: function(client, access_token, uid) {
-   request.del('http://localhost:3000/api/v1/auth/sign_out')
-      .set({ 'client': client, 'access-token': access_token,'Uid':uid })
+  logout: function(client, access_token, uid) {
+    request.del(APIEndpoints.LOGOUT)
+      .set({ 'client': client, 'access-token': access_token,'uid':uid })
       .end(function(error,res){
           if (res) {
             if (res.error) {
               var errorMsgs = _getErrors(res);
               ServerActionCreators.receiveLogOut(null, errorMsgs);
             } else {
-              ServerActionCreators.receiveLogOut("OK",errorMsgs);
+              ServerActionCreators.receiveLogOut("OK",null);
             }
           }
       });
   },
+  update: function(client, access_token, uid, expiry, body) {
+    request.put(APIEndpoints.UPDATE)
+      .set({ 'client': client, 'access-token': access_token,'uid':uid, 'expiry': expiry, 'token-type': 'Bearer'})
+      .send(body)
+      .end(function(error,res){
+          if (res) {
+            if (res.error) {
+              if (res.status === 403 ) {
+                var resObj = JSON.parse(res.text);
+                var errorMsgs = resObj.errors.full_messages;
+              }else {
+                var errorMsgs = _getErrors(res);
+              };
+              ServerActionCreators.receiveUpdate(null, errorMsgs);
+            } else {
+              json = JSON.parse(res.text);
+              json.email = json.data.email;
+              json.client = res.header['client'];
+              json.access_token = res.header['access-token'];
+              ServerActionCreators.receiveUpdate(json,null);
+            }
+          }
+      });
+  },
+  loadUser: function(){
+    ServerActionCreators.receiveLoadUser("OK",null);  
+  }
 };
 
 // Default Auth configuration for J-Toker:

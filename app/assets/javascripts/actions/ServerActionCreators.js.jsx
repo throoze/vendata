@@ -12,9 +12,9 @@ module.exports = {
     });
   },
 
-  receiveSignIn: function(json, errors) {
+  receiveCreate: function(json, errors) {
     VendataAppDispatcher.handleServerAction({
-      type: ActionTypes.SIGN_UP_RESPONSE,
+      type: ActionTypes.CREATE_RESPONSE,
       json: json,
       errors: errors
     });
@@ -36,13 +36,29 @@ module.exports = {
     });
   },
 
+  receiveUpdate: function(json, errors) {
+    VendataAppDispatcher.handleServerAction({
+      type: ActionTypes.UPDATE_RESPONSE,
+      json: json,
+      errors: errors
+    });
+  },
+
   receiveDocumentForScrapping: function(json, errors) {
     VendataAppDispatcher.handleServerAction({
       type: ActionTypes.RECEIVE_DOC_FOR_SCRAPPING,
       json: json,
       errors: errors
     });
-  }
+  },
+
+  receiveLoadUser: function(json, errors){
+    VendataAppDispatcher.handleServerAction({
+      type: ActionTypes.RECEIVE_LOAD_USER,
+      json: json,
+      errors: errors
+    });
+  },
 
  // ... 
 };

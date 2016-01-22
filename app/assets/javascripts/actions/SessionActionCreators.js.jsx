@@ -5,15 +5,15 @@ var ActionTypes          = VendataConstants.ActionTypes;
 
 module.exports = {
 
-  signup: function(email, password, password_confirmation, role) {
+  create: function(email, password, password_confirmation, role) {
     VendataAppDispatcher.handleViewAction({
-      type:                  ActionTypes.SIGNUP_REQUEST,
+      type:                  ActionTypes.CREATE_REQUEST,
       email:                 email,
       password:              password,
       password_confirmation: password_confirmation,
       role:                  role
     });
-    WebAPIUtils.signup(email, password, password_confirmation);
+    WebAPIUtils.create(email, password, password_confirmation,role);
   },
 
   login: function(email, password) {
@@ -30,6 +30,21 @@ module.exports = {
       type: ActionTypes.LOGOUT_REQUEST
     });
     WebAPIUtils.logout(client, access_token, uid);
-  }
+  },
+
+  update: function(client, access_token, uid, expiry, body) {
+    VendataAppDispatcher.handleViewAction({
+      type: ActionTypes.UPDATE_REQUEST
+    });
+    WebAPIUtils.update(client, access_token, uid, expiry, body);
+  },
+
+  loadUser: function() {
+    VendataAppDispatcher.handleViewAction({
+      type: ActionTypes.LOAD_USER
+    });
+    WebAPIUtils.loadUser();
+  },
+
 
 };

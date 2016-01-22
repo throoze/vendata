@@ -6,6 +6,7 @@ var Link           = ReactRouter.Link;
 //
 var SessionStore   = require('../../stores/SessionStore.js.jsx'),
     Login          = require('../session/Login.js.jsx'),
+    Profile        = require('../session/Profile.js.jsx');
     SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx');
 // react-bootstrap components:
 var Dropdown       = BS.Dropdown;
@@ -60,7 +61,11 @@ NavigationBar = React.createClass({
         this.setState({open: !this.state.open });
     },
 
-    _handleLogout:function(){
+    _handleProfile: function(e){
+        this.context.router.transitionTo("profile");
+    },
+
+    _handleLogout: function(){
         SessionActionCreators.logout(this.state.client, this.state.access_token, this.state.uid);
         this.context.router.transitionTo("app");
     },
@@ -68,7 +73,7 @@ NavigationBar = React.createClass({
     render: function() {
         var rightItem = this.props.isLoggedIn ? (
             <NavDropdown eventKey={4} title={this.props.email} id="collapsible-nav-dropdown">
-                <MenuItem eventKey={1}>Perfil</MenuItem>
+                <MenuItem eventKey={1}><Link to="profile">Perfil</Link></MenuItem>
                 <MenuItem eventKey={2}><Link to="scrapping">Scrapping</Link></MenuItem>
                 <MenuItem divider />
                 <MenuItem eventKey={3}>
@@ -76,7 +81,7 @@ NavigationBar = React.createClass({
                 </MenuItem>
             </NavDropdown>
             ) : (
-            <Dropdown className="login-button" open={this.state.open} >
+            <Dropdown className="login-button" open={this.state.open} id="dropdown" >
               <DropdownToggle bsRole="toggle" onClick={this._setOpen}>
                 Login
               </DropdownToggle>
