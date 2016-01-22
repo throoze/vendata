@@ -44,9 +44,9 @@ module.exports = {
     });
   },
 
-  receiveDocumentForScrapping: function(json, errors) {
+  receiveDocumentForScraping: function(json, errors) {
     VendataAppDispatcher.handleServerAction({
-      type: ActionTypes.RECEIVE_DOC_FOR_SCRAPPING,
+      type: ActionTypes.RECEIVE_DOC_FOR_SCRAPING,
       json: json,
       errors: errors
     });

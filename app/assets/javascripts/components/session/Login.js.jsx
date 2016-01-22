@@ -1,5 +1,4 @@
 // ./scripts/component/session/Login.js.jsx
-var React                 = require('react');
 var SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx'),
     SessionStore          = require('../../stores/SessionStore.js.jsx'),
     ErrorNotice           = require('../common/ErrorNotice.js.jsx');

@@ -1,5 +1,5 @@
 // ./components/mixins/SchemataAware.js.jsx
-var ScrappingStore          = require('../../stores/ScrappingStore');
+var ScrapingStore          = require('../../stores/ScrapingStore');
 
 // <throoze> is there a way to parametrize mixins?
 // <throoze> i would like to pass a callback to them, to register it as a listener to the store events
@@ -16,11 +16,11 @@ var ScrappingStore          = require('../../stores/ScrappingStore');
 var SchemataAware = function (callback){
     return {
         componentDidMount: function() {
-            ScrappingStore.addSchemataChangeListener(callback);
+            ScrapingStore.addSchemataChangeListener(callback);
         },
 
         componentWillUnmount: function() {
-            ScrappingStore.removeSchemataChangeListener(callback);
+            ScrapingStore.removeSchemataChangeListener(callback);
         }
     }
 };

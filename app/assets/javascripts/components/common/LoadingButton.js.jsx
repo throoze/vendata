@@ -1,5 +1,4 @@
 // ./components/common/LoadingButton.js.jsx
-var React   = require('react');
 var BS      = require('react-bootstrap');
 var Button  = BS.Button;
 var loading = VendataConstants.Strings.LOADING;

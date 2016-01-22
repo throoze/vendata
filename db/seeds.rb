@@ -10,7 +10,7 @@
 Schema.create([
     {
         name: "schema",
-        root_collections: ["GacetaOficial"],
+        root_collection: "Documento",
         collections: [
             "Documento",
             "GacetaOficial",
@@ -61,6 +61,7 @@ Schema.create([
             Documento: {
                 classname: "Documento",
                 human_readable: "Documento",
+                abstract: true,
                 fields: {
                     numero: { type: "string", label: "Número" },
                     fecha:  { type: "date" },
@@ -553,18 +554,7 @@ Schema.create([
             # Keys are the possible collections, and values are the
             # collections that extend the correspondent collection key
             # without any specific order.
-            Documento: [
-                "GacetaOficial",
-                "ActoNormativo",
-                "AprobacionDeLey",
-                "Decreto",
-                "Resolucion",
-                "LeyAprobatoria",
-                "Providencia",
-                "AcuerdoActoNormativo",
-                "Requisitoria",
-                "Autorizacion"
-            ],
+            Documento: ["GacetaOficial"],
             GacetaOficial: [],
             ActoNormativo: [
                 "AprobacionDeLey",
@@ -591,8 +581,6 @@ Schema.create([
             Institucion: [
                 "Organismo",
                 "Empresa",
-                "EmpresaPrivada",
-                "EmpresaEstatal",
                 "CuerpoPolicial",
                 "EntidadBancaria"
             ],
@@ -611,10 +599,6 @@ Schema.create([
                 "AscensoMilitar",
                 "LicenciaDeExploracionYExplotacion",
                 "Acuerdo",
-                "AcuerdoBilateral",
-                "AcuerdoMarcoDeCooperacion",
-                "AcuerdoComplementarioAlAcuerdoMarcoDeCooperacion",
-                "AcuerdoComplementarioDeCooperacion",
                 "EstablecimientoDeSedeDiplomatica",
                 "DelegacionDeFunciones",
                 "OrdenDeAprehension",

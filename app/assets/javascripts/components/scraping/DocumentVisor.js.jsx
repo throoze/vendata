@@ -1,12 +1,11 @@
-// ./components/scrapping/DocumentVisor.js.jsx
-var React          = require('react');
-var ScrappingStore = require('../../stores/ScrappingStore');
+// ./components/scraping/DocumentVisor.js.jsx
+var ScrapingStore = require('../../stores/ScrapingStore');
 var container      = VendataConstants.DocumentCloud.params.container;
 
 function getStateFromStores(){
     return {
-        doc: ScrappingStore.getDocument()
-    }
+        doc: ScrapingStore.getDocument()
+    };
 }
 // <GreenJello> throoze, you can use shouldComponentUpdate as an optimization,
 // and you can use componentWillReceiveProps to handle new props being passed
@@ -17,11 +16,11 @@ var DocumentVisor = React.createClass({
     },
 
     componentDidMount: function() {
-        ScrappingStore.addChangeListener(this._onChange);
+        ScrapingStore.addChangeListener(this._onChange);
     },
 
     componentWillUnmount: function() {
-        ScrappingStore.removeChangeListener(this._onChange);
+        ScrapingStore.removeChangeListener(this._onChange);
         $(container).empty();
     },
 
@@ -38,10 +37,10 @@ var DocumentVisor = React.createClass({
             params.width = params.maxwidth = width;
             params.height = params.maxheight = height;
             DV.load(url, params);
-            $(container+" .loader").remove();
+            $(container+" .spinner").remove();
             out = false;
         } else if (this.state.doc !== null && nextState.doc === null) {
-            var start_message = VendataConstants.Strings.SCRAPPING_REQUEST_DOC;
+            var start_message = VendataConstants.Strings.SCRAPING_REQUEST_DOC;
             $(container).empty();
             $(container).append('<h2 class="start-message">'+start_message+'</h2>');
         }
@@ -53,9 +52,9 @@ var DocumentVisor = React.createClass({
     },
 
     render: function(){
-        var start_message = VendataConstants.Strings.SCRAPPING_REQUEST_DOC;
+        var start_message = VendataConstants.Strings.SCRAPING_REQUEST_DOC;
         return (
-            <div id="document-visor" ref="document-visor" >
+            <div id="document-visor" >
                 <h2 className="start-message">{start_message}</h2>
             </div>
         );
