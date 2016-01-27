@@ -1,19 +1,21 @@
 // ./components/scraping/ScrapingForm.js.jsx
-var ReactRouter   = require('react-router');
-var BS            = require('react-bootstrap');
-var ScrapingStore = require('../../stores/ScrapingStore');
-var DateTimeField = require('react-bootstrap-datetimepicker');
-var Strings       = VendataConstants.Strings;
-var Utils         = VendataConstants.Utils;
-var Select        = require('react-select');
-var Panel         = BS.Panel,
-    Input         = BS.Input,
-    Button        = BS.Button;
-
+var ReactRouter      = require('react-router');
+var BS               = require('react-bootstrap');
+var ScrapingStore    = require('../../stores/ScrapingStore');
+var DateTimeField    = require('react-bootstrap-datetimepicker');
+var Strings          = VendataConstants.Strings;
+var Utils            = VendataConstants.Utils;
+var Select           = require('react-select');
+var Panel            = BS.Panel,
+    Input            = BS.Input,
+    Button           = BS.Button;
 
 var TextField = React.createClass({
     getInitialState: function(){
-        return { value: null };
+        return { 
+            value: null,
+            tmpValue: null
+            };
     },
 
     componentWillMount: function(){
@@ -37,7 +39,9 @@ var TextField = React.createClass({
     },
 
     _hasOptions: function() {
-        return this.props.field.options !== undefined && this.props.field.options !== null;
+        return this.props.field.options !== undefined &&
+               this.props.field.options !== null &&
+               this.props.field.options;
     },
 
     _getOptions: function() {
@@ -50,12 +54,29 @@ var TextField = React.createClass({
         }
     },
 
+    _actually_update_it: function(){
+
+    },
+
     _update: function (value) {
         var callback = this.props.onChange;
-        if (!this._hasOptions()){
-            this.setState({ value: this.refs.input.getValue() }, callback);
-        } else {
+        if (this._hasOptions()){
             this.setState({ value: value }, callback);
+        } else {
+            // This was inspired by:
+            // http://stackoverflow.com/questions/14042193/how-to-trigger-an-event-in-input-text-after-i-stop-typing-writing 
+            var self = this;
+            var timeout = 500;//1e3;
+            if (timeoutReference !== null) clearTimeout(timeoutReference);
+            timeoutReference = setTimeout(function(){
+                    // if we made it here, our timeout has elapsed. Fire the
+                    // callback
+                    if (timeoutReference === null || !timeoutReference)
+                        return;
+                    timeoutReference = null;
+                    self.setState({ value: self.refs.input.getValue() }, callback);
+                }, timeout);
+            this.setState({ tmpValue: this.refs.input.getValue() });
         }
     },
 
@@ -84,7 +105,7 @@ var TextField = React.createClass({
                         hasFeedback
                         placeholder={this._setLabel()}
                         onChange={this._update}
-                        value={this.state.value} />
+                        value={this.state.tmpValue} />
                 );
         }
         return output;
