@@ -247,6 +247,12 @@ var ListField = React.createClass({
         };
     },
 
+    getDefaultProps: function() {
+        return {
+            showLabel: true
+        };
+    },
+
     componentWillMount: function(){
         if (this.props.value !== null && this.props.value !== undefined){
             if( Object.prototype.toString.call( this.props.value ) === '[object Array]' ) {
@@ -260,42 +266,62 @@ var ListField = React.createClass({
     },
 
     _delete_element: function(index){
-        if (this.state.length > 1) {
+        var callback = this.props.onChange;
+        if (this.state.value.length > 1) {
             var self = this;
             return function(){
-                var oldValue = this.state.value;
+                var oldValue = self.state.value;
                 oldValue.splice(index, 1);
-                self.setState({ value: oldValue });
+                self.setState({ value: oldValue }, callback);
             };
         } else {
             return function(){};
         }
     },
 
-    _field_template: function(index, value) {
-        var extra = <Button className="remove" bsStyle="danger" key={fieldname+"-button-delete-"+index.toString()} onClick={this._delete_element(index)}>{Strings.DELETE}</Button>;
+    _update_element: function(index){
+        var callback = this.props.onChange;
+        var self = this;
+        return function() {
+            var oldValue = self.state.value;
+            oldValue[index] = self.refs["field-"+index.toString()].getValue();
+            this.setState({ value: oldValue }, callback);
+        };
+    },
+
+    _field_template: function(index) {
+        var extra = null;
+        if (this.state.value.length > 1)
+            extra = <Button className="remove" bsStyle="danger" key={fieldname+"-button-delete-"+index.toString()} onClick={this._delete_element(index)}>{Strings.DELETE}</Button>;
         var fieldname = this.props.fieldname
         return (
             <div className="fields-container" key={fieldname+"-container-"+index.toString()}>
-                <label key={fieldname+"-label-"+index.toString()}>{Utils.labelify(this.props.fieldname)}</label>
-                <Field {...this.props} extra={extra} ref={"field-"+index.toString()} key={fieldname+"-field-"+index.toString()} fieldname={null}/>
+                <label key={fieldname+"-label-"+index.toString()}>{index+1}</label>
+                <Field {...this.props} value={this.state.value[index]} onChange={this._update_element(index)} showLabel={false} extra={extra} ref={"field-"+index.toString()} key={fieldname+"-field-"+index.toString()} fieldname={null}/>
             </div>
             );
     },
 
     _add_new: function(){
-
+        var callback = this.props.onChange;
+        var newValue = this.state.value;
+        newValue.push(null);
+        this.setState({ value: newValue }, callback);
     },
 
     render: function() {
         var childType = Utils.peel(this.props.field.type);
         var field_template = this._field_template;
         var counter = -1;
+        var showLabel = null;
+        if (this.props.showLabel)
+            showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
         return (
             <Panel>
+                {showLabel}
                 {this.state.value.map(function(item){
                     counter++;
-                    return field_template(counter, item)
+                    return field_template(counter);
                 })}
                 <Button className="add-new" bsStyle="success" onClick={this._add_new}>{Strings.ADD}</Button>
             </Panel>
@@ -312,6 +338,12 @@ var AbstractEntity = React.createClass({
             value: null
         };
         return state;
+    },
+
+    getDefaultProps: function() {
+        return {
+            showLabel: true
+        };
     },
 
     componentWillMount: function(){
@@ -337,8 +369,9 @@ var AbstractEntity = React.createClass({
     },
 
     _update: function(event) {
+        var callback = this.props.onChange;
         if (this.refs.field !== null && this.refs.field !== undefined)
-            this.setState({ value: this.refs.field.getValue() }, this.props.onChange);
+            this.setState({ value: this.refs.field.getValue() }, callback);
     },
 
     render: function() {
@@ -347,15 +380,18 @@ var AbstractEntity = React.createClass({
         var schemata = this.props.schemata;
         var entity = null;
         if (this.state.entity_chosen){
-            entity = (<Entity {...this.props} type={this.state.entity} fieldname={null} ref="field" onChange={this._update} />);
+            entity = (<Entity {...this.props} type={this.state.entity} fieldname={null} ref="field" onChange={this._update} extra={null} />);
         }
         options = alternatives.map(function(alt){
                     var msg = schemata.descriptions[alt].human_readable;
                     return { value: alt, label: msg };
                 });
+        var showLabel = null;
+        if (this.props.showLabel)
+            showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
         return (
             <Panel>
-                <label>{Utils.labelify(this.props.fieldname)}</label>
+                {showLabel}
                 <Select
                     name="options"
                     options={options}
@@ -366,6 +402,7 @@ var AbstractEntity = React.createClass({
                     searchingText={Strings.SEARCHING}
                     onChange={this._chooseAlternative}/>
                 {entity}
+                {this.props.extra}
             </Panel>
             );
     }
@@ -375,6 +412,12 @@ var AbstractEntity = React.createClass({
 var Constant = React.createClass({
     getInitialState: function(){
         return { options: [], value: null };
+    },
+
+    getDefaultProps: function() {
+        return {
+            showLabel: true
+        };
     },
 
     componentWillMount: function(){
@@ -388,7 +431,7 @@ var Constant = React.createClass({
         return this.state.value;
     },
 
-    _choose: function(value){
+    _update: function(value){
         this.setState({ value: value }, this.props.onChange);
     },
 
@@ -397,9 +440,12 @@ var Constant = React.createClass({
     },
 
     render: function() {
+        var showLabel = null;
+        if (this.props.showLabel)
+            showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
         return (
             <Panel>
-                <label>{Utils.labelify(this.props.fieldname)}</label>
+                {showLabel}
                 <Select
                     name="constants"
                     options={this.state.options}
@@ -408,8 +454,10 @@ var Constant = React.createClass({
                     noResultsText={Strings.NO_RESULTS}
                     placeholder={Strings.CHOOSE_ALTERNATIVE_ENTITY}
                     searchingText={Strings.SEARCHING}
-                    onChange={this._choose}/>
+                    onChange={this._update}
+                    extra={null} />
                 <Button className="add-new" bsStyle="success" onClick={this._add_new_constant}>{Strings.ADD}</Button>
+                {this.props.extra}
             </Panel>
             );
     }
@@ -419,7 +467,8 @@ var Entity = React.createClass({
 
     getDefaultProps: function() {
         return {
-            wrapper: Panel
+            wrapper: Panel,
+            showLabel: true
         };
     },
 
@@ -475,13 +524,18 @@ var Entity = React.createClass({
         var is_constant = schema.description.constant;
         var callback = this.props.onChange;
         if (is_abstract || is_constant) {
+            this.setState({ value: this.refs.entity.getValue() }, callback);
+        } else {
             var value = {};
+            var self = this;
             fields.map(function(field){
-                value[field] = this.refs[field].getValue();
+                var hidden = schema.fields[field].hidden !== null && 
+                             schema.fields[field].hidden !== undefined ?
+                             schema.fields[field].hidden : false;
+                if (!hidden)
+                    value[field] = self.refs[field].getValue();
             });
             this.setState({ value: value }, callback);
-        } else {
-            this.setState({ value: this.refs.entity.getValue() }, callback);
         }
     },
 
@@ -493,6 +547,7 @@ var Entity = React.createClass({
                        (schema.description.abstract !== null)? schema.description.abstract : false;
         var is_constant = schema.description.constant;
         var fields = [];
+        var self = this;
 
         if (abstract) {
             return (<AbstractEntity {...this.props} onChange={this._update} ref={"entity"}/>);
@@ -500,26 +555,32 @@ var Entity = React.createClass({
             if (is_constant){
                 return (<Constant {...this.props} onChange={this._update} ref={"entity"}/>);
             } else {
+                var showLabel = null;
+                var fields = Object.keys(schema.fields);
+                if (this.props.showLabel)
+                    showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
                 return (
                     <Panel>
-                        <label>{Utils.labelify(this.props.fieldname)}</label>
-                        {(Object.keys(schema.fields)).map(function(field){
+                        {showLabel}
+                        {fields.map(function(field){
                             var hidden = schema.fields[field].hidden !== null 
                                       && schema.fields[field].hidden !== undefined
                                        ? schema.fields[field].hidden : false;
                             if (!hidden) {
                                 return (
-                                    <Field {...this.props}
+                                    <Field {...self.props}
                                        key={type+"-"+field}
                                        type={schema.fields[field].type}
                                        fieldname={field}
                                        field={schema.fields[field]}
                                        schemata={schemata}
                                        ref={field}
-                                       onChange={this._update}/>
+                                       extra={null}
+                                       onChange={self._update}/>
                                 );
                             }
                         })}
+                        {this.props.extra}
                     </Panel>
                     );
             }
@@ -546,7 +607,8 @@ var Field = React.createClass({
     },
 
     _update: function() {
-        this.setState({ value: this.refs.field.getValue() }, this.props.onChange);
+        var callback = this.props.onChange;
+        this.setState({ value: this.refs.field.getValue() }, callback);
     },
 
     render: function() {
@@ -564,7 +626,7 @@ var Field = React.createClass({
                 if (Utils.startsWith(this.props.type, "[") && Utils.endsWith(this.props.type, "]")) {
                     return (<div><ListField {...this.props} extra={null} ref={ref} onChange={this._update} type={Utils.peel(this.props.field.type)}/>{this.props.extra}</div>);
                 } else {
-                    return (<div><Entity {...this.props} extra={null} ref={ref} onChange={this._update}/>{this.props.extra}</div>);
+                    return (<Entity {...this.props} ref={ref} onChange={this._update}/>);
                 }
         }
     }
