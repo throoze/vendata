@@ -65,8 +65,7 @@ Schema.create([
                 abstract: true,
                 fields: {
                     numero: { type: "string", label: "Número" },
-                    fecha:  { type: "date" },
-                    listo:  { type: "boolean", hidden: true }
+                    fecha:  { type: "date" }
                 }
             },
             GacetaOficial: {

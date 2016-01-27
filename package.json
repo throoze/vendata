@@ -17,6 +17,7 @@
     "pubsub-js": "^1.5.3",
     "react": "^0.14.2",
     "react-bootstrap": "^0.27.3",
+    "react-bootstrap-datetimepicker": "0.0.22",
     "react-dom": "^0.14.2",
     "react-input-autosize": "^0.6.6",
     "react-router": "^0.13.5",

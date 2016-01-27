@@ -2,6 +2,7 @@
 var ReactRouter   = require('react-router');
 var BS            = require('react-bootstrap');
 var ScrapingStore = require('../../stores/ScrapingStore');
+var DateTimeField = require('react-bootstrap-datetimepicker');
 var Strings       = VendataConstants.Strings;
 var Utils         = VendataConstants.Utils;
 var Select        = require('react-select');
@@ -9,48 +10,20 @@ var Panel         = BS.Panel,
     Input         = BS.Input,
     Button        = BS.Button;
 
-var BasicField = React.createClass({
 
+var TextField = React.createClass({
     getInitialState: function(){
-        return {
-            value: null,
-            type: this._chooseType()
-        };
+        return { value: null };
     },
 
-    _chooseType: function() {
-        var type = "";
-        if (this.props.field.options === null || this.props.field.options === undefined) {
-            switch (this.props.field.type) {
-                case "boolean":
-                    type = "checkbox";
-                    break;
-                case "date":
-                case "string":
-                case "number":
-                    type = "text";
-                    break;
-                default:
-                    type = "text";
-            }
-        } else {
-            type = "select";
+    componentWillMount: function(){
+        if (this.props.value !== null && this.props.value !== undefined){
+            this.setState({ value: this.props.value });
         }
-        return type;
-    },
-
-    _handleChange: function(value) {
-        this.setState({
-            value: value
-        });
     },
 
     getValue: function() {
         return this.state.value;
-    },
-
-    _setType: function() {
-        return this.state.type;
     },
 
     _setLabel: function() {
@@ -63,31 +36,12 @@ var BasicField = React.createClass({
         return label;
     },
 
-    _setPlaceholder: function() {
-        return this._setLabel();
-    },
-
-    _setHelp: function() {
-        var help = null;
-        if (this.props.field.hint !== null && this.props.field.hint !== undefined) {
-            help = this.props.field.hint;
-        }
-        return help;
-    },
-
-    _setValidation: function() {
-        if (this.props.validation !== null && this.props.validation !== undefined) {
-            var validate = this.props.validation;
-            return validate(this.getValue());
-        }
-    },
-
-    _setRef: function() {
-        return "input";
+    _hasOptions: function() {
+        return this.props.field.options !== undefined && this.props.field.options !== null;
     },
 
     _getOptions: function() {
-        if (this.props.field.options !== undefined && this.props.field.options !== null){
+        if (this._hasOptions()){
             return this.props.field.options.map(function(opt){
                 return { value: opt , label: Utils.labelify(opt) };
             });
@@ -96,6 +50,14 @@ var BasicField = React.createClass({
         }
     },
 
+    _update: function (value) {
+        var callback = this.props.onChange;
+        if (!this._hasOptions()){
+            this.setState({ value: this.refs.input.getValue() }, callback);
+        } else {
+            this.setState({ value: value }, callback);
+        }
+    },
 
     render: function(){
         var output = null;
@@ -103,6 +65,7 @@ var BasicField = React.createClass({
         if (options !== null) {
             output = (
                 <Select
+                    className="form-group group-class"
                     name={this._setLabel()}
                     allowCreate
                     options={options}
@@ -110,52 +73,231 @@ var BasicField = React.createClass({
                     noResultsText={Strings.NO_RESULTS}
                     placeholder={this._setLabel()} /*Strings.PLACEHOLDER_CHOOSE*/
                     searchingText={Strings.SEARCHING}
-                    className="form-group group-class"
-                    onChange={this._handleChange}/>
+                    onChange={this._update}/>
                     );
         } else {
-            if (this.props.field.type == "boolean") {
-                output = (
-                    <Input  type={this._setType()}
-                            label={this._setLabel()}
-                            placeholder={this._setPlaceholder()}
-                            help={this._setHelp()}
-                            bsStyle={this._setValidation()}
-                            hasFeedback
-                            ref={this._setRef()}
-                            groupClassName="group-class"
-                            labelClassName="label-class"
-                            onChage={this._handleChange} />
-                    );
-            } else {
-                output = (
-                    <Input  type={this._setType()}
-                            placeholder={this._setPlaceholder()}
-                            help={this._setHelp()}
-                            bsStyle={this._setValidation()}
-                            hasFeedback
-                            ref={this._setRef()}
-                            groupClassName="group-class"
-                            labelClassName="label-class"
-                            onChage={this._handleChange} />
-                    );
-            }
+            output = (
+                <Input  type="text"
+                        ref="input"
+                        groupClassName="group-class"
+                        labelClassName="label-class"
+                        hasFeedback
+                        placeholder={this._setLabel()}
+                        onChange={this._update}
+                        value={this.state.value} />
+                );
         }
         return output;
     }
 });
 
+var DateField = React.createClass({
+    getInitialState: function(){
+        return { value: null };
+    },
+
+    getDefaultProps: function() {
+        return {
+            mode: "date",
+            inputFormat: "DD/MM/YYYY",
+        };
+    },
+
+    componentWillMount: function(){
+        if (this.props.value !== null && this.props.value !== undefined){
+            this.setState({ value: this.props.value });
+        }
+    },
+
+    getValue: function() {
+        return this.state.value;
+    },
+
+    _setLabel: function() {
+        var label = "";
+        if (this.props.field.label !== null && this.props.field.label !== undefined) {
+            label = this.props.field.label;
+        } else {
+            label = Utils.labelify(this.props.fieldname);
+        }
+        return label;
+    },
+
+    _update: function (newDate) {
+        var callback = this.props.onChange;
+        var value = newDate !== ""? newDate : null;
+        this.setState({ value: newDate }, callback);
+    },
+
+    render: function(){
+        var output = null;
+        var style = { position: "relative" };
+        output = (
+            <div style={style} className="form-group group-class">
+            <DateTimeField  
+                    mode={this.props.mode}
+                    viewMode={this.props.mode}
+                    inputFormat={this.props.inputFormat}
+                    defaultText={this._setLabel()}
+                    onChange={this._update}
+                    dateTime={this.state.value || undefined} />
+            </div>
+            );
+        return output;
+    }
+});
+
+var NumberField = React.createClass({
+    getInitialState: function(){
+        return { value: null };
+    },
+
+    componentWillMount: function(){
+        if (this.props.value !== null && this.props.value !== undefined){
+            this.setState({ value: this.props.value });
+        }
+    },
+
+    getValue: function() {
+        return this.state.value;
+    },
+
+    _setLabel: function() {
+        var label = "";
+        if (this.props.field.label !== null && this.props.field.label !== undefined) {
+            label = this.props.field.label;
+        } else {
+            label = Utils.labelify(this.props.fieldname);
+        }
+        return label;
+    },
+
+    _update: function (value) {
+        var callback = this.props.onChange;
+        this.setState({ value: this.refs.input.getValue() }, callback);
+    },
+
+    render: function(){
+        var output = null;
+        output = (
+            <Input  type="text"
+                    ref="input"
+                    groupClassName="group-class"
+                    labelClassName="label-class"
+                    hasFeedback
+                    placeholder={this._setLabel()}
+                    onChange={this._update}
+                    value={this.state.value} />
+            );
+        return output;
+    }
+});
+
+var BooleanField = React.createClass({
+    getInitialState: function(){
+        return { value: null };
+    },
+
+    componentWillMount: function(){
+        if (this.props.value !== null && this.props.value !== undefined){
+            this.setState({ value: this.props.value });
+        }
+    },
+
+    getValue: function() {
+        return this.state.value;
+    },
+
+    _setLabel: function() {
+        var label = "";
+        if (this.props.field.label !== null && this.props.field.label !== undefined) {
+            label = this.props.field.label;
+        } else {
+            label = Utils.labelify(this.props.fieldname);
+        }
+        return label;
+    },
+
+    _update: function (value) {
+        var callback = this.props.onChange;
+        this.setState({ value: this.refs.input.getChecked() }, callback);
+    },
+
+    render: function(){
+        var output = null;
+        output = (
+            <Input  type="checkbox"
+                    ref="input"
+                    groupClassName="group-class"
+                    labelClassName="label-class"
+                    hasFeedback
+                    placeholder={this._setLabel()}
+                    onChange={this._update}
+                    value={this.state.value} />
+            );
+        return output;
+    }
+});
+
 var ListField = React.createClass({
+
+    getInitialState: function() {
+        return {
+            value: [null]
+        };
+    },
+
+    componentWillMount: function(){
+        if (this.props.value !== null && this.props.value !== undefined){
+            if( Object.prototype.toString.call( this.props.value ) === '[object Array]' ) {
+                this.setState({ value: this.props.value });
+            }
+        }
+    },
+
+    getValue: function(){
+        return this.state.value;
+    },
+
+    _delete_element: function(index){
+        if (this.state.length > 1) {
+            var self = this;
+            return function(){
+                var oldValue = this.state.value;
+                oldValue.splice(index, 1);
+                self.setState({ value: oldValue });
+            };
+        } else {
+            return function(){};
+        }
+    },
+
+    _field_template: function(index, value) {
+        var extra = <Button className="remove" bsStyle="danger" key={fieldname+"-button-delete-"+index.toString()} onClick={this._delete_element(index)}>{Strings.DELETE}</Button>;
+        var fieldname = this.props.fieldname
+        return (
+            <div className="fields-container" key={fieldname+"-container-"+index.toString()}>
+                <label key={fieldname+"-label-"+index.toString()}>{Utils.labelify(this.props.fieldname)}</label>
+                <Field {...this.props} extra={extra} ref={"field-"+index.toString()} key={fieldname+"-field-"+index.toString()} fieldname={null}/>
+            </div>
+            );
+    },
+
+    _add_new: function(){
+
+    },
+
     render: function() {
         var childType = Utils.peel(this.props.field.type);
-        var extra = <Button className="remove" bsStyle="danger">{Strings.DELETE}</Button>;
+        var field_template = this._field_template;
+        var counter = -1;
         return (
             <Panel>
-                <div className="fields-container">
-                    <label>{Utils.labelify(this.props.fieldname)}</label>
-                    <Field {...this.props} extra={extra} fieldname={null}/>
-                </div>
-                <Button className="add-new" bsStyle="success">{Strings.ADD}</Button>
+                {this.state.value.map(function(item){
+                    counter++;
+                    return field_template(counter, item)
+                })}
+                <Button className="add-new" bsStyle="success" onClick={this._add_new}>{Strings.ADD}</Button>
             </Panel>
         );
     }
@@ -166,9 +308,21 @@ var AbstractEntity = React.createClass({
     getInitialState: function(){
         var state = {
             entity_chosen: false,
-            entity: null
+            entity: null,
+            value: null
         };
         return state;
+    },
+
+    componentWillMount: function(){
+        if (this.props.value !== null && this.props.value !== undefined){
+            if (typeof this.props.value === 'object')
+                this.setState({ value: this.props.value });
+        }
+    },
+
+    getValue: function(){
+        return this.state.value;
     },
 
     _chooseAlternative: function(value) {
@@ -182,13 +336,18 @@ var AbstractEntity = React.createClass({
         });
     },
 
+    _update: function(event) {
+        if (this.refs.field !== null && this.refs.field !== undefined)
+            this.setState({ value: this.refs.field.getValue() }, this.props.onChange);
+    },
+
     render: function() {
         var type = this.props.type;
         var alternatives = this.props.schemata.parenthood[this.props.type];
         var schemata = this.props.schemata;
         var entity = null;
         if (this.state.entity_chosen){
-            entity = (<Entity {...this.props} type={this.state.entity} fieldname={null} />);
+            entity = (<Entity {...this.props} type={this.state.entity} fieldname={null} ref="field" onChange={this._update} />);
         }
         options = alternatives.map(function(alt){
                     var msg = schemata.descriptions[alt].human_readable;
@@ -215,15 +374,26 @@ var AbstractEntity = React.createClass({
 
 var Constant = React.createClass({
     getInitialState: function(){
-        return { constants: [], value: null };
+        return { options: [], value: null };
+    },
+
+    componentWillMount: function(){
+        if (this.props.value !== null && this.props.value !== undefined){
+            if (typeof this.props.value === 'object')
+                this.setState({ value: this.props.value });
+        }
+    },
+
+    getValue: function(){
+        return this.state.value;
     },
 
     _choose: function(value){
-        this.setState({ value: value });
+        this.setState({ value: value }, this.props.onChange);
     },
 
     _add_new_constant: function(){
-
+        // TODO: manage constants state
     },
 
     render: function() {
@@ -232,7 +402,7 @@ var Constant = React.createClass({
                 <label>{Utils.labelify(this.props.fieldname)}</label>
                 <Select
                     name="constants"
-                    options={this.state.constants}
+                    options={this.state.options}
                     value={this.state.value} 
                     className="form-group group-class"
                     noResultsText={Strings.NO_RESULTS}
@@ -251,6 +421,23 @@ var Entity = React.createClass({
         return {
             wrapper: Panel
         };
+    },
+
+    getInitialState: function() {
+        return {
+            value: null
+        };
+    },
+
+    getValue: function(){
+        return this.state.value;
+    },
+
+    componentWillMount: function(){
+        if (this.props.value !== null && this.props.value !== undefined){
+            if (typeof this.props.value === 'object')
+                this.setState({ value: this.props.value });
+        }
     },
 
     _findSchema: function(props) {
@@ -280,20 +467,38 @@ var Entity = React.createClass({
         }
     },
 
+    _update: function(){
+        var schema = this._findSchema(this.props);
+        var fields = Object.keys(schema.fields);
+        var is_abstract = (schema.description.abstract !== undefined) && 
+                          (schema.description.abstract !== null)? schema.description.abstract : false;
+        var is_constant = schema.description.constant;
+        var callback = this.props.onChange;
+        if (is_abstract || is_constant) {
+            var value = {};
+            fields.map(function(field){
+                value[field] = this.refs[field].getValue();
+            });
+            this.setState({ value: value }, callback);
+        } else {
+            this.setState({ value: this.refs.entity.getValue() }, callback);
+        }
+    },
+
     render: function() {
         var type = this.props.type;
         var schema = this._findSchema(this.props);
         var schemata = this.props.schemata;
         var abstract = (schema.description.abstract !== undefined) && 
                        (schema.description.abstract !== null)? schema.description.abstract : false;
-        var is_constant = schema.description.constant; 
+        var is_constant = schema.description.constant;
         var fields = [];
 
         if (abstract) {
-            return (<AbstractEntity {...this.props} />);
+            return (<AbstractEntity {...this.props} onChange={this._update} ref={"entity"}/>);
         } else {
             if (is_constant){
-                return (<Constant {...this.props} />);
+                return (<Constant {...this.props} onChange={this._update} ref={"entity"}/>);
             } else {
                 return (
                     <Panel>
@@ -309,7 +514,9 @@ var Entity = React.createClass({
                                        type={schema.fields[field].type}
                                        fieldname={field}
                                        field={schema.fields[field]}
-                                       schemata={schemata}/>
+                                       schemata={schemata}
+                                       ref={field}
+                                       onChange={this._update}/>
                                 );
                             }
                         })}
@@ -323,41 +530,42 @@ var Entity = React.createClass({
 var Field = React.createClass({
 
     getInitialState: function(){
-        return { type: null };
+        return {
+            value: null
+        };
     },
 
-    componentDidMount: function() {
-        this._chooseType();
-    },
-
-    _chooseType: function() {
-        var type = this.props.type;
-        switch (type) {
-            case "boolean":
-            case "date":
-            case "string":
-            case "number":
-                this.setState({ type: "BasicField" });
-                break;
-            default:
-                if (Utils.startsWith(type, "[") && Utils.endsWith(type, "]")) {
-                    this.setState({ type: "ListField" });
-                } else {
-                    this.setState({ type: "Entity" });
-                }
+    componentWillMount: function(){
+        if (this.props.value !== null && this.props.value !== undefined){
+            this.setState({ value: this.props.value });
         }
     },
 
+    getValue: function() {
+        return this.state.value;
+    },
+
+    _update: function() {
+        this.setState({ value: this.refs.field.getValue() }, this.props.onChange);
+    },
+
     render: function() {
-        switch(this.state.type){
-            case "BasicField":
-                return (<div><BasicField {...this.props} extra={null}/>{this.props.extra}</div>);
-            case "Entity":
-                return (<div><Entity {...this.props} extra={null}/>{this.props.extra}</div>);
-            case "ListField":
-                return (<div><ListField {...this.props} extra={null} type={Utils.peel(this.props.field.type)}/>{this.props.extra}</div>);
+        var ref = "field";
+        switch(this.props.type){
+            case "boolean":
+                return (<div><BooleanField {...this.props} extra={null} ref={ref} onChange={this._update}/>{this.props.extra}</div>);
+            case "date":
+                return (<div><DateField {...this.props} extra={null} ref={ref} onChange={this._update}/>{this.props.extra}</div>);
+            case "string":
+                return (<div><TextField {...this.props} extra={null} ref={ref} onChange={this._update}/>{this.props.extra}</div>);
+            case "number":
+                return (<div><NumberField {...this.props} extra={null} ref={ref} onChange={this._update}/>{this.props.extra}</div>);
             default:
-                return null;
+                if (Utils.startsWith(this.props.type, "[") && Utils.endsWith(this.props.type, "]")) {
+                    return (<div><ListField {...this.props} extra={null} ref={ref} onChange={this._update} type={Utils.peel(this.props.field.type)}/>{this.props.extra}</div>);
+                } else {
+                    return (<div><Entity {...this.props} extra={null} ref={ref} onChange={this._update}/>{this.props.extra}</div>);
+                }
         }
     }
 });

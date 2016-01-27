@@ -33,3 +33,5 @@ is the only one able to compile it.
 - Mensajes de los administradores a los scrapers
 - Mostrar estadisticas personales (progress bar y porcentajes)
 - Botón de ayuda en el toolbar (link a página de ayuda)
+- Calendario a los campos de fecha
+- Campo clave para las constantes
