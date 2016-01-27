@@ -370,12 +370,14 @@ var AbstractEntity = React.createClass({
     componentWillMount: function(){
         if (this.props.value !== null && this.props.value !== undefined){
             if (typeof this.props.value === 'object')
-                this.setState({ value: this.props.value });
+                this.setState({ value: this.state.value });
         }
     },
 
     getValue: function(){
-        return this.state.value;
+        var value = this.state.value;
+        $.extend(value, {classname: this.props.entity});
+        return value;
     },
 
     _chooseAlternative: function(value) {
@@ -449,7 +451,9 @@ var Constant = React.createClass({
     },
 
     getValue: function(){
-        return this.state.value;
+        var value = this.state.value;
+        $.extend(value, {classname: this.props.type});
+        return value;
     },
 
     _update: function(value){
@@ -500,7 +504,10 @@ var Entity = React.createClass({
     },
 
     getValue: function(){
-        return this.state.value;
+        var value = this.state.value;
+        if(!this._is_abstract_or_constant())
+            $.extend(value, {classname: this.props.type});
+        return value;
     },
 
     componentWillMount: function(){
@@ -537,14 +544,21 @@ var Entity = React.createClass({
         }
     },
 
+    _is_abstract_or_constant: function(){
+        var schema = this._findSchema(this.props);
+
+        var is_abstract = (schema.description.abstract !== undefined) && 
+                          (schema.description.abstract !== null) ?
+                           schema.description.abstract : false;
+        var is_constant = schema.description.constant;
+        return is_abstract || is_constant;
+    },
+
     _update: function(){
         var schema = this._findSchema(this.props);
         var fields = Object.keys(schema.fields);
-        var is_abstract = (schema.description.abstract !== undefined) && 
-                          (schema.description.abstract !== null)? schema.description.abstract : false;
-        var is_constant = schema.description.constant;
         var callback = this.props.onChange;
-        if (is_abstract || is_constant) {
+        if (this._is_abstract_or_constant()) {
             this.setState({ value: this.refs.entity.getValue() }, callback);
         } else {
             var value = {};
@@ -705,6 +719,10 @@ var ScrapingForm = React.createClass({
         });
     },
 
+    _update: function(event){
+        this.setState({ scraping: this.refs.root.getValue() });
+    },
+
     render: function(){
         var downloadPDF = null;
         if (this.state.doc !== null){
@@ -724,7 +742,7 @@ var ScrapingForm = React.createClass({
             return (
                 <Panel id="scraping-form" header={title} bsStyle={"primary"} >
                     {downloadPDF}
-                    <Field schemata={this.props.schemata} type={this.props.schemata.root_collection} fieldname={fieldname}/>
+                    <Field ref="root" onChange={this._update} schemata={this.props.schemata} type={this.props.schemata.root_collection} fieldname={fieldname}/>
                 </Panel>
             );
         } else {
