@@ -64,7 +64,7 @@ var TextField = React.createClass({
             this.setState({ value: value }, callback);
         } else {
             // This was inspired by:
-            // http://stackoverflow.com/questions/14042193/how-to-trigger-an-event-in-input-text-after-i-stop-typing-writing 
+            // http://stackoverflow.com/a/14042239/667599
             var self = this;
             var timeout = 500;//1e3;
             if (timeoutReference !== null) clearTimeout(timeoutReference);
@@ -577,29 +577,39 @@ var Entity = React.createClass({
                 return (<Constant {...this.props} onChange={this._update} ref={"entity"}/>);
             } else {
                 var showLabel = null;
-                var fields = Object.keys(schema.fields);
-                if (this.props.showLabel)
+                var childrenShowLabel = this.props.showLabel;
+                var fields = [];
+                for (var key in schema.fields) {
+                    if (schema.fields.hasOwnProperty(key)) {
+                        var hidden = schema.fields[key].hidden !== null &&
+                                     schema.fields[key].hidden !== undefined ?
+                                     schema.fields[key].hidden : false;
+                        if (!hidden)
+                            fields.push(key);
+                    }
+                }
+                fields.sort();
+                if (this.props.showLabel) {
                     showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
+                } else {
+                    childrenShowLabel = true;
+                }
                 return (
                     <Panel>
                         {showLabel}
                         {fields.map(function(field){
-                            var hidden = schema.fields[field].hidden !== null 
-                                      && schema.fields[field].hidden !== undefined
-                                       ? schema.fields[field].hidden : false;
-                            if (!hidden) {
-                                return (
-                                    <Field {...self.props}
-                                       key={type+"-"+field}
-                                       type={schema.fields[field].type}
-                                       fieldname={field}
-                                       field={schema.fields[field]}
-                                       schemata={schemata}
-                                       ref={field}
-                                       extra={null}
-                                       onChange={self._update}/>
-                                );
-                            }
+                            return (
+                                <Field {...self.props}
+                                   key={type+"-"+field}
+                                   type={schema.fields[field].type}
+                                   fieldname={field}
+                                   field={schema.fields[field]}
+                                   schemata={schemata}
+                                   ref={field}
+                                   extra={null}
+                                   showLabel={childrenShowLabel}
+                                   onChange={self._update}/>
+                            );
                         })}
                         {this.props.extra}
                     </Panel>
