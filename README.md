@@ -12,6 +12,8 @@ side, unless it uses `jsdom@3.1.2` which depends on `contextify` which will
 only compile with the mentioned `nodejs` engine, since its `node-gyp` package
 is the only one able to compile it.
 
+## Install rbenv-vars
+
 ## Getting Started
 
 - Clone this repository
@@ -28,6 +30,8 @@ is the only one able to compile it.
 - Método de carga de Organismos
 - Revisar la info requerida de los créditos adicionales
 - Feedback y ayuda
-- Mensajes de los administradores a los scrappers
+- Mensajes de los administradores a los scrapers
 - Mostrar estadisticas personales (progress bar y porcentajes)
 - Botón de ayuda en el toolbar (link a página de ayuda)
+- Calendario a los campos de fecha
+- Campo clave para las constantes

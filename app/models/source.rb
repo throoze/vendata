@@ -4,13 +4,13 @@ class Source < ActiveRecord::Base
     after_find :fetch_oembed
 
     has_many :scrapings
-    has_many :scrappers, through: :scrapings, :source => :user
+    has_many :scrapers, through: :scrapings, :source => :user
     has_many :validations
     has_many :validators, through: :validations, :source => :user
     has_many :flags
     has_many :flaggers, through: :flags, :source => :user
 
-    STATUS = [:pending, :flagged, :scrapped, :validated]
+    STATUS = [:pending, :flagged, :scraped, :validated]
     OEMBED_ENDPOINT = "http://www.documentcloud.org/api/oembed.json"
     OEMBED_PARAMS = {
         :maxheight         => 750,

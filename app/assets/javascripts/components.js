@@ -13,6 +13,8 @@ window.VendataConstants = require('./constants/VendataConstants.js');
 //   apiUrl:  VendataConstants.API_URL
 // });
 
+// Auxiliar global timeout reference
+window.timeoutReference = null;
 
 // Components:
 window.Vendata       = require('./components/Vendata');

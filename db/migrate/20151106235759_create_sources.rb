@@ -5,7 +5,7 @@ class CreateSources < ActiveRecord::Migration
       t.string  :canonical_url,                        null: false, unique: true
       t.string  :oembed,             default: nil
       t.boolean :is_extraordinary,   default: false
-      t.string  :status,             default: :pending # Other values: [:scrapped, :validated]
+      t.string  :status,             default: :pending # Other values: [:scraped, :validated]
       t.integer :validation_counter, default: 0
 
       t.timestamps null: false

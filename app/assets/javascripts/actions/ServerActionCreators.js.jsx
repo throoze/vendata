@@ -60,5 +60,11 @@ module.exports = {
     });
   },
 
- // ... 
+  receiveConstantClass: function(json, errors) {
+    VendataAppDispatcher.handleServerAction({
+      type: ActionTypes.RECEIVE_DOC_FOR_SCRAPING,
+      json: json,
+      errors: errors
+    });
+  }
 };

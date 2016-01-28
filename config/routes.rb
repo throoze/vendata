@@ -3,12 +3,8 @@ Rails.application.routes.draw do
   root 'application#index'
 
   get 'login' => 'session#index', as: 'login'
-<<<<<<< HEAD
   get 'profile' => 'session#index', as: 'profile'
-  get 'scrapping' => 'scrapping#index', as: 'scrapping'
-=======
   get 'scraping' => 'scraping#index', as: 'scraping'
->>>>>>> e510ba8bcc977c515da295ba8465b73a76229b3e
 
   namespace :api do
     namespace :v1 do
@@ -23,6 +19,7 @@ Rails.application.routes.draw do
         end
       end
       namespace :scraping do
+        get 'constant', action: 'constant', as: 'get_constant'
         get 'new', action: 'get_new_scraping', as: 'get_new_scraping'
         get 'validation/new', action: 'get_new_validation', as: 'get_new_validation'
         post 'new', action: 'new_scraping', as: 'new_scraping'

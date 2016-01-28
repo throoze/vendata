@@ -6,60 +6,20 @@ var APIEndpoints         = VendataConstants.APIEndpoints;
 var DocumentCloud        = VendataConstants.DocumentCloud;
 
 function _getErrors(res) {
-  var errorMsgs = ["Se produjo un error, por favor intente de nuevo"];
-  var json = null;
-  if ((json = JSON.parse(res.text))) {
-    if (json['errors']) {
-      errorMsgs = json['errors'];
-    } else if (json['error']) {
-      errorMsgs = [json['error']];
+    var errorMsgs = ["Se produjo un error, por favor intente de nuevo"];
+    var json = null;
+    if ((json = JSON.parse(res.text))) {
+        if (json['errors']) {
+            errorMsgs = json['errors'];
+        } else if (json['error']) {
+            errorMsgs = [json['error']];
+        }
     }
-  }
-  return errorMsgs;
+    return errorMsgs;
 }
 
 
 module.exports = {
-  
-  loadSchemata: function(){
-    var json      = null;
-    var errorMsgs = null;
-    request.get(APIEndpoints.SCHEMATA)
-      .send()
-      .set('Accept', 'application/json')
-      .end(function(error, res){
-        if (res) {
-          if (res.error) {
-            var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveSchemata(null, errorMsgs);
-          } else {
-            json = JSON.parse(res.text);
-            ServerActionCreators.receiveSchemata(json, null);
-          }
-        }
-      });
-  },
-  
-  loadDocumentForScraping: function(){
-    var json      = null;
-    var errorMsgs = null;
-    var result    = {};
-    request.get(APIEndpoints.SCRAPING_GET_DOC_FOR_SCRAPING)
-      .send()
-      .set('Accept', 'application/json')
-      .end(function(error, res){
-        if (res) {
-          if (res.error) {
-            var errorMsgs = _getErrors(res);
-            ServerActionCreators.receiveDocumentForScraping(null, errorMsgs);
-          } else {
-            json = JSON.parse(res.text);
-            result.doc = json.source;
-            ServerActionCreators.receiveDocumentForScraping(result, null);
-          }
-        }
-      });
-  },
 
   create: function(email, password, password_confirmation) {
     request.post(APIEndpoints.REGISTRATION)
@@ -76,6 +36,7 @@ module.exports = {
         }
       });
   },
+
   login: function(email, password) {
     request.post(APIEndpoints.LOGIN)
       .send({ email: email, password: password })
@@ -95,6 +56,7 @@ module.exports = {
         }
       });
   },
+
   logout: function(client, access_token, uid) {
     request.del(APIEndpoints.LOGOUT)
       .set({ 'client': client, 'access-token': access_token,'uid':uid })
@@ -109,6 +71,7 @@ module.exports = {
           }
       });
   },
+
   update: function(client, access_token, uid, expiry, body) {
     request.put(APIEndpoints.UPDATE)
       .set({ 'client': client, 'access-token': access_token,'uid':uid, 'expiry': expiry, 'token-type': 'Bearer'})
@@ -133,8 +96,70 @@ module.exports = {
           }
       });
   },
+  
   loadUser: function(){
     ServerActionCreators.receiveLoadUser("OK",null);  
+  },
+
+  loadSchemata: function(){
+      var json      = null;
+      var errorMsgs = null;
+      request.get(APIEndpoints.SCHEMATA)
+          .send()
+          .set('Accept', 'application/json')
+          .end(function(error, res){
+              if (res) {
+                  if (res.error) {
+                      var errorMsgs = _getErrors(res);
+                      ServerActionCreators.receiveSchemata(null, errorMsgs);
+                  } else {
+                      json = JSON.parse(res.text);
+                      ServerActionCreators.receiveSchemata(json, null);
+                  }
+              }
+      });
+  },
+
+  loadDocumentForScraping: function(){
+      var json      = null;
+      var errorMsgs = null;
+      var result    = {};
+      request.get(APIEndpoints.SCRAPING_GET_DOC_FOR_SCRAPING)
+          .send()
+          .set('Accept', 'application/json')
+          .end(function(error, res){
+              if (res) {
+                  if (res.error) {
+                      var errorMsgs = _getErrors(res);
+                      ServerActionCreators.receiveDocumentForScraping(null, errorMsgs);
+                  } else {
+                      json = JSON.parse(res.text);
+                      result.doc = json.source;
+                      ServerActionCreators.receiveDocumentForScraping(result, null);
+                  }
+              }
+          });
+  },
+
+  loadConstantClass: function(classname) {
+      var json      = null;
+      var errorMsgs = null;
+      var result    = {};
+      request.get(APIEndpoints.SCRAPING_LOAD_CONSTANT_CLASS)
+          .send()
+          .set('Accept', 'application/json')
+          .end(function(error, res){
+              if (res) {
+                  if (res.error) {
+                      var errorMsgs = _getErrors(res);
+                      ServerActionCreators.receiveConstantClass(null, errorMsgs);
+                  } else {
+                      json = JSON.parse(res.text);
+                      result.doc = json.source;
+                      ServerActionCreators.receiveConstantClass(result, null);
+                  }
+              }
+          });
   }
 };
 

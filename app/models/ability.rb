@@ -6,7 +6,7 @@ class Ability
 
     alias_action :create, :read, :update, :destroy, :to => :crud
 
-    if user.role? :scrapper
+    if user.role? :scraper
       can :create, Document
     end
     if user.role? :validator
