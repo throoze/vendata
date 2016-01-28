@@ -1,14 +1,16 @@
 // ./components/scraping/ScrapingForm.js.jsx
-var ReactRouter      = require('react-router');
-var BS               = require('react-bootstrap');
-var ScrapingStore    = require('../../stores/ScrapingStore');
-var DateTimeField    = require('react-bootstrap-datetimepicker');
-var Strings          = VendataConstants.Strings;
-var Utils            = VendataConstants.Utils;
-var Select           = require('react-select');
-var Panel            = BS.Panel,
-    Input            = BS.Input,
-    Button           = BS.Button;
+var ReactRouter            = require('react-router');
+var BS                     = require('react-bootstrap');
+var ScrapingStore          = require('../../stores/ScrapingStore');
+var DateTimeField          = require('react-bootstrap-datetimepicker');
+var ScrapingActionCreators = require('../../actions/ScrapingActionCreators');
+var Strings                = VendataConstants.Strings;
+var Utils                  = VendataConstants.Utils;
+var Select                 = require('react-select');
+var Panel                  = BS.Panel,
+    Input                  = BS.Input,
+    Modal                  = BS.Modal,
+    Button                 = BS.Button;
 
 var TextField = React.createClass({
     getInitialState: function(){
@@ -252,7 +254,7 @@ var BooleanField = React.createClass({
                     groupClassName="group-class"
                     labelClassName="label-class"
                     hasFeedback
-                    placeholder={this._setLabel()}
+                    label={this._setLabel()}
                     onChange={this._update}
                     value={this.state.value} />
             );
@@ -461,7 +463,17 @@ var Constant = React.createClass({
     },
 
     _add_new_constant: function(){
-        // TODO: manage constants state
+        var self = this;
+        var submit= function(event){
+            var constant = self.refs.constant.getValue();
+            console.log("Creating constant...",constant);
+        };
+        var title = Strings.CREATE_NEW + " " + Utils.labelify(this.props.fieldname);
+        var body = [
+            <ConstantCreator {...this.props} ref="constant"/>,
+            <Button bsStyle="success" onClick={submit}>{Strings.SUBMIT}</Button>
+            ];
+        this.props.showModal(title, body);
     },
 
     render: function() {
@@ -482,6 +494,125 @@ var Constant = React.createClass({
                     onChange={this._update}
                     extra={null} />
                 <Button className="add-new" bsStyle="success" onClick={this._add_new_constant}>{Strings.ADD}</Button>
+                {this.props.extra}
+            </Panel>
+            );
+    }
+});
+
+var ConstantCreator = React.createClass({
+
+    getDefaultProps: function() {
+        return {
+            wrapper: Panel,
+            showLabel: true
+        };
+    },
+
+    getInitialState: function() {
+        return {
+            value: null
+        };
+    },
+
+    getValue: function(){
+        var value = this.state.value;
+        $.extend(value, {classname: this.props.type});
+        return value;
+    },
+
+    componentWillMount: function(){
+        if (this.props.value !== null && this.props.value !== undefined){
+            if (typeof this.props.value === 'object')
+                this.setState({ value: this.props.value });
+        }
+    },
+
+    _findSchema: function(props) {
+        if (props.type !== null && props.type !== undefined){
+            var schemata = props.schemata;
+            var entity = {
+                    description: schemata.descriptions[props.type],
+                    parenthood: schemata.parenthood[props.type],
+                    inheritance: schemata.inheritance[props.type],
+                    constraints: schemata.constraints[props.type],
+                    fields: {}
+                };
+            parents = entity.inheritance.reverse();
+            for (var parent in parents) {
+                $.extend(entity.fields, schemata.descriptions[parents[parent]].fields);
+            }
+            $.extend(entity.fields, entity.description.fields);
+            return entity;
+        } else {
+            return {
+                    description: null,
+                    parenthood: null,
+                    inheritance: null,
+                    constraints: null,
+                    fields: null
+                };
+        }
+    },
+
+    _update: function(){
+        var schema = this._findSchema(this.props);
+        var fields = Object.keys(schema.fields);
+        var callback = this.props.onChange;
+        var value = {};
+        var self = this;
+        fields.map(function(field){
+            var hidden = schema.fields[field].hidden !== null && 
+                         schema.fields[field].hidden !== undefined ?
+                         schema.fields[field].hidden : false;
+            if (!hidden)
+                value[field] = self.refs[field].getValue();
+        });
+        this.setState({ value: value }, callback);
+    },
+
+    render: function() {
+        var type = this.props.type;
+        var schema = this._findSchema(this.props);
+        var schemata = this.props.schemata;
+        var fields = [];
+        var self = this;
+
+        var showLabel = null;
+        var childrenShowLabel = this.props.showLabel;
+        var fields = [];
+        for (var key in schema.fields) {
+            if (schema.fields.hasOwnProperty(key)) {
+                var hidden = schema.fields[key].hidden !== null &&
+                             schema.fields[key].hidden !== undefined ?
+                             schema.fields[key].hidden : false;
+                if (!hidden)
+                    fields.push(key);
+            }
+        }
+        fields.sort();
+        if (this.props.showLabel) {
+            showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
+        } else {
+            childrenShowLabel = true;
+        }
+        return (
+            <Panel>
+                {showLabel}
+                {fields.map(function(field){
+                    return (
+                        <Field {...self.props}
+                           key={type+"-"+field}
+                           type={schema.fields[field].type}
+                           fieldname={field}
+                           field={schema.fields[field]}
+                           schemata={schemata}
+                           ref={field}
+                           extra={null}
+                           showLabel={childrenShowLabel}
+                           onChange={self._update}/>
+                    );
+                })}
                 {this.props.extra}
             </Panel>
             );
@@ -685,6 +816,11 @@ var ScrapingForm = React.createClass({
             scraping: {},
             root_chosen: false,
             root: null,
+            showModal: false,
+            modal: {
+                title: null,
+                body: null
+            },
             doc: ScrapingStore.getDocument()
         };
         return state;
@@ -723,6 +859,26 @@ var ScrapingForm = React.createClass({
         this.setState({ scraping: this.refs.root.getValue() });
     },
 
+    _hide_modal: function(){
+        this.setState({
+            showModal: false,
+            modal: {
+                title: null,
+                body: null
+            }
+        });
+    },
+
+    _show_modal: function(title, body){
+        this.setState({
+            showModal: true,
+            modal: {
+                title: title,
+                body: body
+            }
+        });
+    },
+
     render: function(){
         var downloadPDF = null;
         if (this.state.doc !== null){
@@ -740,9 +896,24 @@ var ScrapingForm = React.createClass({
         if (this.state.doc) {
             var fieldname = this.props.schemata.descriptions[this.props.schemata.root_collection].human_readable;
             return (
-                <Panel id="scraping-form" header={title} bsStyle={"primary"} >
+                <Panel className="modal-container" id="scraping-form" header={title} bsStyle={"primary"} >
                     {downloadPDF}
-                    <Field ref="root" onChange={this._update} schemata={this.props.schemata} type={this.props.schemata.root_collection} fieldname={fieldname}/>
+                    <Field showModal={this._show_modal} hideModal={this._hide_modal} ref="root" onChange={this._update} schemata={this.props.schemata} type={this.props.schemata.root_collection} fieldname={fieldname}/>
+                    <Modal
+                        show={this.state.showModal}
+                        onHide={this._hide_modal}
+                        container={this}
+                        aria-labelledby="contained-modal-title" >
+                      <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title">{this.state.modal.title}</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        {this.state.modal.body}
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button onClick={this._hide_modal}>{Strings.CLOSE}</Button>
+                      </Modal.Footer>
+                    </Modal>
                 </Panel>
             );
         } else {

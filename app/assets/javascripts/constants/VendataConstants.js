@@ -66,7 +66,8 @@ module.exports = {
         CLEAR_DOC: null,
         RECEIVE_CLEAR_DOC: null,
         LOAD_CONSTANT_CLASS: null,
-        RECEIVE_CONSTANT_CLASS: null
+        RECEIVE_CONSTANT_CLASS: null,
+        CREATE_CONSTANT_CLASS: null
 
     }),
 
@@ -91,6 +92,7 @@ module.exports = {
         SUBMIT:                    "Enviar",
         DELETE:                    "Eliminar",
         ADD:                       "Agregar",
+        CLOSE:                     "Cerrar",
         PLACEHOLDER_TEXT:          "Introduzca el texto",
         PLACEHOLDER_EMAIL:         "Introduzca el correo electrónico",
         PLACEHOLDER_PASSWORD:      "Introduzca la contraseña",
@@ -100,6 +102,7 @@ module.exports = {
         HELP:                      "Ayuda",
         FAQ:                       "Preguntas Frecuentes",
         SUPPORT:                   "Soporte técnico",
+        CREATE_NEW:                "Crear nuevo",
 
         SCRAP_NEW:                 "Nuevo documento",
         VALIDATE_NEW:              "Validar nuevo",

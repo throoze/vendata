@@ -36,5 +36,12 @@ module.exports = {
             type: ActionTypes.LOAD_CONSTANT_CLASS
         });
         WebAPIUtils.loadConstantClass(classname);
+    },
+
+    createConstant: function(constant){
+        VendataAppDispatcher.handleViewAction({
+            type: ActionTypes.CREATE_CONSTANT_CLASS
+        });
+        WebAPIUtils.loadConstantClass(classname);
     }
 };
