@@ -21,7 +21,12 @@ test:
   database: db/test.sqlite3
 
 production:
-  host: localhost
-  database:  vendata_production
-  username: vendata
+  encoding: utf8
+  adapter: postgresql
+  database: vendata_production
+  pool: 5
+  timeout: 5000
+  host: <%= ENV['VENDATA_DATABASE_HOST'] %>
+  port: <%= ENV['VENDATA_DATABASE_PORT'] %>
+  username: <%= ENV['VENDATA_DATABASE_USER'] %>
   password: <%= ENV['VENDATA_DATABASE_PASSWORD'] %>
