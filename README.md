@@ -14,6 +14,23 @@ is the only one able to compile it.
 
 ## Install rbenv-vars
 
+```
+cd ~/.rbenv/plugins
+git clone https://github.com/sstephenson/rbenv-vars.git
+```
+
+## Install rbenv-sudo
+
+```
+$ git clone git://github.com/dcarley/rbenv-sudo.git ~/.rbenv/plugins/rbenv-sudo
+```
+
+Usage:  Prefix your use of sudo with the `rbenv` command:
+
+```
+$ rbenv sudo passenger-install-nginx-module
+```
+
 ## Getting Started
 
 - Clone this repository

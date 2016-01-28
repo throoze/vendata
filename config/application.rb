@@ -41,5 +41,8 @@ module Vendata
         config.email    = DOCUMENTCLOUD_EMAIL
         config.password = DOCUMENTCLOUD_PASSWORD
     end
+
+    # Avoid loading rails environment when precompiling assets
+    config.assets.initialize_on_precompile = false
   end
 end
