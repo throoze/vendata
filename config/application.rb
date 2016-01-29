@@ -1,26 +1,26 @@
 require File.expand_path('../boot', __FILE__)
 
-# Load the app's custom environment variables here, so that they are loaded before environments/*.rb
-app_environment_variables = File.join(Rails.root, 'config', 'app_environment_variables.rb')
-load(app_environment_variables) if File.exists?(app_environment_variables)
-
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-DOCUMENTCLOUD_EMAIL = ENV['DOCUMENTCLOUD_EMAIL']
-DOCUMENTCLOUD_PASSWORD = ENV['DOCUMENTCLOUD_PASSWORD']
-
-# puts "==================================="
-# puts "DOCUMENTCLOUD_EMAIL = #{DOCUMENTCLOUD_EMAIL}"
-# puts "DOCUMENTCLOUD_PASSWORD = #{DOCUMENTCLOUD_PASSWORD}"
-# puts "==================================="
-
 
 module Vendata
   class Application < Rails::Application
+    # Load the app's custom environment variables here, so that they are loaded before environments/*.rb
+    app_environment_variables = File.join(Rails.root, 'config', 'app_environment_variables.rb')
+    load(app_environment_variables) if File.exists?(app_environment_variables)
+
+    DOCUMENTCLOUD_EMAIL = ENV['DOCUMENTCLOUD_EMAIL']
+    DOCUMENTCLOUD_PASSWORD = ENV['DOCUMENTCLOUD_PASSWORD']
+
+    # puts "==================================="
+    # puts "DOCUMENTCLOUD_EMAIL = #{DOCUMENTCLOUD_EMAIL}"
+    # puts "DOCUMENTCLOUD_PASSWORD = #{DOCUMENTCLOUD_PASSWORD}"
+    # puts "==================================="
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
