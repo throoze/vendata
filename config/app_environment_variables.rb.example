@@ -1,0 +1,19 @@
+# Secret hash
+ENV['SECRET_KEY_BASE'] = your_generated_secret
+
+# Database
+ENV['VENDATA_DATABASE_HOST']     = prod_db_host
+ENV['VENDATA_DATABASE_PORT']     = prod_db_port
+ENV['VENDATA_DATABASE_USER']     = prod_db_user
+ENV['VENDATA_DATABASE_PASSWORD'] = prod_db_password
+
+# DocumentCloud authentication
+ENV['DOCUMENTCLOUD_EMAIL']    = 'your DocumentCloud email'
+ENV['DOCUMENTCLOUD_PASSWORD'] = 'your DocumentCloud password'
+
+# Debugging ExecJS
+# ENV['EXECJS_DEBUG'] = true
+
+# MongoDB password:
+ENV['VENDATA_MONGODB_USER']     = your_mongo_user
+ENV['VENDATA_MONGODB_PASSWORD'] = your_mongo_passwd
