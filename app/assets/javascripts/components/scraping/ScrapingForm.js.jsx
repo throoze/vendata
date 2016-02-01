@@ -30,12 +30,14 @@ var TextField = React.createClass({
         return this.state.value;
     },
 
+    validate: function() {/*NOOP*/},
+
     _setLabel: function() {
         var label = "";
         if (this.props.field.label !== null && this.props.field.label !== undefined) {
             label = this.props.field.label;
         } else {
-            label = Utils.labelify(this.props.fieldname);
+            label = Utils.labelify(this.props.fieldname.toString());
         }
         return label;
     },
@@ -49,15 +51,11 @@ var TextField = React.createClass({
     _getOptions: function() {
         if (this._hasOptions()){
             return this.props.field.options.map(function(opt){
-                return { value: opt , label: Utils.labelify(opt) };
+                return { value: opt , label: Utils.labelify(opt.toString()) };
             });
         } else {
             return null;
         }
-    },
-
-    _actually_update_it: function(){
-
     },
 
     _update: function (value) {
@@ -136,12 +134,23 @@ var DateField = React.createClass({
         return this.state.value;
     },
 
+    validate: function() {
+        var errors = [];
+        if (isNaN(this.state.value))
+            errors.push({
+                from: [Utils.labelify(this.props.fieldname.toString())],
+                error: Strings.ERROR_MUST_BE_DATE
+            });
+        if (errors.length > 0)
+            throw errors;
+    },
+
     _setLabel: function() {
         var label = "";
         if (this.props.field.label !== null && this.props.field.label !== undefined) {
             label = this.props.field.label;
         } else {
-            label = Utils.labelify(this.props.fieldname);
+            label = Utils.labelify(this.props.fieldname.toString());
         }
         return label;
     },
@@ -185,12 +194,23 @@ var NumberField = React.createClass({
         return this.state.value;
     },
 
+    validate: function() {
+        var errors = [];
+        if (isNaN(this.state.value))
+            errors.push({
+                from: [Utils.labelify(this.props.fieldname.toString())],
+                error: Strings.ERROR_MUST_BE_NUMBER
+            });
+        if (errors.length > 0)
+            throw errors;
+    },
+
     _setLabel: function() {
         var label = "";
         if (this.props.field.label !== null && this.props.field.label !== undefined) {
             label = this.props.field.label;
         } else {
-            label = Utils.labelify(this.props.fieldname);
+            label = Utils.labelify(this.props.fieldname.toString());
         }
         return label;
     },
@@ -231,12 +251,23 @@ var BooleanField = React.createClass({
         return this.state.value;
     },
 
+    validate: function() {
+        var errors = [];
+        if (this.state.value !== true && this.state.value !== false)
+            errors.push({
+                from: [Utils.labelify(this.props.fieldname.toString())],
+                error: Strings.ERROR_MUST_BE_BOOLEAN
+            });
+        if (errors.length > 0)
+            throw errors;
+    },
+
     _setLabel: function() {
         var label = "";
         if (this.props.field.label !== null && this.props.field.label !== undefined) {
             label = this.props.field.label;
         } else {
-            label = Utils.labelify(this.props.fieldname);
+            label = Utils.labelify(this.props.fieldname.toString());
         }
         return label;
     },
@@ -288,6 +319,29 @@ var ListField = React.createClass({
         return this.state.value;
     },
 
+    validate: function() {
+        var self = this;
+        var errors = [];
+        var fieldname = this.props.fieldname;
+        this.state.value.forEach( function(element, index) {
+            try {
+                if (element)
+                    self.refs["field-"+index].validate();
+            } catch(e) {
+                errors = errors.concat(e);
+            }
+        });
+        if (errors.length > 0) {
+            errors.map(function(element){
+                var from = element.from; 
+                from.unshift(Utils.labelify(fieldname.toString()));
+                return from;
+            });
+        }
+        if (errors.length > 0)
+            throw errors;
+    },
+
     _delete_element: function(index){
         var callback = this.props.onChange;
         if (this.state.value.length > 1) {
@@ -320,7 +374,7 @@ var ListField = React.createClass({
         return (
             <div className="fields-container" key={fieldname+"-container-"+index.toString()}>
                 <label key={fieldname+"-label-"+index.toString()}>{index+1}</label>
-                <Field {...this.props} value={this.state.value[index]} onChange={this._update_element(index)} showLabel={false} extra={extra} ref={"field-"+index.toString()} key={fieldname+"-field-"+index.toString()} fieldname={null}/>
+                <Field {...this.props} value={this.state.value[index]} onChange={this._update_element(index)} showLabel={false} extra={extra} ref={"field-"+index.toString()} key={fieldname+"-field-"+index.toString()} fieldname={index}/>
             </div>
             );
     },
@@ -338,7 +392,7 @@ var ListField = React.createClass({
         var counter = -1;
         var showLabel = null;
         if (this.props.showLabel)
-            showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
+            showLabel = <label>{Utils.labelify(this.props.fieldname.toString())}</label>;
         return (
             <Panel>
                 {showLabel}
@@ -376,10 +430,28 @@ var AbstractEntity = React.createClass({
         }
     },
 
-    getValue: function(){
+    getValue: function() {
         var value = this.state.value;
         $.extend(value, {classname: this.props.entity});
         return value;
+    },
+
+    validate: function() {
+        var errors = [];
+        if (!this.state.entity_chosen)
+            errors.push({
+                from: [Utils.labelify(this.props.fieldname.toString())],
+                error: Strings.ERROR_SELECT_ENTITY
+            });
+        try {
+            if (this.refs.field)
+                this.refs.field.validate();
+        } catch(e) {
+            errors = errors.concat(e);
+        } finally {
+            if (errors.length > 0)
+                throw errors;
+        }
     },
 
     _chooseAlternative: function(value) {
@@ -405,7 +477,7 @@ var AbstractEntity = React.createClass({
         var schemata = this.props.schemata;
         var entity = null;
         if (this.state.entity_chosen){
-            entity = (<Entity {...this.props} type={this.state.entity} fieldname={null} ref="field" onChange={this._update} extra={null} />);
+            entity = (<Entity {...this.props} type={this.state.entity} ref="field" onChange={this._update} extra={null} />);
         }
         options = alternatives.map(function(alt){
                     var msg = schemata.descriptions[alt].human_readable;
@@ -413,7 +485,7 @@ var AbstractEntity = React.createClass({
                 });
         var showLabel = null;
         if (this.props.showLabel)
-            showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
+            showLabel = <label>{Utils.labelify(this.props.fieldname.toString())}</label>;
         return (
             <Panel>
                 {showLabel}
@@ -458,6 +530,8 @@ var Constant = React.createClass({
         return value;
     },
 
+    validate: function() {/*NOOP*/},
+
     _update: function(value){
         this.setState({ value: value }, this.props.onChange);
     },
@@ -468,18 +542,15 @@ var Constant = React.createClass({
             var constant = self.refs.constant.getValue();
             console.log("Creating constant...",constant);
         };
-        var title = Strings.CREATE_NEW + " " + Utils.labelify(this.props.fieldname);
-        var body = [
-            <ConstantCreator {...this.props} ref="constant"/>,
-            <Button bsStyle="success" onClick={submit}>{Strings.SUBMIT}</Button>
-            ];
+        var title = Strings.CREATE_NEW + " " + Utils.labelify(this.props.fieldname.toString());
+        var body = (<ConstantCreator {...this.props}/>);
         this.props.showModal(title, body);
     },
 
     render: function() {
         var showLabel = null;
         if (this.props.showLabel)
-            showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
+            showLabel = <label>{Utils.labelify(this.props.fieldname.toString())}</label>;
         return (
             <Panel>
                 {showLabel}
@@ -519,13 +590,6 @@ var ConstantCreator = React.createClass({
         var value = this.state.value;
         $.extend(value, {classname: this.props.type});
         return value;
-    },
-
-    componentWillMount: function(){
-        if (this.props.value !== null && this.props.value !== undefined){
-            if (typeof this.props.value === 'object')
-                this.setState({ value: this.props.value });
-        }
     },
 
     _findSchema: function(props) {
@@ -571,6 +635,59 @@ var ConstantCreator = React.createClass({
         this.setState({ value: value }, callback);
     },
 
+    _submit: function(event){
+        var self = this;
+        var errors = [];
+        var schema = this._findSchema(this.props);
+        var fields = Object.keys(schema.fields);
+        var fieldname = this.props.fieldname;
+        fields.forEach( function(element, index) {
+            try {
+                self.refs[element].validate();
+            } catch(e) {
+                errors = errors.concat(e);
+            }
+        });
+        if (errors.length > 0) {
+            errors.map(function(element){
+                var from = element.from; 
+                from.unshift(Utils.labelify(fieldname.toString()));
+                return from;
+            });
+        }
+        if (errors.length > 0) {
+            var formatted_errors = Utils.reformat(errors); 
+            var message = []; 
+            Object.keys(formatted_errors).forEach( function(element, index) {
+                if (formatted_errors.hasOwnProperty(element))
+                    message.push(
+                        <div key={"error-"+index}>
+                            <label>{element}</label><br/>
+                            {formatted_errors[element].map(function(error, i){
+                                return (
+                                    <div className="indented" key={"error-div-"+i}>
+                                        {error}
+                                    </div>
+                                    );
+                            })}
+                        </div>
+                        );
+            });
+            this.props.notificationSystem.addNotification({
+                title: Strings.ERROR_FORM,
+                message: message,
+                position: 'tc',
+                level: 'error'
+            });
+        } else {
+            this.props.notificationSystem.addNotification({
+                message: 'Form Successfully Validated!',
+                position: 'tc',
+                level: 'success'
+            });
+        }
+    },
+
     render: function() {
         var type = this.props.type;
         var schema = this._findSchema(this.props);
@@ -592,7 +709,7 @@ var ConstantCreator = React.createClass({
         }
         fields.sort();
         if (this.props.showLabel) {
-            showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
+            showLabel = <label>{Utils.labelify(this.props.fieldname.toString())}</label>;
         } else {
             childrenShowLabel = true;
         }
@@ -610,9 +727,11 @@ var ConstantCreator = React.createClass({
                            ref={field}
                            extra={null}
                            showLabel={childrenShowLabel}
+                           value={self.state.value? self.state.value[field] : undefined}
                            onChange={self._update}/>
                     );
                 })}
+                <Button bsStyle="success" onClick={this._submit}>{Strings.SUBMIT}</Button>
                 {this.props.extra}
             </Panel>
             );
@@ -639,6 +758,38 @@ var Entity = React.createClass({
         if(!this._is_abstract_or_constant())
             $.extend(value, {classname: this.props.type});
         return value;
+    },
+
+    validate: function() {
+        var self = this;
+        var errors = [];
+        var schema = this._findSchema(this.props);
+        var fields = Object.keys(schema.fields);
+        var fieldname = this.props.fieldname;
+        if (this._is_abstract_or_constant()) {
+            try {
+                this.refs.entity.validate();
+            } catch(e) {
+                errors = errors.concat(e);
+            }
+        } else {
+            fields.forEach( function(element, index) {
+                try {
+                    self.refs[element].validate();
+                } catch(e) {
+                    errors = errors.concat(e);
+                }
+            });
+            if (errors.length > 0) {
+                errors.map(function(element){
+                    var from = element.from;
+                    from.unshift(Utils.labelify(fieldname.toString()));
+                    return from;
+                });
+            }
+        }
+        if (errors.length > 0)
+            throw errors;
     },
 
     componentWillMount: function(){
@@ -735,7 +886,7 @@ var Entity = React.createClass({
                 }
                 fields.sort();
                 if (this.props.showLabel) {
-                    showLabel = <label>{Utils.labelify(this.props.fieldname)}</label>;
+                    showLabel = <label>{Utils.labelify(this.props.fieldname.toString())}</label>;
                 } else {
                     childrenShowLabel = true;
                 }
@@ -745,6 +896,7 @@ var Entity = React.createClass({
                         {fields.map(function(field){
                             return (
                                 <Field {...self.props}
+                                   value={self.state.value? self.state.value[field] : undefined} 
                                    key={type+"-"+field}
                                    type={schema.fields[field].type}
                                    fieldname={field}
@@ -780,6 +932,30 @@ var Field = React.createClass({
 
     getValue: function() {
         return this.state.value;
+    },
+
+    validate: function() {
+        var errors = [];
+        if (!this.props.field.nullable)
+            if (this.state.value === null)
+                errors.push({
+                    from: [Utils.labelify(this.props.fieldname.toString())],
+                    error: Strings.ERROR_NULL_FIELD
+                });
+        if (!this.props.field.blank)
+            if (this.state.value === "")
+                errors.push({
+                    from: [Utils.labelify(this.props.fieldname.toString())],
+                    error: Strings.ERROR_EMPTY_FIELD
+                });
+        try {
+            this.refs.field.validate();
+        } catch(e) {
+            errors = errors.concat(e);
+        }
+        if (errors.length > 0)
+            throw errors;
+        
     },
 
     _update: function() {
@@ -879,6 +1055,42 @@ var ScrapingForm = React.createClass({
         });
     },
 
+    _submit: function() {
+        try {
+            this.refs.root.validate();
+            this.props.notificationSystem.addNotification({
+                message: 'Form Successfully Validated!',
+                position: 'tc',
+                level: 'success'
+            });
+        } catch(errors) {
+            var formatted_errors = Utils.reformat(errors); 
+            var message = []; 
+            Object.keys(formatted_errors).forEach( function(element, index) {
+                if (formatted_errors.hasOwnProperty(element))
+                    message.push(
+                        <div key={"error-"+index}>
+                            <label>{element}</label><br/>
+                            {formatted_errors[element].map(function(error, i){
+                                return (
+                                    <div className="indented" key={"error-div-"+i}>
+                                        {error}
+                                    </div>
+                                    );
+                            })}
+                        </div>
+                        );
+            });
+            this.props.notificationSystem.addNotification({
+                title: Strings.ERROR_FORM,
+                message: message,
+                autoDismiss: 0,
+                position: 'tc',
+                level: 'error'
+            });
+        }
+    },
+
     render: function(){
         var downloadPDF = null;
         if (this.state.doc !== null){
@@ -898,7 +1110,7 @@ var ScrapingForm = React.createClass({
             return (
                 <Panel className="modal-container" id="scraping-form" header={title} bsStyle={"primary"} >
                     {downloadPDF}
-                    <Field showModal={this._show_modal} hideModal={this._hide_modal} ref="root" onChange={this._update} schemata={this.props.schemata} type={this.props.schemata.root_collection} fieldname={fieldname}/>
+                    <Field {...this.props} showModal={this._show_modal} hideModal={this._hide_modal} ref="root" onChange={this._update} schemata={this.props.schemata} type={this.props.schemata.root_collection} fieldname={fieldname} field={{}}/>
                     <Modal
                         show={this.state.showModal}
                         onHide={this._hide_modal}
@@ -914,6 +1126,7 @@ var ScrapingForm = React.createClass({
                         <Button onClick={this._hide_modal}>{Strings.CLOSE}</Button>
                       </Modal.Footer>
                     </Modal>
+                    <Button bsStyle="success" onClick={this._submit}>{Strings.SUBMIT}</Button>
                 </Panel>
             );
         } else {

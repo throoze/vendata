@@ -126,7 +126,16 @@ module.exports = {
         NICKNAME:                  "Nickname",
         EMAIL:                     "Email",
         UPDATE_ACTION:             "Actualizar Informacion",
-        CREATE_ACTION:             "Crear Usuario"
+        CREATE_ACTION:             "Crear Usuario",
+
+        ERROR_FORM:                "Errores al procesar el formulario!",
+        ERROR_NULL_FIELD:          "Este campo no debe ser nulo",
+        ERROR_EMPTY_FIELD:         "Este campo no debe estar vacío",
+        ERROR_MUST_BE_BOOLEAN:     "Este campo debe ser o verdadero o false",
+        ERROR_MUST_BE_NUMBER:      "Este campo debe ser un número",
+        ERROR_MUST_BE_STRING:      "Este campo debe ser un texto",
+        ERROR_MUST_BE_DATE:        "Este campo debe ser una fecha",
+        ERROR_SELECT_ENTITY:       "Debe seleccionar la entidad a vaciar"
     },
 
     Utils: {
@@ -148,6 +157,31 @@ module.exports = {
                     return word.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
                 }).join(" ");
             } else { return null; }
+        },
+
+        reformat: function(errorList){
+            var pre_formatted_errors = errorList.map(function(error, i){
+                var from = error.from.reduce(function(prev, nex){
+                    var previous = prev;
+                    var next = nex;
+                    if (!isNaN(previous)){
+                        previous = (Number(prev)+1).toString();
+                    }
+                    if (!isNaN(next)){
+                        next = (Number(nex)+1).toString();
+                    }
+                    return previous+" -> "+next;
+                });
+                error.from = from;
+                return error;
+            });
+            var formatted_errors = {};
+            pre_formatted_errors.forEach( function(element, index) {
+                if (!formatted_errors[element.from])
+                    formatted_errors[element.from] = [];
+                formatted_errors[element.from] = formatted_errors[element.from].concat(element.error);
+            });
+            return formatted_errors;
         }
     }
 };

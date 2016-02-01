@@ -58,6 +58,9 @@ Schema.create([
             "CreacionDeOrganismoPublico"
         ],
         descriptions: {
+            # Defaults field options:
+            # blank: false
+            # nullable: false
             Documento: {
                 classname: "Documento",
                 human_readable: "Documento",
@@ -182,10 +185,7 @@ Schema.create([
                 human_readable: "Organismo Internacional",
                 constant: true,
                 abstract: false,
-                fields: {
-                    nombre: { type: "string" },
-                    acronimo: { type: "string" }
-                }
+                extends: ["Institucion"]
             },
             Ciudadano: {
                 classname: "Ciudadano",
@@ -220,7 +220,7 @@ Schema.create([
                 human_readable: "Institucion",
                 fields: {
                     nombre: { type: "string" },
-                    acronimo: { type: "string" }
+                    acronimo: { type: "string", nullable: true, blank: true }
                 }
             },
             Organismo: {
@@ -230,10 +230,7 @@ Schema.create([
                 abstract: false,
                 extends: ["Institucion"],
                 fields: {
-                    depende_de: {
-                        type: "Organismo",
-                        nullable: true
-                    }
+                    depende_de: { type: "Organismo", nullable: true }
                 }
             },
             Empresa: {
@@ -260,17 +257,11 @@ Schema.create([
                 abstract: false,
                 extends: ["Empresa", "Institucion"],
                 fields: {
-                    capital_inicial: { type: "number" },
+                    capital_inicial: { type: "number", nullable: true },
                     duracion: { type: "string" },
-                    accionista_de: { type: "[Empresa]" },
-                    adscrita_a: {
-                        type: "Organismo",
-                        nullable: true
-                    },
-                    filial_de: {
-                        type: "Institucion",
-                        nullable: true
-                    }
+                    accionista_de: { type: "[Empresa]", nullable: true },
+                    adscrita_a: { type: "Organismo", nullable: true },
+                    filial_de: { type: "Institucion", nullable: true }
                 }
             },
             CuerpoPolicial: {
@@ -353,9 +344,7 @@ Schema.create([
                     cargo: { type: "Cargo" },
                     fecha_fin: {
                         type: "date",
-                        constraints: {
-                            nullable: "this.status == 'encargado'",
-                        }
+                        nullable: [ "status", "==", "encargado" ]
                     }
                 }
             },
@@ -381,7 +370,7 @@ Schema.create([
                 fields: {
                     beneficiario: { type: "Institucion" },
                     monto: { type: "number" },
-                    destino: {type: "string" }
+                    destino: { type: "string" }
                 }
             },
             AscensoMilitar: {
@@ -395,10 +384,7 @@ Schema.create([
                     graduacion: { type: "boolean" },
                     rango_nuevo: { type: "Rango" },
                     rango_anterior: { type: "Rango" },
-                    promocion: {
-                        type: "string",
-                        nullable: true
-                    },
+                    promocion: { type: "string", nullable: true },
                     componente_militar: {
                         type: "string",
                         options: [
@@ -526,6 +512,7 @@ Schema.create([
                     },
                     contenido: {
                         type: "string",
+                        nullable: true,
                         blank: true
                     }
                 }
@@ -760,6 +747,258 @@ Schema.create([
     }
 ])
 
+Constant.create([
+    #############################
+    ## PAISES Y NACIONALIDADES ##
+    #############################
+    { classname: "Pais", nombre: "Venezuela", nacionalidad: "Venezolana"},
+    { classname: "Nacionalidad", nacionalidad: "Venezolana", pais: "Venezuela"},
+    { classname: "Pais", nombre: "Brasil", nacionalidad: "Brasileña"},
+    { classname: "Nacionalidad", nacionalidad: "Brasileña", pais: "Brasil"},
+    { classname: "Pais", nombre: "Colombia", nacionalidad: "Colombiana"},
+    { classname: "Nacionalidad", nacionalidad: "Colombiana", pais: "Colombia"},
+    { classname: "Pais", nombre: "Argentina", nacionalidad: "Argentina"},
+    { classname: "Nacionalidad", nacionalidad: "Argentina", pais: "Argentina"},
+    { classname: "Pais", nombre: "Cuba", nacionalidad: "Cubana"},
+    { classname: "Nacionalidad", nacionalidad: "Cubana", pais: "Cuba"},
+    { classname: "Pais", nombre: "Estados Unidos de América", nacionalidad: "Estadounidense"},
+    { classname: "Nacionalidad", nacionalidad: "Estadounidense", pais: "Estados Unidos de América"},
+    { classname: "Pais", nombre: "Ecuador", nacionalidad: "Ecuatoriana"},
+    { classname: "Nacionalidad", nacionalidad: "Ecuatoriana", pais: "Ecuador"},
+    { classname: "Pais", nombre: "Perú", nacionalidad: "Peruana"},
+    { classname: "Nacionalidad", nacionalidad: "Peruana", pais: "Perú"},
+    { classname: "Pais", nombre: "Uruguay", nacionalidad: "Uruguaya"},
+    { classname: "Nacionalidad", nacionalidad: "Uruguaya", pais: "Uruguay"},
+    { classname: "Pais", nombre: "El Salvador", nacionalidad: "Salvadoreña"},
+    { classname: "Nacionalidad", nacionalidad: "Salvadoreña", pais: "El Salvador"},
+    { classname: "Pais", nombre: "España", nacionalidad: "Española"},
+    { classname: "Nacionalidad", nacionalidad: "Española", pais: "España"},
+    { classname: "Pais", nombre: "Chile", nacionalidad: "Chilena"},
+    { classname: "Nacionalidad", nacionalidad: "Chilena", pais: "Chile"},
+    { classname: "Pais", nombre: "Bolivia", nacionalidad: "Boliviana"},
+    { classname: "Nacionalidad", nacionalidad: "Boliviana", pais: "Bolivia"},
+    { classname: "Pais", nombre: "Honduras", nacionalidad: "Hondureña"},
+    { classname: "Nacionalidad", nacionalidad: "Hondureña", pais: "Honduras"},
+    { classname: "Pais", nombre: "Guatemala", nacionalidad: "Guatemalteca"},
+    { classname: "Nacionalidad", nacionalidad: "Guatemalteca", pais: "Guatemala"},
+    { classname: "Pais", nombre: "Paraguay", nacionalidad: "Paraguaya"},
+    { classname: "Nacionalidad", nacionalidad: "Paraguaya", pais: "Paraguay"},
+    { classname: "Pais", nombre: "China", nacionalidad: "China"},
+    { classname: "Nacionalidad", nacionalidad: "China", pais: "China"},
+    { classname: "Pais", nombre: "Rusia", nacionalidad: "Rusa"},
+    { classname: "Nacionalidad", nacionalidad: "Rusa", pais: "Rusia"},
+    { classname: "Pais", nombre: "Bielorrusia", nacionalidad: "Bielorrusa"},
+    { classname: "Nacionalidad", nacionalidad: "Bielorrusa", pais: "Bielorrusia"},
+    { classname: "Pais", nombre: "Iran", nacionalidad: "Iraní"},
+    { classname: "Nacionalidad", nacionalidad: "Iraní", pais: "Iran"},
+    { classname: "Pais", nombre: "México", nacionalidad: "Mexicana"},
+    { classname: "Nacionalidad", nacionalidad: "Mexicana", pais: "México"},
+    #########################################
+    ## INSTITUCIONES Y ORGANISMOS PÚBLICOS ##
+    #########################################
+    { classname: "Organismo", nombre: "Alcaldía Bolivariana del Municipio San Juaquín" },
+    { classname: "Organismo", nombre: "Alcaldía Bolivariana Municipio Los Taques" },
+    { classname: "Organismo", nombre: "Alcaldía del Distrito Metropolitano de Caracas" },
+    { classname: "Organismo", nombre: "Alcaldía del Municipio de Valencia" },
+    { classname: "Organismo", nombre: "Alcaldía Socialista del Municipio Guacara" },
+    { classname: "Organismo", nombre: "Asamblea Constituyente de los Estados Unidos de Venezuela" },
+    { classname: "Organismo", nombre: "Asamblea Nacional", acronimo: "AN" },
+    { classname: "Organismo", nombre: "Banco Central de Venezuela", acronimo: "BCV"},
+    { classname: "Organismo", nombre: "Comisión de Funcionamiento y Reestructuración del Sistema Judicial" },
+    { classname: "Organismo", nombre: "Comisión Legislativa" },
+    { classname: "Organismo", nombre: "Congreso de los Estados Unidos de Venezuela" },
+    { classname: "Organismo", nombre: "Congreso Nacional de la República de Venezuela" },
+    { classname: "Organismo", nombre: "Consejo de la Judicatura" },
+    { classname: "Organismo", nombre: "Consejo de Ministras y Ministros Revolucionarios del Gobierno Bolivariano" },
+    { classname: "Organismo", nombre: "Consejo Federal de Gobierno" },
+    { classname: "Organismo", nombre: "Consejo Nacional Electoral", acronimo: "CNE" },
+    { classname: "Organismo", nombre: "Consejo Supremo Electoral" },
+    { classname: "Organismo", nombre: "Contraloría General de la Fuerza Armada Nacional Bolivariana" },
+    { classname: "Organismo", nombre: "Contraloría General de la República" },
+    { classname: "Organismo", nombre: "Contraloría Municipal del estado Guárico" },
+    { classname: "Organismo", nombre: "Corporación para la recuperación y desarrollo del estado Vargas", acronimo: "CORPOVARGAS" },
+    { classname: "Organismo", nombre: "Corte Suprema de Justicia" },
+    { classname: "Organismo", nombre: "Defensa Pública" },
+    { classname: "Organismo", nombre: "Defensoría del Pueblo" },
+    { classname: "Organismo", nombre: "Dirección Ejecutiva de la Magistratura" },
+    { classname: "Organismo", nombre: "Federación de Colegios de Abogados de Venezuela" },
+    { classname: "Organismo", nombre: "Federación Médica Venezolana" },
+    { classname: "Organismo", nombre: "Fiscalía General de la República" },
+    { classname: "Organismo", nombre: "Gobernación del Estado Barinas" },
+    { classname: "Organismo", nombre: "Gobernación del Estado Falcón" },
+    { classname: "Organismo", nombre: "Gobierno de la República de Venezuela" },
+    { classname: "Organismo", nombre: "Gobierno del Distrito Federal" },
+    { classname: "Organismo", nombre: "Jefatura de Gobierno Territorio Insular Francisco de Miranda" },
+    { classname: "Organismo", nombre: "Junta Revolucionaria de Gobierno de los Estados Unidos de Venezuela" },
+    { classname: "Organismo", nombre: "Juzgados" },
+    { classname: "Organismo", nombre: "La Asamblea Nacional Constituyente" },
+    { classname: "Organismo", nombre: "La Asamblea Nacional Constituyente de los Estados Unidos de Venezuela" },
+    { classname: "Organismo", nombre: "La Junta de Gobierno de la República de Venezuela" },
+    { classname: "Organismo", nombre: "La Junta Militar de Gobierno de los Estados Unidos de Venezuela" },
+    { classname: "Organismo", nombre: "Ministerio de Agricultura y Cría" },
+    { classname: "Organismo", nombre: "Ministerio de Agricultura y Tierra" },
+    { classname: "Organismo", nombre: "Ministerio de Alimentación" },
+    { classname: "Organismo", nombre: "Ministerio de Ciencia y Tecnología" },
+    { classname: "Organismo", nombre: "Ministerio de Comunicación e Información" },
+    { classname: "Organismo", nombre: "Ministerio de Comunicaciones" },
+    { classname: "Organismo", nombre: "Ministerio de Educación" },
+    { classname: "Organismo", nombre: "Ministerio de Educación Superior" },
+    { classname: "Organismo", nombre: "Ministerio de Educación y Deportes" },
+    { classname: "Organismo", nombre: "Ministerio de Educación, Cultura y Deportes" },
+    { classname: "Organismo", nombre: "Ministerio de Energía y Minas" },
+    { classname: "Organismo", nombre: "Ministerio de Energía y Petróleo" },
+    { classname: "Organismo", nombre: "Ministerio de Estado para Asuntos de la Mujer" },
+    { classname: "Organismo", nombre: "Ministerio de Estado para el Desarrollo de la Economía Social" },
+    { classname: "Organismo", nombre: "Ministerio de Finanzas" },
+    { classname: "Organismo", nombre: "Ministerio de Fomento" },
+    { classname: "Organismo", nombre: "Ministerio de Hacienda" },
+    { classname: "Organismo", nombre: "Ministerio de Industria y Comercio" },
+    { classname: "Organismo", nombre: "Ministerio de Industrias Básicas y Minería" },
+    { classname: "Organismo", nombre: "Ministerio de Industrias Ligeras y Comercio" },
+    { classname: "Organismo", nombre: "Ministerio de Infraestructura" },
+    { classname: "Organismo", nombre: "Ministerio de Justicia" },
+    { classname: "Organismo", nombre: "Ministerio de la Cultura" },
+    { classname: "Organismo", nombre: "Ministerio de la Defensa" },
+    { classname: "Organismo", nombre: "Ministerio de la Familia" },
+    { classname: "Organismo", nombre: "Ministerio de la Juventud" },
+    { classname: "Organismo", nombre: "Ministerio de la Producción y el Comercio" },
+    { classname: "Organismo", nombre: "Ministerio de la Secretaría de la Presidencia" },
+    { classname: "Organismo", nombre: "Ministerio de Minas e Hidrocarburos" },
+    { classname: "Organismo", nombre: "Ministerio de Participación Popular y Desarrollo Social" },
+    { classname: "Organismo", nombre: "Ministerio de Planificación y Desarrollo" },
+    { classname: "Organismo", nombre: "Ministerio de Relaciones Exteriores" },
+    { classname: "Organismo", nombre: "Ministerio de Relaciones Interiores" },
+    { classname: "Organismo", nombre: "Ministerio de Salud" },
+    { classname: "Organismo", nombre: "Ministerio de Salud y Desarrollo Social" },
+    { classname: "Organismo", nombre: "Ministerio de Sanidad y Asistencia Social" },
+    { classname: "Organismo", nombre: "Ministerio de Sanidad y Asistencia Social y del Ambiente y los Recursos Naturales Renovables" },
+    { classname: "Organismo", nombre: "Ministerio de Transporte y Comunicaciones" },
+    { classname: "Organismo", nombre: "Ministerio de Turismo" },
+    { classname: "Organismo", nombre: "Ministerio del Ambiente y de los Recursos Naturales" },
+    { classname: "Organismo", nombre: "Ministerio del Ambiente y de los Recursos Naturales Renovables" },
+    { classname: "Organismo", nombre: "Ministerio del Desarrollo Urbano" },
+    { classname: "Organismo", nombre: "Ministerio del Despacho de la Presidencia" },
+    { classname: "Organismo", nombre: "Ministerio del Interior y Justicia" },
+    { classname: "Organismo", nombre: "Ministerio del Trabajo" },
+    { classname: "Organismo", nombre: "Ministerio del Trabajo y Seguridad Social" },
+    { classname: "Organismo", nombre: "Ministerio para la Economía Popular" },
+    { classname: "Organismo", nombre: "Ministerio para la Vivienda y el Hábitat" },
+    { classname: "Organismo", nombre: "Ministerio Público" },
+    { classname: "Organismo", nombre: "Ministerio de Estado para la Transformación Revolucionaria de la Gran Caracas" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular de Economía y Finanzas" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular de Economía, Finanzas y Banca Pública" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Banca y Finanzas" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular de Finanzas" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular de Industrias" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular de Planificación" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular de Planificación y Finanzas" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular del Despacho de la Presidencia" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular del Despacho de la Presidencia y Seguimiento de la Gestión de  Gobierno" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Relaciones Interiores y Paz" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Ciencia y Tecnología" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Ciencia, Tecnología e Industrias Intermedias" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Ciencia, Tecnología e Innovación" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Ecosocialismo, Vivienda y Hábitat" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Educación Universitaria, Ciencia y Tecnología" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para el Ambiente" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para el Comercio" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para el Deporte" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para el Servicio Penitenciario" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para el Trabajo y Seguridad Laborales" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para el Trabajo y Seguridad Social" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para el Turismo" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para el Proceso Social de Trabajo" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Agricultura y Tierras" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Agricultura y Tierras, para la Defensa y para la Alimentación" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Alimentación" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Comunicación y la Información" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Cultura" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Defensa" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Economía Comunal" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Economía Popular" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Economía y Finanzas" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Educación" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Educación Superior" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Educación Universitaria" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Educación y para el Deporte" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Energía Eléctrica" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Energía y Petróleo" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Infraestructura" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Juventud" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Juventud y el Deporte" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Mujer y la Igualdad de Género" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Participación y el Desarrollo Social" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Participación y Protección Social" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Planificación y Desarrollo" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Salud" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Salud y Protección Social" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Vivienda y Hábitat" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para las Comunas" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para las Comunas y los Movimientos Sociales" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para las Comunas y Protección Social" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para las Finanzas" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para las Industrias Básicas y Minería" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para las Industrias Ligeras y Comercio" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para las Obras Públicas y Vivienda" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para las Telecomunicaciones y la Informática" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para los Pueblos Indígenas" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Petróleo y Minería" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Relaciones Exteriores" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Relaciones Interiores y Justicia" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Relaciones Interiores, Justicia y Paz" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Transporte Acuático y Aéreo" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Transporte Terrestre" },
+    { classname: "Organismo", nombre: "Ministerio del Poder popular para Transporte Terrestre y Obras Públicas" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Transporte y Comunicaciones" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Vivienda, Hábitat y el Ecosocialismo" },
+    { classname: "Organismo", nombre: "Viceministerio para la Suprema Felicidad Social del Pueblo" },
+    { classname: "Organismo", nombre: "Parlamento Andino" },
+    { classname: "Organismo", nombre: "Parlamento Indígena de América" },
+    { classname: "Organismo", nombre: "Parlamento Latinoamericano" },
+    { classname: "Organismo", nombre: "Poder Ciudadano" },
+    { classname: "Organismo", nombre: "Presidencia de la República Bolivariana de Venezuela" },
+    { classname: "Organismo", nombre: "Presidencia de la República de los Estados Unidos de Venezuela" },
+    { classname: "Organismo", nombre: "Presidencia de la República de Venezuela" },
+    { classname: "Organismo", nombre: "Procuraduría General de la República" },
+    { classname: "Organismo", nombre: "Región Estratégica de Desarrollo Integral de la Zona Marítima y Espacios Insulares" },
+    { classname: "Organismo", nombre: "República Bolivariana de Venezuela" },
+    { classname: "Organismo", nombre: "Secretaría de la Presidencia" },
+    { classname: "Organismo", nombre: "Territorio Insular Francisco de Miranda" },
+    { classname: "Organismo", nombre: "Televisora Venezolana Social", acronimo: "TVES" },
+    { classname: "Organismo", nombre: "Tribunal Supremo de Justicia" },
+    { classname: "Organismo", nombre: "Vicepresidencia de la República Bolivariana de Venezuela" },
+    { classname: "Organismo", nombre: "Vicepresidencia de la República Región Estratégica de Desarrollo Integral Occidental" },
+    { classname: "Organismo", nombre: "Vicepresidencia de la República" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para la Economía Productiva" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular  para la Producción Agrícola y Tierras" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para  Agricultura Urbana y Rural" },
+    { classname: "Organismo", nombre: "Ministerio del Poder Popular para Comercio Exterior e Inversión Extranjera" },
+    { classname: "Organismo", nombre: "Junta Nacional Protectora y Conservadora del Patrimonio Histórico y Artístico de la Nación", depende_de: "Gobierno del Distrito Federal" },
+    { classname: "Organismo", nombre: "Consejo Nacional de Universidades", acronimo: "CNU", depende_de: "Ministerio de Educación Superior" },
+    { classname: "Organismo", nombre: "Comisión Nacional de Valores", depende_de: "Ministerio de Finanzas" },
+    { classname: "Organismo", nombre: "Comisión de Administración de Divisas", acronimo: "CADIVI", depende_de: "Ministerio del Poder Popular de Economía y Finanzas" },
+    { classname: "Organismo", nombre: "Servicio Nacional Integrado de Administración Aduanera y Tributaria", acronimo: "SENIAT", depende_de: "Ministerio del Poder Popular para la Banca y Finanzas" },
+    { classname: "Organismo", nombre: "Superintendencia Nacional de Valores", acronimo: "SUNAVAL", depende_de: "Ministerio del Poder Popular para la Banca y Finanzas" },
+    { classname: "Organismo", nombre: "Fondo de Garantía de Depósitos y Protección Bancaria", acronimo: "Fogade", depende_de: "Ministerio del Poder Popular para la Banca y Finanzas" },
+    { classname: "Organismo", nombre: "Instituto Autónomo Consejo Nacional de Derechos de Niños, Niñas y Adolescentes", acronimo: "IDENNA", depende_de: "Ministerio del Poder Popular del Despacho de la Presidencia y Seguimiento de la Gestión de  Gobierno" },
+    { classname: "Organismo", nombre: "Instituto Nacional de Deportes", acronimo: "IND", depende_de: "Ministerio del Poder Popular para el Deporte" },
+    { classname: "Organismo", nombre: "Instituto Nacional de Prevención, Salud y Seguridad Laborales", acronimo: "INPSASEL", depende_de: "Ministerio del Poder Popular para el Proceso Social de Trabajo" },
+    { classname: "Organismo", nombre: "Instituto Nacional de Investigaciones Agrícolas", acronimo: "INIA", depende_de: "Ministerio del Poder Popular para la Agricultura y Tierras" },
+    { classname: "Organismo", nombre: "Instituto Socialista de la Pesca y Acuicultura", acronimo: "INSOPESCA", depende_de: "Ministerio del Poder Popular para la Agricultura y Tierras" },
+    { classname: "Organismo", nombre: "Servicio Autónomo de Sanidad Agropecuaria", acronimo: "SASA", depende_de: "Ministerio del Poder Popular para la Agricultura y Tierras" },
+    { classname: "Organismo", nombre: "Corporación Venezolana Agraria", acronimo: "CVA", depende_de: "Ministerio del Poder Popular para la Alimentación" },
+    { classname: "Organismo", nombre: "Comisión Nacional de Telecomunicaciones", acronimo: "CONATEL", depende_de: "Ministerio del Poder Popular para la Comunicación y la Información" },
+    { classname: "Organismo", nombre: "Instituto de las Artes Escénicas y Musicales", acronimo: "IAEM", depende_de: "Ministerio del Poder Popular para la Cultura" },
+    { classname: "Organismo", nombre: "Instituto de las Artes de la Imagen y el Espacio", acronimo: "IARTES", depende_de: "Ministerio del Poder Popular para la Cultura" },
+    { classname: "Organismo", nombre: "Instituto Nacional de Capacitación y Educación", acronimo: "INCE", depende_de: "Ministerio del Poder Popular para la Economía Comunal" },
+    { classname: "Organismo", nombre: "Superintendencia de Seguros", acronimo: "SUDESEG", depende_de: "Ministerio del Poder Popular para la Economía y Finanzas" },
+    { classname: "Organismo", nombre: "Oficina Nacional de Presupuesto", acronimo: "ONAPRE", depende_de: "Ministerio del Poder Popular para la Planificación y Desarrollo" },
+    { classname: "Organismo", nombre: "Banco Nacional de Vivienda y Hábitat", acronimo: "BANAVIH", depende_de: "Ministerio del Poder Popular para la Vivienda y Hábitat" },
+    { classname: "Organismo", nombre: "Fondo Nacional de Desarrollo Urbano", acronimo: "FONDUR", depende_de: "Ministerio del Poder Popular para la Vivienda y Hábitat" },
+    { classname: "Organismo", nombre: "Corporación Venezolana de Guayana", depende_de: "Ministerio del Poder Popular para las Industrias Básicas y Minería" },
+    { classname: "Organismo", nombre: "Instituto Autónomo Consejo Nacional de Derechos de Niños, Niñas y Adolescentes", acronimo: "IDENNA", depende_de: "Viceministerio para la Suprema Felicidad Social del Pueblo" }
+])
+
 # DocumentCloud source document fetched from DC platform
 source_seeds = nil
 page = 1
@@ -779,6 +1018,71 @@ begin
     Source.import batch
     page += 1
 end until source_seeds.documents.length == 0
+
+# Admin user
+admin = User.new({
+    email: "rdbvictor19@gmail.com",
+    password: "12345678",
+    password_confirmation: "12345678",
+    role: :admin,
+    name: "Victor De Ponte",
+    nickname: "throoze"
+    })
+admin.skip_confirmation!
+admin.confirm!
+admin.save
+
+# Admin user
+admin = User.new({
+    email: "kathypennacchio30@gmail.com",
+    password: "12345678",
+    password_confirmation: "12345678",
+    role: :admin,
+    name: "Katherine Pennacchio",
+    nickname: "katherine"
+    })
+admin.skip_confirmation!
+admin.confirm!
+admin.save
+
+# Admin user
+admin = User.new({
+    email: "arysucv@gmail.com",
+    password: "12345678",
+    password_confirmation: "12345678",
+    role: :admin,
+    name: "Arysbell Carolina Arismendi Velasquez",
+    nickname: "arysbell"
+    })
+admin.skip_confirmation!
+admin.confirm!
+admin.save
+
+# Admin user
+admin = User.new({
+    email: "frammnm@gmail.com",
+    password: "12345678",
+    password_confirmation: "12345678",
+    role: :admin,
+    name: "Francisco Martinez",
+    nickname: "frammnm"
+    })
+admin.skip_confirmation!
+admin.confirm!
+admin.save
+
+# Admin user
+admin = User.new({
+    email: "roseliaruiz@gmail.com",
+    password: "12345678",
+    password_confirmation: "12345678",
+    role: :admin,
+    name: "Roselia Ruíz",
+    nickname: "roselia"
+    })
+admin.skip_confirmation!
+admin.confirm!
+admin.save
 
 # Admin user
 admin = User.new({email: "admin@gmail.com", password: "12345678", password_confirmation: "12345678", role: :admin})

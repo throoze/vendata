@@ -1,8 +1,9 @@
 // ./scripts/components/Vendata.js.jsx
-var ReactRouter   = require('react-router');
-var RouteHandler  = ReactRouter.RouteHandler;
-var NavigationBar = require('../components/layouts/NavigationBar'),
-    SessionStore  = require('../stores/SessionStore');
+var ReactRouter        = require('react-router');
+var RouteHandler       = ReactRouter.RouteHandler;
+var NavigationBar      = require('../components/layouts/NavigationBar');
+var SessionStore       = require('../stores/SessionStore');
+var NotificationSystem = require('react-notification-system');
 
 function getStateFromStores() {
   return {
@@ -19,11 +20,14 @@ var Vendata = React.createClass({
   },
   
   getInitialState: function() {
-    return getStateFromStores();
+    var state = getStateFromStores();
+    state.notificationSystem = null;
+    return state;
   },
 
   componentDidMount: function() {
     SessionStore.addChangeListener(this._onChange);
+    this.setState({ notificationSystem: this.refs.notificationSystem });
   },
 
   componentWillUnmount: function() {
@@ -41,8 +45,9 @@ var Vendata = React.createClass({
       <div className="app">
         <NavigationBar isLoggedIn={this.state.isLoggedIn} email={this.state.email} {...this.props}/>
         <div style={{height: 50 + 'px', clear: 'both'}}></div>
-        <RouteHandler isLoggedIn={this.state.isLoggedIn} user={this.state.user} {...this.props}/>
+        <RouteHandler notificationSystem={this.state.notificationSystem} isLoggedIn={this.state.isLoggedIn} user={this.state.user} {...this.props}/>
         {this.props.children}
+        <NotificationSystem ref="notificationSystem" />
       </div>
     );
   }

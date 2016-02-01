@@ -86,7 +86,7 @@ var Scraping = React.createClass({
                     <ScrapingToolbar enableClear={this.state.hasDoc}/>
                     <div className="scraping-container">
                         <DocumentVisor className="document-visor" />
-                        <ScrapingForm schemata={this.state.schemata} className="scraping-form" />
+                        <ScrapingForm {...this.props} schemata={this.state.schemata} className="scraping-form" />
                     </div>
                 </div>
             );
