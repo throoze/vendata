@@ -165,6 +165,7 @@ Schema.create([
                 human_readable: "Pais",
                 constant: true,
                 abstract: false,
+                to_str: ["nombre"],
                 fields: {
                     nombre: { type: "string" },
                     nacionalidad: { type: "string" }
@@ -175,6 +176,7 @@ Schema.create([
                 human_readable: "Nacionalidad",
                 constant: true,
                 abstract: false,
+                to_str: ["nacionalidad"],
                 fields: {
                     nacionalidad: { type: "string" },
                     pais: { type: "string" }
@@ -185,6 +187,7 @@ Schema.create([
                 human_readable: "Organismo Internacional",
                 constant: true,
                 abstract: false,
+                to_str: ["nombre"],
                 extends: ["Institucion"]
             },
             Ciudadano: {
@@ -192,6 +195,7 @@ Schema.create([
                 human_readable: "Ciudadano",
                 constant: true,
                 abstract: false,
+                to_str: ["cedula", "nombre"],
                 fields: {
                     nombre: { type: "string" },
                     cedula: { type: "string" },
@@ -217,6 +221,7 @@ Schema.create([
                 classname: "Institucion",
                 constant: true,
                 abstract: true,
+                to_str: ["nombre"],
                 human_readable: "Institucion",
                 fields: {
                     nombre: { type: "string" },
@@ -228,6 +233,7 @@ Schema.create([
                 human_readable: "Organismo",
                 constant: true,
                 abstract: false,
+                to_str: ["nombre"],
                 extends: ["Institucion"],
                 fields: {
                     depende_de: { type: "Organismo", nullable: true }
@@ -237,6 +243,7 @@ Schema.create([
                 classname: "Empresa",
                 constant: true,
                 abstract: true,
+                to_str: ["nombre"],
                 human_readable: "Empresa",
                 extends: ["Institucion"]
             },
@@ -245,6 +252,7 @@ Schema.create([
                 human_readable: "Empresa Privada",
                 constant: true,
                 abstract: false,
+                to_str: ["nombre"],
                 extends: ["Empresa", "Institucion"],
                 fields: {
                     registro_mercantil: { type: "string" }
@@ -255,6 +263,7 @@ Schema.create([
                 human_readable: "Empresa Estatal",
                 constant: true,
                 abstract: false,
+                to_str: ["nombre"],
                 extends: ["Empresa", "Institucion"],
                 fields: {
                     capital_inicial: { type: "number", nullable: true },
@@ -269,6 +278,7 @@ Schema.create([
                 human_readable: "Cuerpo Policial",
                 constant: true,
                 abstract: false,
+                to_str: ["nombre"],
                 extends: ["Institucion"]
             },
             EntidadBancaria: {
@@ -276,6 +286,7 @@ Schema.create([
                 human_readable: "Entidad Bancaria",
                 constant: true,
                 abstract: false,
+                to_str: ["nombre"],
                 extends: ["Institucion"]
             },
             Efecto: {
@@ -292,6 +303,7 @@ Schema.create([
                 human_readable: "Cargo",
                 constant: true,
                 abstract: false,
+                to_str: ["nombre"],
                 fields: {
                     nombre: { type: "string" }
                 }
@@ -301,6 +313,7 @@ Schema.create([
                 human_readable: "Rango",
                 constant: true,
                 abstract: false,
+                to_str: ["nombre"],
                 fields: {
                     nombre: { type: "string" }
                 }
@@ -497,6 +510,7 @@ Schema.create([
                 human_readable: "Ley",
                 constant: true,
                 abstract: false,
+                to_str: ["titulo"],
                 extends: ["Efecto"],
                 fields: {
                     titulo: { type: "string", label: "Título" },

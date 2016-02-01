@@ -29,12 +29,13 @@ module.exports = {
         SCRAPING_POST_SCRAPED_DOC:       Root + "/scraping/new",               // POST
         SCRAPING_GET_DOC_FOR_VALIDATING: Root + "/scraping/validate/new.json", // GET
         SCRAPING_POST_VALIDATED_DOC:     Root + "/scraping/validate/new",      // POST
-        SCRAPING_LOAD_CONSTANT_CLASS:    Root + "/scraping/constant"       // POST
+        SCRAPING_LOAD_CONSTANT_CLASS:    Root + "/scraping/constant"           // GET
     },
 
     Events: {
         CHANGE: 'change',
-        SCHEMATA_CHANGE: 'schemata_change'
+        SCHEMATA_CHANGE: 'schemata_change',
+        CONSTANTS_CHANGE: 'constants_change'
     },
 
     PayloadSources: keyMirror({

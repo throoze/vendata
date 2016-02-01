@@ -5,13 +5,15 @@ var VendataAppDispatcher   = require('../dispatcher/VendataAppDispatcher.js');
 var ActionTypes            = VendataConstants.ActionTypes;
 var ScrapingActionCreators = require('../actions/ScrapingActionCreators');
 var CHANGE                 = VendataConstants.Events.CHANGE;
-var CHANGE_SCHEMATA        = VendataConstants.Events.CHANGE_SCHEMATA;
+var SCHEMATA_CHANGE        = VendataConstants.Events.SCHEMATA_CHANGE;
+var CONSTANTS_CHANGE       = VendataConstants.Events.CONSTANTS_CHANGE;
 
 // Inner state inicialization
 var _state = {
   errors: [],
   schemata: null,
   doc: null,
+  constants: {},
   scraping: []
 };
 
@@ -22,7 +24,11 @@ var ScrapingStore = assign({}, EventEmitter.prototype, {
   },
 
   emitSchemataChange: function() {
-    this.emit(CHANGE_SCHEMATA);
+    this.emit(SCHEMATA_CHANGE);
+  },
+
+  emitConstantsChange: function() {
+    this.emit(CONSTANTS_CHANGE);
   },
 
   addChangeListener: function(callback) {
@@ -34,11 +40,19 @@ var ScrapingStore = assign({}, EventEmitter.prototype, {
   },
 
   addSchemataChangeListener: function(callback) {
-    this.on(CHANGE_SCHEMATA, callback);
+    this.on(SCHEMATA_CHANGE, callback);
   },
 
   removeSchemataChangeListener: function(callback) {
-    this.removeListener(CHANGE_SCHEMATA, callback);
+    this.removeListener(SCHEMATA_CHANGE, callback);
+  },
+
+  addConstantsChangeListener: function(callback) {
+    this.on(CONSTANTS_CHANGE, callback);
+  },
+
+  removeConstantsChangeListener: function(callback) {
+    this.removeListener(CONSTANTS_CHANGE, callback);
   },
 
   getErrors: function() {
@@ -93,6 +107,10 @@ var ScrapingStore = assign({}, EventEmitter.prototype, {
 
   getNext: function(){
     return null;
+  },
+
+  getConstants: function(classname) {
+    return _state.constants[classname];
   }
 
 });
@@ -123,6 +141,17 @@ ScrapingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
         _state.errors = action.errors;
       }
       ScrapingStore.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_CONSTANT_CLASS:
+      if (action.json) {
+        _state.constants[action.json.classname] = action.json.constants;
+        ScrapingStore.emitConstantsChange();
+        _state.errors     = [];
+      }
+      if (action.errors) {
+        _state.errors = action.errors;
+      }
       break;
 
     case ActionTypes.RECEIVE_DOC_FOR_VALIDATION:

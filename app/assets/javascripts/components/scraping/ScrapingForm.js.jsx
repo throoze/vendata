@@ -524,6 +524,36 @@ var Constant = React.createClass({
         }
     },
 
+    _getList: function(){
+        if(!String.prototype.trim) {  
+            String.prototype.trim = function () {  
+                return this.replace(/^\s+|\s+$/g,'');  
+            };  
+        } 
+        var options = [];
+        var constants = ScrapingStore.getConstants(this.props.type);
+        if (constants) {
+            var label_fields = this.props.schemata.descriptions[this.props.type].to_str;
+            options = constants.map(function(elem, i){
+                var label_str = "";
+                label_fields.forEach( function(el, ind) {
+                    label_str += elem[el]+" ";
+                });
+                return { value: elem._id.$oid , label: label_str.trim() }
+            });
+        }
+        this.setState({ options: options });
+    },
+
+    componentDidMount: function() {
+        ScrapingStore.addConstantsChangeListener(this._getList);
+        ScrapingActionCreators.loadConstantClass(this.props.type);
+    },
+
+    componentWillUnmount: function() {
+        ScrapingStore.removeConstantsChangeListener(this._getList);
+    },
+
     getValue: function(){
         var value = this.state.value;
         $.extend(value, {classname: this.props.type});

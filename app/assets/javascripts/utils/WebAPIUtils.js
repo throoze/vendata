@@ -1,9 +1,10 @@
 // ./utils/WebAPIUtils.js
 var ServerActionCreators = require('../actions/ServerActionCreators.js.jsx');
 var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
-var request = require('superagent');
+var request              = require('superagent');
 var APIEndpoints         = VendataConstants.APIEndpoints;
 var DocumentCloud        = VendataConstants.DocumentCloud;
+var SessionStore         = require('../stores/SessionStore');
 
 function _getErrors(res) {
     var errorMsgs = ["Se produjo un error, por favor intente de nuevo"];
@@ -145,8 +146,20 @@ module.exports = {
       var json      = null;
       var errorMsgs = null;
       var result    = {};
+
+      var client = SessionStore.getClient();
+      var access_token = SessionStore.getAccessToken();
+      var email = SessionStore.getEmail();
+      var expiry = SessionStore.getExpiry();
       request.get(APIEndpoints.SCRAPING_LOAD_CONSTANT_CLASS)
-          .send()
+          .query({ classname: classname })
+          .set({ 
+            'client': client,
+            'access-token': access_token,
+            'uid':email,
+            'expiry': expiry,
+            'token-type': 'Bearer'
+          })
           .set('Accept', 'application/json')
           .end(function(error, res){
               if (res) {
@@ -155,7 +168,8 @@ module.exports = {
                       ServerActionCreators.receiveConstantClass(null, errorMsgs);
                   } else {
                       json = JSON.parse(res.text);
-                      result.doc = json.source;
+                      result.constants = json.objects;
+                      result.classname = json.classname;
                       ServerActionCreators.receiveConstantClass(result, null);
                   }
               }

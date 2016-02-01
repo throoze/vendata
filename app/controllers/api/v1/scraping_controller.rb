@@ -26,7 +26,7 @@ class Api::V1::ScrapingController < ApplicationController
         params.require(:classname)
         classname = params[:classname]
         constants = Constant.where(classname: classname)
-        payload = { :constant => { :classname => classname, :objects => constants } }
+        payload = { :classname => classname, :objects => constants }
         render status: :ok, json: payload
     end
 end
