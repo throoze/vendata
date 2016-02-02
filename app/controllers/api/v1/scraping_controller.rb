@@ -29,4 +29,25 @@ class Api::V1::ScrapingController < ApplicationController
         payload = { :classname => classname, :objects => constants }
         render status: :ok, json: payload
     end
+
+    def new_constant
+        constant = params.require(:constant).permit(:classname, params[:constant].try(:keys)).tap do |constant_params|
+            constant_params.require(:classname)
+        end
+        classname = constant[:classname]
+        criteria = Constant.where(classname: classname)
+        key_fields = Schema.first.descriptions[classname][:key]
+        for key in key_fields
+            criteria = criteria.where(key => constant[key])
+        end
+        size = criteria.size
+        status = :ok
+        if size == 0
+            puts "Constant: ", constant
+            Constant.create(constant)
+            status = :created
+        end
+        payload = { :classname => classname, :objects => Constant.where(classname: classname) }
+        render status: status, json: payload
+    end
 end

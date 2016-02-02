@@ -617,8 +617,12 @@ var ConstantCreator = React.createClass({
     },
 
     getValue: function(){
-        var value = this.state.value;
-        $.extend(value, {classname: this.props.type});
+        var value = {};
+        for (var key in this.state.value) {
+            if (this.state.value.hasOwnProperty(key) && this.state.value[key])
+                value[key] = this.state.value[key];
+        }
+        value.classname = this.props.type;
         return value;
     },
 
@@ -710,10 +714,23 @@ var ConstantCreator = React.createClass({
                 level: 'error'
             });
         } else {
-            this.props.notificationSystem.addNotification({
-                message: 'Form Successfully Validated!',
-                position: 'tc',
-                level: 'success'
+            var value = this.getValue();
+            ScrapingActionCreators.createConstant(value, function(){
+                self.props.notificationSystem.addNotification({
+                    title: Strings.CREATED,
+                    message: Strings.SUCCESSFULLY_CREATED,
+                    position: 'tc',
+                    level: 'success'
+                });
+                self.props.hideModal();
+            }, function(msgs){
+                self.props.notificationSystem.addNotification({
+                    title: Strings.ERROR,
+                    message: <div>{Strings.ERROR_FORM+". "+Strings.NOTIFY_DEV_TEAM}<br/>{msgs}</div>,
+                    position: 'tc',
+                    level: 'error'
+                });
+                self.props.hideModal();
             });
         }
     },

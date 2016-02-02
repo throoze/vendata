@@ -29,7 +29,8 @@ module.exports = {
         SCRAPING_POST_SCRAPED_DOC:       Root + "/scraping/new",               // POST
         SCRAPING_GET_DOC_FOR_VALIDATING: Root + "/scraping/validate/new.json", // GET
         SCRAPING_POST_VALIDATED_DOC:     Root + "/scraping/validate/new",      // POST
-        SCRAPING_LOAD_CONSTANT_CLASS:    Root + "/scraping/constant"           // GET
+        SCRAPING_LOAD_CONSTANT_CLASS:    Root + "/scraping/constant",          // GET
+        SCRAPING_CREATE_CONSTANT_CLASS:  Root + "/scraping/constant"           // POST
     },
 
     Events: {
@@ -100,6 +101,8 @@ module.exports = {
         DELETE:                    "Eliminar",
         ADD:                       "Agregar",
         CLOSE:                     "Cerrar",
+        CREATED:                   "Creado!",
+        SUCCESSFULLY_CREATED:      "La entidad ha sido creada con éxito!",
         PLACEHOLDER_TEXT:          "Introduzca el texto",
         PLACEHOLDER_EMAIL:         "Introduzca el correo electrónico",
         PLACEHOLDER_PASSWORD:      "Introduzca la contraseña",
@@ -129,14 +132,16 @@ module.exports = {
         UPDATE_ACTION:             "Actualizar Informacion",
         CREATE_ACTION:             "Crear Usuario",
 
+        ERROR:                     "Error!",
         ERROR_FORM:                "Errores al procesar el formulario!",
         ERROR_NULL_FIELD:          "Este campo no debe ser nulo",
         ERROR_EMPTY_FIELD:         "Este campo no debe estar vacío",
-        ERROR_MUST_BE_BOOLEAN:     "Este campo debe ser o verdadero o false",
+        ERROR_MUST_BE_BOOLEAN:     "Este campo debe ser o verdadero o falso",
         ERROR_MUST_BE_NUMBER:      "Este campo debe ser un número",
         ERROR_MUST_BE_STRING:      "Este campo debe ser un texto",
         ERROR_MUST_BE_DATE:        "Este campo debe ser una fecha",
-        ERROR_SELECT_ENTITY:       "Debe seleccionar la entidad a vaciar"
+        ERROR_SELECT_ENTITY:       "Debe seleccionar la entidad a vaciar",
+        NOTIFY_DEV_TEAM:           "Tome nota de los pasos que siguió para producir el error, y notifíquelo al equipo de desarrollo."
     },
 
     Utils: {

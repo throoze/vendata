@@ -166,6 +166,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 fields: {
                     nombre: { type: "string" },
                     nacionalidad: { type: "string" }
@@ -177,6 +178,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["nacionalidad"],
+                key: ["nacionalidad"],
                 fields: {
                     nacionalidad: { type: "string" },
                     pais: { type: "string" }
@@ -188,6 +190,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 extends: ["Institucion"]
             },
             Ciudadano: {
@@ -196,6 +199,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["cedula", "nombre"],
+                key: ["cedula"],
                 fields: {
                     nombre: { type: "string" },
                     cedula: { type: "string" },
@@ -222,6 +226,7 @@ Schema.create([
                 constant: true,
                 abstract: true,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 human_readable: "Institucion",
                 fields: {
                     nombre: { type: "string" },
@@ -234,6 +239,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 extends: ["Institucion"],
                 fields: {
                     depende_de: { type: "Organismo", nullable: true }
@@ -244,6 +250,7 @@ Schema.create([
                 constant: true,
                 abstract: true,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 human_readable: "Empresa",
                 extends: ["Institucion"]
             },
@@ -253,6 +260,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 extends: ["Empresa", "Institucion"],
                 fields: {
                     registro_mercantil: { type: "string" }
@@ -264,6 +272,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 extends: ["Empresa", "Institucion"],
                 fields: {
                     capital_inicial: { type: "number", nullable: true },
@@ -279,6 +288,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 extends: ["Institucion"]
             },
             EntidadBancaria: {
@@ -287,6 +297,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 extends: ["Institucion"]
             },
             Efecto: {
@@ -304,6 +315,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 fields: {
                     nombre: { type: "string" }
                 }
@@ -314,6 +326,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["nombre"],
+                key: ["nombre"],
                 fields: {
                     nombre: { type: "string" }
                 }
@@ -511,6 +524,7 @@ Schema.create([
                 constant: true,
                 abstract: false,
                 to_str: ["titulo"],
+                key: ["titulo"],
                 extends: ["Efecto"],
                 fields: {
                     titulo: { type: "string", label: "Título" },
