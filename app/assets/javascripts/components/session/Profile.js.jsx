@@ -64,7 +64,7 @@ Profile = React.createClass({
 
     _checkStateValue: function(e) {
         var resp = "";
-        e === null ? resp = " Campo Vacio" : resp = e ; 
+        e === null ? resp = " Campo Vacio" : resp = e;
         return resp;
     },
 

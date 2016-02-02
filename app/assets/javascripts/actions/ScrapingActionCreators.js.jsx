@@ -38,10 +38,10 @@ module.exports = {
         WebAPIUtils.loadConstantClass(classname);
     },
 
-    createConstant: function(constant){
+    createConstant: function(constant, success, error){
         VendataAppDispatcher.handleViewAction({
             type: ActionTypes.CREATE_CONSTANT_CLASS
         });
-        WebAPIUtils.loadConstantClass(classname);
+        WebAPIUtils.createConstant(constant, success, error);
     }
 };

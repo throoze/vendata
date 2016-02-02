@@ -8,7 +8,7 @@ var CHANGE_EVENT         = VendataConstants.Events.CHANGE;
 
 // Load an access token from the session storage, you might want to implement
 // a 'remember me' using localSgorage
-var _accessToken = sessionStorage.getItem('accessToken') ;
+var _accessToken = sessionStorage.getItem('accessToken');
 var _email = sessionStorage.getItem('email');
 var _client = sessionStorage.getItem('client');
 var _user = sessionStorage.getItem('user');
@@ -28,6 +28,27 @@ var SessionStore = assign({}, EventEmitter.prototype, {
 
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
+  },
+
+  update: function(header) {
+    sessionStorage.setItem('accessToken', header['access-token']);
+    sessionStorage.setItem('email', header.uid);
+    sessionStorage.setItem('client', header.client);
+    sessionStorage.setItem('expiry', header.expiry);
+    _accessToken = sessionStorage.getItem('accessToken');
+    _email = sessionStorage.getItem('email');
+    _client = sessionStorage.getItem('client');
+    _expiry = sessionStorage.getItem('expiry');
+  },
+
+  getHeaders: function() {
+    return { 
+            'client': _client,
+            'access-token': _accessToken,
+            'uid':_email,
+            'expiry': _expiry,
+            'token-type': 'Bearer'
+          };
   },
 
   isLoggedIn: function() {

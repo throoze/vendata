@@ -29,12 +29,14 @@ module.exports = {
         SCRAPING_POST_SCRAPED_DOC:       Root + "/scraping/new",               // POST
         SCRAPING_GET_DOC_FOR_VALIDATING: Root + "/scraping/validate/new.json", // GET
         SCRAPING_POST_VALIDATED_DOC:     Root + "/scraping/validate/new",      // POST
-        SCRAPING_LOAD_CONSTANT_CLASS:    Root + "/scraping/constant"       // POST
+        SCRAPING_LOAD_CONSTANT_CLASS:    Root + "/scraping/constant",          // GET
+        SCRAPING_CREATE_CONSTANT_CLASS:  Root + "/scraping/constant"           // POST
     },
 
     Events: {
         CHANGE: 'change',
-        SCHEMATA_CHANGE: 'schemata_change'
+        SCHEMATA_CHANGE: 'schemata_change',
+        CONSTANTS_CHANGE: 'constants_change'
     },
 
     PayloadSources: keyMirror({
@@ -99,6 +101,8 @@ module.exports = {
         DELETE:                    "Eliminar",
         ADD:                       "Agregar",
         CLOSE:                     "Cerrar",
+        CREATED:                   "Creado!",
+        SUCCESSFULLY_CREATED:      "La entidad ha sido creada con éxito!",
         PLACEHOLDER_TEXT:          "Introduzca el texto",
         PLACEHOLDER_EMAIL:         "Introduzca el correo electrónico",
         PLACEHOLDER_PASSWORD:      "Introduzca la contraseña",
@@ -126,7 +130,18 @@ module.exports = {
         NICKNAME:                  "Nickname",
         EMAIL:                     "Email",
         UPDATE_ACTION:             "Actualizar Informacion",
-        CREATE_ACTION:             "Crear Usuario"
+        CREATE_ACTION:             "Crear Usuario",
+
+        ERROR:                     "Error!",
+        ERROR_FORM:                "Errores al procesar el formulario!",
+        ERROR_NULL_FIELD:          "Este campo no debe ser nulo",
+        ERROR_EMPTY_FIELD:         "Este campo no debe estar vacío",
+        ERROR_MUST_BE_BOOLEAN:     "Este campo debe ser o verdadero o falso",
+        ERROR_MUST_BE_NUMBER:      "Este campo debe ser un número",
+        ERROR_MUST_BE_STRING:      "Este campo debe ser un texto",
+        ERROR_MUST_BE_DATE:        "Este campo debe ser una fecha",
+        ERROR_SELECT_ENTITY:       "Debe seleccionar la entidad a vaciar",
+        NOTIFY_DEV_TEAM:           "Tome nota de los pasos que siguió para producir el error, y notifíquelo al equipo de desarrollo."
     },
 
     Utils: {
@@ -148,6 +163,31 @@ module.exports = {
                     return word.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
                 }).join(" ");
             } else { return null; }
+        },
+
+        reformat: function(errorList){
+            var pre_formatted_errors = errorList.map(function(error, i){
+                var from = error.from.reduce(function(prev, nex){
+                    var previous = prev;
+                    var next = nex;
+                    if (!isNaN(previous)){
+                        previous = (Number(prev)+1).toString();
+                    }
+                    if (!isNaN(next)){
+                        next = (Number(nex)+1).toString();
+                    }
+                    return previous+" -> "+next;
+                });
+                error.from = from;
+                return error;
+            });
+            var formatted_errors = {};
+            pre_formatted_errors.forEach( function(element, index) {
+                if (!formatted_errors[element.from])
+                    formatted_errors[element.from] = [];
+                formatted_errors[element.from] = formatted_errors[element.from].concat(element.error);
+            });
+            return formatted_errors;
         }
     }
 };

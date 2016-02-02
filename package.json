@@ -20,6 +20,7 @@
     "react-bootstrap-datetimepicker": "0.0.22",
     "react-dom": "^0.14.2",
     "react-input-autosize": "^0.6.6",
+    "react-notification-system": "^0.2.6",
     "react-router": "^0.13.5",
     "react-select": "^0.9.1",
     "superagent": "^1.6.1",

@@ -1,9 +1,10 @@
 // ./utils/WebAPIUtils.js
 var ServerActionCreators = require('../actions/ServerActionCreators.js.jsx');
 var VendataAppDispatcher = require('../dispatcher/VendataAppDispatcher.js');
-var request = require('superagent');
+var request              = require('superagent');
 var APIEndpoints         = VendataConstants.APIEndpoints;
 var DocumentCloud        = VendataConstants.DocumentCloud;
+var SessionStore         = require('../stores/SessionStore');
 
 function _getErrors(res) {
     var errorMsgs = ["Se produjo un error, por favor intente de nuevo"];
@@ -146,17 +147,47 @@ module.exports = {
       var errorMsgs = null;
       var result    = {};
       request.get(APIEndpoints.SCRAPING_LOAD_CONSTANT_CLASS)
-          .send()
+          .query({ classname: classname })
+          .set(SessionStore.getHeaders())
           .set('Accept', 'application/json')
           .end(function(error, res){
               if (res) {
+                  SessionStore.update(res.header);
                   if (res.error) {
                       var errorMsgs = _getErrors(res);
                       ServerActionCreators.receiveConstantClass(null, errorMsgs);
                   } else {
                       json = JSON.parse(res.text);
-                      result.doc = json.source;
+                      result.constants = json.objects;
+                      result.classname = json.classname;
+                      result.header   = res.header;
                       ServerActionCreators.receiveConstantClass(result, null);
+                  }
+              }
+          });
+  },
+
+  createConstant: function(data, success, error) {
+      var json      = null;
+      var errorMsgs = null;
+      var result    = {};
+      request.post(APIEndpoints.SCRAPING_CREATE_CONSTANT_CLASS)
+          .set(SessionStore.getHeaders())
+          .set('Accept', 'application/json')
+          .send({ constant: data })
+          .end(function(error, res){
+              if (res) {
+                  SessionStore.update(res.header);
+                  if (res.error) {
+                      var errorMsgs = _getErrors(res);
+                      ServerActionCreators.receiveConstantClass(null, errorMsgs);
+                      error(errorMsgs);
+                  } else {
+                      json = JSON.parse(res.text);
+                      result.constants = json.objects;
+                      result.classname = json.classname;
+                      ServerActionCreators.receiveConstantClass(result, null);
+                      success();
                   }
               }
           });

@@ -62,7 +62,7 @@ module.exports = {
 
   receiveConstantClass: function(json, errors) {
     VendataAppDispatcher.handleServerAction({
-      type: ActionTypes.RECEIVE_DOC_FOR_SCRAPING,
+      type: ActionTypes.RECEIVE_CONSTANT_CLASS,
       json: json,
       errors: errors
     });
