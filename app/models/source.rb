@@ -9,6 +9,7 @@ class Source < ActiveRecord::Base
     has_many :validators, through: :validations, :source => :user
     has_many :flags
     has_many :flaggers, through: :flags, :source => :user
+    has_one  :latest_scraping, class_name: 'Scraping', foreign_key: :source_latest_id
 
     STATUS = [:pending, :flagged, :scraped, :validated]
     OEMBED_ENDPOINT = "http://www.documentcloud.org/api/oembed.json"

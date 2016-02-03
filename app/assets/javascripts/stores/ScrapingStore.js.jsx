@@ -1,9 +1,9 @@
 // ./stores/ScrapingStore.js.jsx
-var EventEmitter           = require('events').EventEmitter,
-    assign                 = require('object-assign');
+var EventEmitter           = require('events').EventEmitter;
+var assign                 = require('object-assign');
 var VendataAppDispatcher   = require('../dispatcher/VendataAppDispatcher.js');
-var ActionTypes            = VendataConstants.ActionTypes;
 var ScrapingActionCreators = require('../actions/ScrapingActionCreators');
+var ActionTypes            = VendataConstants.ActionTypes;
 var CHANGE                 = VendataConstants.Events.CHANGE;
 var SCHEMATA_CHANGE        = VendataConstants.Events.SCHEMATA_CHANGE;
 var CONSTANTS_CHANGE       = VendataConstants.Events.CONSTANTS_CHANGE;
@@ -13,8 +13,7 @@ var _state = {
   errors: [],
   schemata: null,
   doc: null,
-  constants: {},
-  scraping: []
+  constants: {}
 };
 
 var ScrapingStore = assign({}, EventEmitter.prototype, {
@@ -101,18 +100,30 @@ var ScrapingStore = assign({}, EventEmitter.prototype, {
     return visor;
   },
 
-  getScraping: function() {
-    return _state.scraping;
-  },
-
   getNext: function(){
     return null;
   },
 
   getConstants: function(classname) {
     return _state.constants[classname];
-  }
+  },
 
+  getConstant: function(type, id) {
+    var source = _state.constants[type];
+    var mapped = source.map(function(current, index, array){
+      if (current._id.$oid == id)
+        return current;
+      else
+        return null;
+    });
+    var reduced = mapped.reduce(function(previous, current, index, array){
+      if (current !== null)
+        return previous.concat([current]);
+      else
+        return previous;
+    },[]);
+    return reduced[0];
+  }
 });
 
 ScrapingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
@@ -154,21 +165,26 @@ ScrapingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       }
       break;
 
+    case ActionTypes.RECEIVE_CREATED_DOC:
+      if (action.json) {
+        _state.errors = [];
+        _state.constants = {};
+        ScrapingStore.emitConstantsChange();
+      }
+      if (action.errors) {
+        _state.errors = action.errors;
+      }
+      break;
+
     case ActionTypes.RECEIVE_DOC_FOR_VALIDATION:
       //ScrapingStore.emitChange();
       break;
-
-    case ActionTypes.RECEIVE_CREATED_DOC:
-      //ScrapingStore.emitChange();
-      break;
-
     case ActionTypes.RECEIVE_VALIDATED_DOC:
       //ScrapingStore.emitChange();
       break;
 
     case ActionTypes.CLEAR_DOC:
       _state.doc = null;
-      _state.scraping = [];
       ScrapingStore.emitChange();
       break;
 

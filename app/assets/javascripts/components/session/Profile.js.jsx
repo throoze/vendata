@@ -3,6 +3,7 @@ var React         = require('react');
 var SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx');
 
 var Strings = require('../../constants/VendataConstants.js').Strings;
+var Roles   = require('../../constants/VendataConstants.js').Roles;
 
 var SessionStore  = require('../../stores/SessionStore.js.jsx');
 var NavigationBar = require('../../components/layouts/NavigationBar.js.jsx');
@@ -69,7 +70,7 @@ Profile = React.createClass({
     },
 
     render: function() {
-        var PossibleActions = this.state.user.role === "Admin" ? (
+        var PossibleActions = this.state.user.role === Roles.ADMIN ? (
             <div>
                 <Button bsStyle="primary" onClick={this._openCreate}>{Strings.CREATE_ACTION}</Button>
                 <Collapse in={this.state.openCreate}>

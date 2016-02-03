@@ -106,15 +106,16 @@ module.exports = {
       var json      = null;
       var errorMsgs = null;
       request.get(APIEndpoints.SCHEMATA)
-          .send()
+          .set(SessionStore.getHeaders())
           .set('Accept', 'application/json')
           .end(function(error, res){
               if (res) {
+                  SessionStore.update(res.header);
                   if (res.error) {
                       var errorMsgs = _getErrors(res);
                       ServerActionCreators.receiveSchemata(null, errorMsgs);
                   } else {
-                      json = JSON.parse(res.text);
+                      json = res.body;
                       ServerActionCreators.receiveSchemata(json, null);
                   }
               }
@@ -126,15 +127,16 @@ module.exports = {
       var errorMsgs = null;
       var result    = {};
       request.get(APIEndpoints.SCRAPING_GET_DOC_FOR_SCRAPING)
-          .send()
+          .set(SessionStore.getHeaders())
           .set('Accept', 'application/json')
           .end(function(error, res){
               if (res) {
+                  SessionStore.update(res.header);
                   if (res.error) {
                       var errorMsgs = _getErrors(res);
                       ServerActionCreators.receiveDocumentForScraping(null, errorMsgs);
                   } else {
-                      json = JSON.parse(res.text);
+                      json = res.body;
                       result.doc = json.source;
                       ServerActionCreators.receiveDocumentForScraping(result, null);
                   }
@@ -157,7 +159,7 @@ module.exports = {
                       var errorMsgs = _getErrors(res);
                       ServerActionCreators.receiveConstantClass(null, errorMsgs);
                   } else {
-                      json = JSON.parse(res.text);
+                      json = res.body;
                       result.constants = json.objects;
                       result.classname = json.classname;
                       result.header   = res.header;
@@ -183,10 +185,36 @@ module.exports = {
                       ServerActionCreators.receiveConstantClass(null, errorMsgs);
                       error(errorMsgs);
                   } else {
-                      json = JSON.parse(res.text);
+                      json = res.body;
                       result.constants = json.objects;
                       result.classname = json.classname;
                       ServerActionCreators.receiveConstantClass(result, null);
+                      success();
+                  }
+              }
+          });
+  },
+
+  scrap: function(data, success, error) {
+      var json      = null;
+      var errorMsgs = null;
+      var result    = {};
+      request.post(APIEndpoints.SCRAPING_POST_SCRAPED_DOC)
+          .set(SessionStore.getHeaders())
+          .set('Accept', 'application/json')
+          .send(data)
+          .end(function(error, res){
+              if (res) {
+                  SessionStore.update(res.header);
+                  if (res.error) {
+                      var errorMsgs = _getErrors(res);
+                      ServerActionCreators.receiveScraping(null, errorMsgs);
+                      error(errorMsgs);
+                  } else {
+                      json = res.body;
+                      result.constants = json.objects;
+                      result.classname = json.classname;
+                      ServerActionCreators.receiveScraping(result, null);
                       success();
                   }
               }

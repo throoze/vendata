@@ -507,6 +507,9 @@ var AbstractEntity = React.createClass({
 });
 
 var Constant = React.createClass({
+
+    // Lifecycle
+
     getInitialState: function(){
         return { options: [], value: null };
     },
@@ -523,6 +526,26 @@ var Constant = React.createClass({
                 this.setState({ value: this.props.value });
         }
     },
+
+    componentDidMount: function() {
+        ScrapingStore.addConstantsChangeListener(this._getList);
+        ScrapingActionCreators.loadConstantClass(this.props.type);
+    },
+
+    componentWillUnmount: function() {
+        ScrapingStore.removeConstantsChangeListener(this._getList);
+    },
+
+    // Public
+
+    getValue: function(){
+        var value = ScrapingStore.getConstant(this.props.type, this.state.value);
+        return value;
+    },
+
+    validate: function() {/*NOOP*/},
+
+    // Private
 
     _getList: function(){
         if(!String.prototype.trim) {  
@@ -545,23 +568,6 @@ var Constant = React.createClass({
         this.setState({ options: options });
     },
 
-    componentDidMount: function() {
-        ScrapingStore.addConstantsChangeListener(this._getList);
-        ScrapingActionCreators.loadConstantClass(this.props.type);
-    },
-
-    componentWillUnmount: function() {
-        ScrapingStore.removeConstantsChangeListener(this._getList);
-    },
-
-    getValue: function(){
-        var value = this.state.value;
-        $.extend(value, {classname: this.props.type});
-        return value;
-    },
-
-    validate: function() {/*NOOP*/},
-
     _update: function(value){
         this.setState({ value: value }, this.props.onChange);
     },
@@ -570,12 +576,13 @@ var Constant = React.createClass({
         var self = this;
         var submit= function(event){
             var constant = self.refs.constant.getValue();
-            console.log("Creating constant...",constant);
         };
         var title = Strings.CREATE_NEW + " " + Utils.labelify(this.props.fieldname.toString());
         var body = (<ConstantCreator {...this.props}/>);
         this.props.showModal(title, body);
     },
+
+    // Render
 
     render: function() {
         var showLabel = null;
@@ -1105,11 +1112,31 @@ var ScrapingForm = React.createClass({
     _submit: function() {
         try {
             this.refs.root.validate();
-            this.props.notificationSystem.addNotification({
-                message: 'Form Successfully Validated!',
-                position: 'tc',
-                level: 'success'
-            });
+            var self = this;
+            var value = this.refs.root.getValue();
+            var payload = {
+                source: ScrapingStore.getDocument().id,
+                scraping: Utils.dig(value, "classname", this.props.schemata)
+            };
+            var success = function(){
+                self.props.notificationSystem.addNotification({
+                    title: Strings.CREATED,
+                    message: Strings.SUCCESSFULLY_SCRAPED,
+                    position: 'tc',
+                    autoDismiss: 10,
+                    level: 'success'
+                });
+                ScrapingActionCreators.clearDoc();
+            };
+            var error = function(msgs){
+                self.props.notificationSystem.addNotification({
+                    title: Strings.ERROR,
+                    message: <div>{Strings.ERROR_FORM+". "+Strings.NOTIFY_DEV_TEAM}<br/>{msgs}</div>,
+                    position: 'tc',
+                    autoDismiss: 10,
+                    level: 'error'
+                });
+            };
         } catch(errors) {
             var formatted_errors = Utils.reformat(errors); 
             var message = []; 
@@ -1131,7 +1158,7 @@ var ScrapingForm = React.createClass({
             this.props.notificationSystem.addNotification({
                 title: Strings.ERROR_FORM,
                 message: message,
-                autoDismiss: 0,
+                autoDismiss: 10,
                 position: 'tc',
                 level: 'error'
             });

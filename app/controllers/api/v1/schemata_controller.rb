@@ -1,4 +1,6 @@
 class Api::V1::SchemataController < ApplicationController
+    before_action :authenticate_user!
+    
     def index
         render status: 200, json: Schema.first
     end

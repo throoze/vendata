@@ -27,11 +27,15 @@ ActiveRecord::Schema.define(version: 20151106235759) do
   create_table "scrapings", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "source_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "source_latest_id"
+    t.string   "document_id"
+    t.text     "sub_documents"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   add_index "scrapings", ["source_id"], name: "index_scrapings_on_source_id"
+  add_index "scrapings", ["source_latest_id"], name: "index_scrapings_on_source_latest_id"
   add_index "scrapings", ["user_id"], name: "index_scrapings_on_user_id"
 
   create_table "sources", force: :cascade do |t|
@@ -78,10 +82,12 @@ ActiveRecord::Schema.define(version: 20151106235759) do
   create_table "validations", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "source_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "scraping_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
+  add_index "validations", ["scraping_id"], name: "index_validations_on_scraping_id"
   add_index "validations", ["source_id"], name: "index_validations_on_source_id"
   add_index "validations", ["user_id"], name: "index_validations_on_user_id"
 

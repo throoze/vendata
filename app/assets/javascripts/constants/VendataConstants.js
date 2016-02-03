@@ -33,6 +33,14 @@ module.exports = {
         SCRAPING_CREATE_CONSTANT_CLASS:  Root + "/scraping/constant"           // POST
     },
 
+    Roles: {
+        // ROLES = [:banned, :scraper, :validator, :admin]
+        ADMIN: "admin",
+        VALIDATOR: "validator",
+        SCRAPER: "scraper",
+        BANNED: "banned"
+    },
+
     Events: {
         CHANGE: 'change',
         SCHEMATA_CHANGE: 'schemata_change',
@@ -122,6 +130,7 @@ module.exports = {
         CLEAR_DOC:                 "Limpiar documento",
         DOWNLOAD_PDF:              "Descarga el PDF",
         CHOOSE_ALTERNATIVE_ENTITY: "Seleccione el tipo de elemento a vaciar",
+        SUCCESSFULLY_SCRAPED:      "El documento fue vaciado correctamente!",
 
         PROFILE:                   "Perfil",
         ACTIONS:                   "Acciones",
@@ -188,6 +197,24 @@ module.exports = {
                 formatted_errors[element.from] = formatted_errors[element.from].concat(element.error);
             });
             return formatted_errors;
+        },
+
+        dig: function(obj, f, schema) {
+            var _dig = function(object, field) {
+                var result = [];
+                if (object.hasOwnProperty(field)) {
+                    if (!schema.descriptions[object[field]].constant)
+                        result.push(object);
+                }
+                for (var key in object){
+                    if (object[key] !== null && typeof object[key] === 'object') {
+                        var inner_result = _dig(object[key], field);
+                        result = result.concat(inner_result);
+                    }
+                }
+                return result;
+            };
+            return _dig(obj, f);
         }
     }
 };

@@ -14,6 +14,9 @@ class CreateSources < ActiveRecord::Migration
     create_table :scrapings do |t|
       t.belongs_to :user, index: true, foreign_key: true
       t.belongs_to :source, index: true, foreign_key: true
+      t.integer    :source_latest_id, index: true, foreign_key: true
+      t.string     :document_id, default: nil
+      t.text       :sub_documents, default: nil
 
       t.timestamps null: false
     end
@@ -21,6 +24,7 @@ class CreateSources < ActiveRecord::Migration
     create_table :validations do |t|
       t.belongs_to :user, index: true, foreign_key: true
       t.belongs_to :source, index: true, foreign_key: true
+      t.belongs_to :scraping, index: true, foreign_key: true
 
       t.timestamps null: false
     end
