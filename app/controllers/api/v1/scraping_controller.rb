@@ -21,7 +21,7 @@ class Api::V1::ScrapingController < ApplicationController
     end
 
     def new_validation
-        render status: :ok, json: { :message => "Vendata: new_validation not yet implemented " }
+        render status: :not_implemented, json: { :message => "Vendata: new_validation not yet implemented " }
     end
 
     def constant

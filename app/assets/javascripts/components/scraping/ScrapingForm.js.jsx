@@ -507,6 +507,9 @@ var AbstractEntity = React.createClass({
 });
 
 var Constant = React.createClass({
+
+    // Lifecycle
+
     getInitialState: function(){
         return { options: [], value: null };
     },
@@ -523,6 +526,26 @@ var Constant = React.createClass({
                 this.setState({ value: this.props.value });
         }
     },
+
+    componentDidMount: function() {
+        ScrapingStore.addConstantsChangeListener(this._getList);
+        ScrapingActionCreators.loadConstantClass(this.props.type);
+    },
+
+    componentWillUnmount: function() {
+        ScrapingStore.removeConstantsChangeListener(this._getList);
+    },
+
+    // Public
+
+    getValue: function(){
+        var value = ScrapingStore.getConstant(this.props.type, this.state.value);
+        return value;
+    },
+
+    validate: function() {/*NOOP*/},
+
+    // Private
 
     _getList: function(){
         if(!String.prototype.trim) {  
@@ -545,23 +568,6 @@ var Constant = React.createClass({
         this.setState({ options: options });
     },
 
-    componentDidMount: function() {
-        ScrapingStore.addConstantsChangeListener(this._getList);
-        ScrapingActionCreators.loadConstantClass(this.props.type);
-    },
-
-    componentWillUnmount: function() {
-        ScrapingStore.removeConstantsChangeListener(this._getList);
-    },
-
-    getValue: function(){
-        var value = this.state.value;
-        $.extend(value, {classname: this.props.type});
-        return value;
-    },
-
-    validate: function() {/*NOOP*/},
-
     _update: function(value){
         this.setState({ value: value }, this.props.onChange);
     },
@@ -576,6 +582,8 @@ var Constant = React.createClass({
         var body = (<ConstantCreator {...this.props}/>);
         this.props.showModal(title, body);
     },
+
+    // Render
 
     render: function() {
         var showLabel = null;
@@ -1106,8 +1114,10 @@ var ScrapingForm = React.createClass({
         try {
             this.refs.root.validate();
             var value = this.refs.root.getValue();
+            console.log('ScrapingForm: value: ', Utils.dig(value, "classname", this.props.schemata));
             this.props.notificationSystem.addNotification({
-                message: 'Form Successfully Validated!',
+                title: 'Form Successfully Validated!',
+                message: 'Check console for the generated values',
                 position: 'tc',
                 level: 'success'
             });

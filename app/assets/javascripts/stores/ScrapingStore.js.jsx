@@ -1,9 +1,9 @@
 // ./stores/ScrapingStore.js.jsx
-var EventEmitter           = require('events').EventEmitter,
-    assign                 = require('object-assign');
+var EventEmitter           = require('events').EventEmitter;
+var assign                 = require('object-assign');
 var VendataAppDispatcher   = require('../dispatcher/VendataAppDispatcher.js');
-var ActionTypes            = VendataConstants.ActionTypes;
 var ScrapingActionCreators = require('../actions/ScrapingActionCreators');
+var ActionTypes            = VendataConstants.ActionTypes;
 var CHANGE                 = VendataConstants.Events.CHANGE;
 var SCHEMATA_CHANGE        = VendataConstants.Events.SCHEMATA_CHANGE;
 var CONSTANTS_CHANGE       = VendataConstants.Events.CONSTANTS_CHANGE;
@@ -111,8 +111,25 @@ var ScrapingStore = assign({}, EventEmitter.prototype, {
 
   getConstants: function(classname) {
     return _state.constants[classname];
-  }
+  },
 
+  getConstant: function(type, id) {
+    var source = _state.constants[type];
+    var mapped = source.map(function(current, index, array){
+      if (current._id.$oid == id)
+        return current;
+      else
+        return null;
+    });
+    var reduced = mapped.reduce(function(previous, current, index, array){
+      if (current !== null)
+        return previous.concat([current]);
+      else
+        return previous;
+    },[]);
+    console.log("ScrapingStore:","getConstant:", "type:", type, "id:", id, "source:", source, "mapped:", mapped, "reduced:", reduced);
+    return reduced[0];
+  }
 });
 
 ScrapingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {

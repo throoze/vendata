@@ -23,7 +23,6 @@ window.Scraping      = require('./components/scraping/Scraping');
 // Routing
 window.Router  = require('./routes');
 
-
 // window.StaticRouter= React.createClass({
 //     render: function(){
 //         var RouteHandler = ReactRouter.run(Router, this.props.path, function(){});

@@ -110,7 +110,6 @@ module.exports = {
           .set('Accept', 'application/json')
           .end(function(error, res){
               if (res) {
-                  console.log("WebAPIUtils: loadSchemata: res: ",res);
                   SessionStore.update(res.header);
                   if (res.error) {
                       var errorMsgs = _getErrors(res);
@@ -132,7 +131,6 @@ module.exports = {
           .set('Accept', 'application/json')
           .end(function(error, res){
               if (res) {
-                  console.log("WebAPIUtils: loadDocumentForScraping: res: ",res);
                   SessionStore.update(res.header);
                   if (res.error) {
                       var errorMsgs = _getErrors(res);
@@ -156,7 +154,6 @@ module.exports = {
           .set('Accept', 'application/json')
           .end(function(error, res){
               if (res) {
-                  console.log("WebAPIUtils: loadConstantClass: res: ",res);
                   SessionStore.update(res.header);
                   if (res.error) {
                       var errorMsgs = _getErrors(res);
@@ -182,7 +179,6 @@ module.exports = {
           .send({ constant: data })
           .end(function(error, res){
               if (res) {
-                  console.log("WebAPIUtils: createConstant: res: ",res);
                   SessionStore.update(res.header);
                   if (res.error) {
                       var errorMsgs = _getErrors(res);
