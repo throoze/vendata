@@ -576,7 +576,6 @@ var Constant = React.createClass({
         var self = this;
         var submit= function(event){
             var constant = self.refs.constant.getValue();
-            console.log("Creating constant...",constant);
         };
         var title = Strings.CREATE_NEW + " " + Utils.labelify(this.props.fieldname.toString());
         var body = (<ConstantCreator {...this.props}/>);
@@ -1113,14 +1112,31 @@ var ScrapingForm = React.createClass({
     _submit: function() {
         try {
             this.refs.root.validate();
+            var self = this;
             var value = this.refs.root.getValue();
-            console.log('ScrapingForm: value: ', Utils.dig(value, "classname", this.props.schemata));
-            this.props.notificationSystem.addNotification({
-                title: 'Form Successfully Validated!',
-                message: 'Check console for the generated values',
-                position: 'tc',
-                level: 'success'
-            });
+            var payload = {
+                source: ScrapingStore.getDocument().id,
+                scraping: Utils.dig(value, "classname", this.props.schemata)
+            };
+            var success = function(){
+                self.props.notificationSystem.addNotification({
+                    title: Strings.CREATED,
+                    message: Strings.SUCCESSFULLY_SCRAPED,
+                    position: 'tc',
+                    autoDismiss: 10,
+                    level: 'success'
+                });
+                ScrapingActionCreators.clearDoc();
+            };
+            var error = function(msgs){
+                self.props.notificationSystem.addNotification({
+                    title: Strings.ERROR,
+                    message: <div>{Strings.ERROR_FORM+". "+Strings.NOTIFY_DEV_TEAM}<br/>{msgs}</div>,
+                    position: 'tc',
+                    autoDismiss: 10,
+                    level: 'error'
+                });
+            };
         } catch(errors) {
             var formatted_errors = Utils.reformat(errors); 
             var message = []; 
@@ -1142,7 +1158,7 @@ var ScrapingForm = React.createClass({
             this.props.notificationSystem.addNotification({
                 title: Strings.ERROR_FORM,
                 message: message,
-                autoDismiss: 0,
+                autoDismiss: 10,
                 position: 'tc',
                 level: 'error'
             });

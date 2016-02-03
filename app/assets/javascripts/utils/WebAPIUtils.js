@@ -193,6 +193,32 @@ module.exports = {
                   }
               }
           });
+  },
+
+  scrap: function(data, success, error) {
+      var json      = null;
+      var errorMsgs = null;
+      var result    = {};
+      request.post(APIEndpoints.SCRAPING_POST_SCRAPED_DOC)
+          .set(SessionStore.getHeaders())
+          .set('Accept', 'application/json')
+          .send(data)
+          .end(function(error, res){
+              if (res) {
+                  SessionStore.update(res.header);
+                  if (res.error) {
+                      var errorMsgs = _getErrors(res);
+                      ServerActionCreators.receiveScraping(null, errorMsgs);
+                      error(errorMsgs);
+                  } else {
+                      json = res.body;
+                      result.constants = json.objects;
+                      result.classname = json.classname;
+                      ServerActionCreators.receiveScraping(result, null);
+                      success();
+                  }
+              }
+          });
   }
 };
 

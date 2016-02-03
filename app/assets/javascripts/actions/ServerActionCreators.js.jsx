@@ -66,5 +66,13 @@ module.exports = {
       json: json,
       errors: errors
     });
+  },
+
+  receiveScraping: function(json, errors) {
+    VendataAppDispatcher.handleServerAction({
+      type: ActionTypes.RECEIVE_CREATED_DOC,
+      json: json,
+      errors: errors
+    });
   }
 };

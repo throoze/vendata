@@ -49,6 +49,6 @@ module.exports = {
         VendataAppDispatcher.handleViewAction({
             type: ActionTypes.CREATE_CONSTANT_CLASS
         });
-        WebAPIUtils.createConstant(constant, success, error);
+        WebAPIUtils.scrap(scraping, success, error);
     }
 };

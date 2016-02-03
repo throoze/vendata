@@ -13,8 +13,7 @@ var _state = {
   errors: [],
   schemata: null,
   doc: null,
-  constants: {},
-  scraping: []
+  constants: {}
 };
 
 var ScrapingStore = assign({}, EventEmitter.prototype, {
@@ -101,10 +100,6 @@ var ScrapingStore = assign({}, EventEmitter.prototype, {
     return visor;
   },
 
-  getScraping: function() {
-    return _state.scraping;
-  },
-
   getNext: function(){
     return null;
   },
@@ -127,7 +122,6 @@ var ScrapingStore = assign({}, EventEmitter.prototype, {
       else
         return previous;
     },[]);
-    console.log("ScrapingStore:","getConstant:", "type:", type, "id:", id, "source:", source, "mapped:", mapped, "reduced:", reduced);
     return reduced[0];
   }
 });
@@ -171,21 +165,26 @@ ScrapingStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       }
       break;
 
+    case ActionTypes.RECEIVE_CREATED_DOC:
+      if (action.json) {
+        _state.errors = [];
+        _state.constants = {};
+        ScrapingStore.emitConstantsChange();
+      }
+      if (action.errors) {
+        _state.errors = action.errors;
+      }
+      break;
+
     case ActionTypes.RECEIVE_DOC_FOR_VALIDATION:
       //ScrapingStore.emitChange();
       break;
-
-    case ActionTypes.RECEIVE_CREATED_DOC:
-      //ScrapingStore.emitChange();
-      break;
-
     case ActionTypes.RECEIVE_VALIDATED_DOC:
       //ScrapingStore.emitChange();
       break;
 
     case ActionTypes.CLEAR_DOC:
       _state.doc = null;
-      _state.scraping = [];
       ScrapingStore.emitChange();
       break;
 

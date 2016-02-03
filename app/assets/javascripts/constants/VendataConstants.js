@@ -130,6 +130,7 @@ module.exports = {
         CLEAR_DOC:                 "Limpiar documento",
         DOWNLOAD_PDF:              "Descarga el PDF",
         CHOOSE_ALTERNATIVE_ENTITY: "Seleccione el tipo de elemento a vaciar",
+        SUCCESSFULLY_SCRAPED:      "El documento fue vaciado correctamente!",
 
         PROFILE:                   "Perfil",
         ACTIONS:                   "Acciones",
