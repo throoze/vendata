@@ -1,4 +1,6 @@
 class Api::V1::ScrapingController < ApplicationController
+    before_action :authenticate_user!
+    
     def get_new_scraping
         # TODO: Determine criteria based on user privileges
         criteria = {:status => :pending, :is_extraordinary => false}

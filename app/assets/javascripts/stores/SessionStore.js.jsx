@@ -9,12 +9,13 @@ var CHANGE_EVENT         = VendataConstants.Events.CHANGE;
 // Load an access token from the session storage, you might want to implement
 // a 'remember me' using localSgorage
 var _accessToken = sessionStorage.getItem('accessToken');
-var _email = sessionStorage.getItem('email');
-var _client = sessionStorage.getItem('client');
-var _user = sessionStorage.getItem('user');
-var _expiry = sessionStorage.getItem('expiry');
-var _errors = [];
-var _resCreate = "";
+var _email       = sessionStorage.getItem('email');
+var _client      = sessionStorage.getItem('client');
+var _user        = sessionStorage.getItem('user');
+var _expiry      = sessionStorage.getItem('expiry');
+var _token_type  = sessionStorage.getItem('token-type');
+var _errors      = [];
+var _resCreate   = "";
 
 var SessionStore = assign({}, EventEmitter.prototype, {
 
@@ -32,13 +33,15 @@ var SessionStore = assign({}, EventEmitter.prototype, {
 
   update: function(header) {
     sessionStorage.setItem('accessToken', header['access-token']);
-    sessionStorage.setItem('email', header.uid);
     sessionStorage.setItem('client', header.client);
     sessionStorage.setItem('expiry', header.expiry);
+    sessionStorage.setItem('token-type', header['token-type']);
+    sessionStorage.setItem('email', header.uid);
     _accessToken = sessionStorage.getItem('accessToken');
-    _email = sessionStorage.getItem('email');
-    _client = sessionStorage.getItem('client');
-    _expiry = sessionStorage.getItem('expiry');
+    _client      = sessionStorage.getItem('client');
+    _expiry      = sessionStorage.getItem('expiry');
+    _token_type  = sessionStorage.getItem('token-type');
+    _email       = sessionStorage.getItem('email');
   },
 
   getHeaders: function() {
@@ -47,7 +50,7 @@ var SessionStore = assign({}, EventEmitter.prototype, {
             'access-token': _accessToken,
             'uid':_email,
             'expiry': _expiry,
-            'token-type': 'Bearer'
+            'token-type': _token_type
           };
   },
 

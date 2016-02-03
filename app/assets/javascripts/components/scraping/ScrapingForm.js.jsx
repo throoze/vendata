@@ -1105,6 +1105,7 @@ var ScrapingForm = React.createClass({
     _submit: function() {
         try {
             this.refs.root.validate();
+            var value = this.refs.root.getValue();
             this.props.notificationSystem.addNotification({
                 message: 'Form Successfully Validated!',
                 position: 'tc',
