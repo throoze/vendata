@@ -4,6 +4,7 @@
 
 window.React = require('react');
 window.ReactRouter = require('react-router');
+window.VENDATA_HOST = '';
 window.VendataConstants = require('./constants/VendataConstants.js');
 
 // window.Auth = require('j-toker');

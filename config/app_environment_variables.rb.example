@@ -5,6 +5,14 @@ ENV['VENDATA_HOST'] = 'the_host_being_used'
 ENV['SECRET_KEY_BASE'] = 'your_generated_secret'
 
 # Database
+# Development. If commented, falls back to sqlite3 
+# ENV['VENDATA_DEV_DATABASE_ADAPTER']  = 'dev_db_adapter'
+# ENV['VENDATA_DEV_DATABASE_HOST']     = 'dev_db_host'
+# ENV['VENDATA_DEV_DATABASE_PORT']     = 'dev_db_port'
+# ENV['VENDATA_DEV_DATABASE_USER']     = 'dev_db_user'
+# ENV['VENDATA_DEV_DATABASE_PASSWORD'] = 'dev_db_password'
+#
+# Production:
 ENV['VENDATA_DATABASE_HOST']     = 'prod_db_host'
 ENV['VENDATA_DATABASE_PORT']     = 'prod_db_port'
 ENV['VENDATA_DATABASE_USER']     = 'prod_db_user'

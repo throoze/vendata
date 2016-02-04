@@ -1,7 +1,7 @@
 // constants/SmallConstants.js
 var keyMirror  = require('keymirror');
-var host       = "vendata.org";
-var APIRoot    = "http://"+host+"/api/";
+// var APIRoot    = "http://"+VENDATA_HOST+"/api/";
+var APIRoot    = "/api/";
 var APIVersion = "v1";
 var Root       = APIRoot + APIVersion;
 

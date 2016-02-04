@@ -10,6 +10,16 @@ VENDATA_HOST="localhost:3000"
 SECRET_KEY_BASE=your_generated_secret
 
 # Database
+# Development. If commented, falls back to sqlite3 
+#
+# VENDATA_DEV_DATABASE_ADAPTER=dev_db_adapter
+# VENDATA_DEV_DATABASE_HOST=dev_db_host
+# VENDATA_DEV_DATABASE_PORT=dev_db_port
+# VENDATA_DEV_DATABASE_USER=dev_db_user
+# VENDATA_DEV_DATABASE_PASSWORD=prod_db_password
+#
+# Production:
+#
 VENDATA_DATABASE_HOST=prod_db_host
 VENDATA_DATABASE_PORT=prod_db_port
 VENDATA_DATABASE_USER=prod_db_user
