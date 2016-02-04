@@ -3,6 +3,9 @@
 # for setting environment variables specific for a certain environment
 # (i.e. development, test or production).
 
+# Host
+VENDATA_HOST="localhost:3000"
+
 # Secret hash
 SECRET_KEY_BASE=your_generated_secret
 
