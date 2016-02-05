@@ -15,6 +15,11 @@ var ScrapingToolbar = React.createClass({
         ScrapingActionCreators.loadDocumentForScraping();
         callback(ScrapingStore);
     },
+    
+    _onAskNewDocForValidating: function(callback) {
+        //ScrapingActionCreators.loadDocumentForValidating();
+        callback(null);
+    },
 
     _onClearDoc: function() {
         ScrapingActionCreators.clearDoc();
@@ -23,11 +28,14 @@ var ScrapingToolbar = React.createClass({
     render : function() {
         var scrapNew           = VendataConstants.Strings.SCRAP_NEW;
         var scrapNewHandler    = this._onAskNewDocForScraping;
+        var validateNew        = VendataConstants.Strings.VALIDATE_NEW;
+        var validateNewHandler = this._onAskNewDocForValidating;
         var clearDoc           = VendataConstants.Strings.CLEAR_DOC;
         return (
             <ButtonToolbar>
                 <ButtonGroup>
                     <LoadingButton clickHandler={scrapNewHandler}>{scrapNew}</LoadingButton>
+                    <LoadingButton disabled clickHandler={validateNewHandler}>{validateNew}</LoadingButton>
                     <Button disabled={!this.props.enableClear} onClick={this._onClearDoc}>{clearDoc}</Button>
                 </ButtonGroup>
             </ButtonToolbar>
