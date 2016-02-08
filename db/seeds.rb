@@ -77,6 +77,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Documento"],
+                fields_order: ["ano", "mes", "fecha", "numero", "tipo", "actos_normativos"],
                 fields: {
                     tipo:   {
                         type: "string",
@@ -84,7 +85,7 @@ Schema.create([
                     },
                     ano: { type: "string", label: "Año" },
                     mes: { type: "string" },
-                    documentos: { type: "[ActoNormativo]" }
+                    actos_normativos: { type: "[ActoNormativo]" }
                 }
             },
             ActoNormativo: {
@@ -104,6 +105,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
+                fields_order: ["emisor", "efecto", "deroga"],
                 fields: {
                     deroga: {
                         type: "Ley",
@@ -116,49 +118,56 @@ Schema.create([
                 human_readable: "Decreto",
                 constant: false,
                 abstract: false,
-                extends: ["ActoNormativo", "Documento"]
+                extends: ["ActoNormativo", "Documento"],
+                fields_order: ["emisor", "efecto"]
             },
             Resolucion: {
                 classname: "Resolucion",
                 human_readable: "Resolucion",
                 constant: false,
                 abstract: false,
-                extends: ["ActoNormativo", "Documento"]
+                extends: ["ActoNormativo", "Documento"],
+                fields_order: ["emisor", "efecto"]
             },
             LeyAprobatoria: {
                 classname: "LeyAprobatoria",
                 human_readable: "Ley Aprobatoria",
                 constant: false,
                 abstract: false,
-                extends: ["ActoNormativo", "Documento"]
+                extends: ["ActoNormativo", "Documento"],
+                fields_order: ["emisor", "efecto"]
             },
             Providencia: {
                 classname: "Providencia",
                 human_readable: "Providencia",
                 constant: false,
                 abstract: false,
-                extends: ["ActoNormativo", "Documento"]
+                extends: ["ActoNormativo", "Documento"],
+                fields_order: ["emisor", "efecto"]
             },
             AcuerdoActoNormativo: {
                 classname: "AcuerdoActoNormativo",
                 human_readable: "Acuerdo",
                 constant: false,
                 abstract: false,
-                extends: ["ActoNormativo", "Documento"]
+                extends: ["ActoNormativo", "Documento"],
+                fields_order: ["emisor", "efecto"]
             },
             Requisitoria: {
                 classname: "Requisitoria",
                 human_readable: "Requisitoria",
                 constant: false,
                 abstract: false,
-                extends: ["ActoNormativo", "Documento"]
+                extends: ["ActoNormativo", "Documento"],
+                fields_order: ["emisor", "efecto"]
             },
             Autorizacion: {
                 classname: "Autorizacion",
                 human_readable: "Autorizacion",
                 constant: false,
                 abstract: false,
-                extends: ["ActoNormativo", "Documento"]
+                extends: ["ActoNormativo", "Documento"],
+                fields_order: ["emisor", "efecto"]
             },
             Pais: {
                 classname: "Pais",
@@ -167,6 +176,7 @@ Schema.create([
                 abstract: false,
                 to_str: ["nombre"],
                 key: ["nombre"],
+                fields_order: ["nombre", "nacionalidad"],
                 fields: {
                     nombre: { type: "string" },
                     nacionalidad: { type: "string" }
@@ -179,6 +189,7 @@ Schema.create([
                 abstract: false,
                 to_str: ["nacionalidad"],
                 key: ["nacionalidad"],
+                fields_order: ["nacionalidad", "pais"],
                 fields: {
                     nacionalidad: { type: "string" },
                     pais: { type: "string" }
@@ -191,7 +202,8 @@ Schema.create([
                 abstract: false,
                 to_str: ["nombre"],
                 key: ["nombre"],
-                extends: ["Institucion"]
+                extends: ["Institucion"],
+                fields_order: ["nombre", "acronimo"]
             },
             Ciudadano: {
                 classname: "Ciudadano",
@@ -200,6 +212,7 @@ Schema.create([
                 abstract: false,
                 to_str: ["cedula", "nombre"],
                 key: ["cedula"],
+                fields_order: ["nombre", "cedula", "es_militar", "pais_de_nacimiento", "nacionalidad","direccion"],
                 fields: {
                     nombre: { type: "string" },
                     cedula: { type: "string" },
@@ -230,7 +243,7 @@ Schema.create([
                 human_readable: "Institucion",
                 fields: {
                     nombre: { type: "string" },
-                    acronimo: { type: "string", nullable: true, blank: true }
+                    acronimo: { type: "string", label: "Acrónimo", nullable: true, blank: true }
                 }
             },
             Organismo: {
@@ -241,6 +254,7 @@ Schema.create([
                 to_str: ["nombre"],
                 key: ["nombre"],
                 extends: ["Institucion"],
+                fields_order: ["nombre", "acronimo", "depende_de"],
                 fields: {
                     depende_de: { type: "Organismo", nullable: true }
                 }
@@ -252,7 +266,8 @@ Schema.create([
                 to_str: ["nombre"],
                 key: ["nombre"],
                 human_readable: "Empresa",
-                extends: ["Institucion"]
+                extends: ["Institucion"],
+                fields_order: ["nombre", "acronimo"]
             },
             EmpresaPrivada: {
                 classname: "EmpresaPrivada",
@@ -262,6 +277,7 @@ Schema.create([
                 to_str: ["nombre"],
                 key: ["nombre"],
                 extends: ["Empresa", "Institucion"],
+                fields_order: ["nombre", "acronimo", "registro_mercantil"],
                 fields: {
                     registro_mercantil: { type: "string" }
                 }
@@ -274,6 +290,15 @@ Schema.create([
                 to_str: ["nombre"],
                 key: ["nombre"],
                 extends: ["Empresa", "Institucion"],
+                fields_order: [
+                    "nombre",
+                    "acronimo",
+                    "capital_inicial",
+                    "duracion",
+                    "accionista_de",
+                    "adscrita_a",
+                    "filial_de"
+                    ],
                 fields: {
                     capital_inicial: { type: "number", nullable: true },
                     duracion: { type: "string" },
@@ -289,7 +314,8 @@ Schema.create([
                 abstract: false,
                 to_str: ["nombre"],
                 key: ["nombre"],
-                extends: ["Institucion"]
+                extends: ["Institucion"],
+                fields_order: ["nombre", "acronimo"]
             },
             EntidadBancaria: {
                 classname: "EntidadBancaria",
@@ -298,7 +324,8 @@ Schema.create([
                 abstract: false,
                 to_str: ["nombre"],
                 key: ["nombre"],
-                extends: ["Institucion"]
+                extends: ["Institucion"],
+                fields_order: ["nombre", "acronimo"]
             },
             Efecto: {
                 classname: "Efecto",
@@ -316,6 +343,7 @@ Schema.create([
                 abstract: false,
                 to_str: ["nombre"],
                 key: ["nombre"],
+                fields_order: ["nombre"],
                 fields: {
                     nombre: { type: "string" }
                 }
@@ -327,6 +355,7 @@ Schema.create([
                 abstract: false,
                 to_str: ["nombre"],
                 key: ["nombre"],
+                fields_order: ["nombre"],
                 fields: {
                     nombre: { type: "string" }
                 }
@@ -337,6 +366,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: ["institucion", "motivo"],
                 fields: {
                     institucion: { type: "Institucion" },
                     motivo: { type: "string" }
@@ -348,11 +378,12 @@ Schema.create([
                 extends: ["Efecto"],
                 constant: false,
                 abstract: false,
+                fields_order: ["institucion", "motivo", "duracion", "motivo_prorroga"],
                 fields: {
                     institucion: { type: "Institucion" },
                     motivo: { type: "string" },
                     duracion: { type: "string" },
-                    motivo_prorroga: { type: "string" }
+                    motivo_prorroga: { type: "string", label: "Motivo de la Prórroga" }
                 }
             },
             Designacion: {
@@ -361,6 +392,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: ["ciudadano", "status", "cargo", "fecha_fin"],
                 fields: {
                     ciudadano: { type: "Ciudadano" },
                     status: {
@@ -380,6 +412,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: ["terreno", "ubicacion", "motivo", "nuevo_uso"],
                 fields: {
                     terreno: { type: "string" },
                     ubicacion: { type: "string" },
@@ -393,6 +426,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: ["beneficiario", "monto", "destino"],
                 fields: {
                     beneficiario: { type: "Institucion" },
                     monto: { type: "number" },
@@ -405,6 +439,14 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: [
+                    "ciudadanos",
+                    "graduacion",
+                    "rango_nuevo",
+                    "rango_anterior",
+                    "promocion",
+                    "componente_militar"
+                    ],
                 fields: {
                     ciudadanos: { type: "[Ciudadano]" },
                     graduacion: { type: "boolean" },
@@ -429,7 +471,8 @@ Schema.create([
                 human_readable: "Licencia De Exploracion Y Explotacion",
                 constant: false,
                 abstract: false,
-                extends: ["Efecto"]
+                extends: ["Efecto"],
+                fields_order: ["fecha"]
             },
             Acuerdo: {
                 classname: "Acuerdo",
@@ -437,10 +480,11 @@ Schema.create([
                 constant: false,
                 abstract: true,
                 extends: ["Efecto"],
+                fields_order: ["fecha", "paises_firmantes", "ambito"],
                 fields: {
                     paises_firmantes: { type: "[Pais]" },
-                    ambito: { type: "string" },
-                    duracion: { type: "string" }
+                    ambito: { type: "string", label: "Ámbito" },
+                    duracion: { type: "string", label: "Duración" }
                 }
             },
             AcuerdoBilateral: {
@@ -448,28 +492,32 @@ Schema.create([
                 human_readable: "Acuerdo Bilateral",
                 constant: false,
                 abstract: false,
-                extends: ["Acuerdo", "Efecto"]
+                extends: ["Acuerdo", "Efecto"],
+                fields_order: ["fecha", "paises_firmantes", "ambito"]
             },
             AcuerdoMarcoDeCooperacion: {
                 classname: "AcuerdoMarcoDeCooperacion",
                 human_readable: "Acuerdo Marco De Cooperacion",
                 constant: false,
                 abstract: false,
-                extends: ["Acuerdo", "Efecto"]
+                extends: ["Acuerdo", "Efecto"],
+                fields_order: ["fecha", "paises_firmantes", "ambito"]
             },
             AcuerdoComplementarioAlAcuerdoMarcoDeCooperacion: {
                 classname: "AcuerdoComplementarioAlAcuerdoMarcoDeCooperacion",
                 human_readable: "Acuerdo Complementario Al Acuerdo Marco De Cooperacion",
                 constant: false,
                 abstract: false,
-                extends: ["Acuerdo", "Efecto"]
+                extends: ["Acuerdo", "Efecto"],
+                fields_order: ["fecha", "paises_firmantes", "ambito"]
             },
             AcuerdoComplementarioDeCooperacion: {
                 classname: "AcuerdoComplementarioDeCooperacion",
                 human_readable: "Acuerdo Complementario De Cooperacion",
                 constant: false,
                 abstract: false,
-                extends: ["Acuerdo", "Efecto"]
+                extends: ["Acuerdo", "Efecto"],
+                fields_order: ["fecha", "paises_firmantes", "ambito"]
             },
             EstablecimientoDeSedeDiplomatica: {
                 classname: "EstablecimientoDeSedeDiplomatica",
@@ -477,6 +525,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: ["fecha", "organismo" ],
                 fields: {
                     organismo: { type: "OrganismoInternacional" }
                 }
@@ -487,6 +536,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: ["fecha", "ciudadano", "cargo", "atribuciones"],
                 fields: {
                     ciudadano: { type: "Ciudadano" },
                     cargo: { type: "Cargo" },
@@ -499,6 +549,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: ["fecha", "ciudadano", "tribunal", "delito"],
                 fields: {
                     ciudadano: { type: "Ciudadano" },
                     tribunal: { type: "Institucion" },
@@ -511,11 +562,12 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: ["fecha", "ciudadano", "cargo", "anos_de_servicio", "institucion"],
                 fields: {
                     ciudadano: { type: "Ciudadano" },
                     cargo: { type: "Cargo" },
                     anos_de_servicio: { type: "number" },
-                    institucion: { type: "Institucion" }
+                    institucion: { type: "Institucion", label: "Institución" }
                 }
             },
             Ley: {
@@ -526,6 +578,7 @@ Schema.create([
                 to_str: ["titulo"],
                 key: ["titulo"],
                 extends: ["Efecto"],
+                fields_order: ["fecha", "titulo", "fecha_de_aprobacion", "tipo", "contenido"],
                 fields: {
                     titulo: { type: "string", label: "Título" },
                     fecha_de_aprobacion: { type: "date" },
@@ -551,6 +604,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: ["fecha", "empresa"],
                 fields: {
                     empresa: { type: "Empresa" }
                 }
@@ -561,6 +615,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
+                fields_order: ["fecha", "organismo", "sustituye_a"],
                 fields: {
                     organismo: { type: "Organismo" },
                     sustituye_a: {
