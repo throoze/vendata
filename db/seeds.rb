@@ -23,6 +23,7 @@ Schema.create([
             "AcuerdoActoNormativo",
             "Requisitoria",
             "Autorizacion",
+            "Decision",
             "Pais",
             "Nacionalidad",
             "OrganismoInternacional",
@@ -107,7 +108,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["emisor", "efecto", "deroga"],
+                fields_order: ["numero", "fecha", "emisor", "efecto", "deroga"],
                 fields: {
                     deroga: {
                         type: "Ley",
@@ -121,7 +122,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efecto"]
             },
             Resolucion: {
                 classname: "Resolucion",
@@ -129,7 +130,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efecto"]
             },
             LeyAprobatoria: {
                 classname: "LeyAprobatoria",
@@ -137,7 +138,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efecto"]
             },
             Providencia: {
                 classname: "Providencia",
@@ -145,7 +146,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efecto"]
             },
             AcuerdoActoNormativo: {
                 classname: "AcuerdoActoNormativo",
@@ -153,7 +154,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efecto"]
             },
             Requisitoria: {
                 classname: "Requisitoria",
@@ -161,7 +162,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efecto"]
             },
             Autorizacion: {
                 classname: "Autorizacion",
@@ -169,7 +170,15 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efecto"]
+            },
+            Decision: {
+                classname: "Decision",
+                human_readable: "Decisión",
+                constant: false,
+                abstract: false,
+                extends: ["ActoNormativo", "Documento"],
+                fields_order: ["numero", "fecha", "emisor", "efecto"]
             },
             Pais: {
                 classname: "Pais",
@@ -752,6 +761,7 @@ Schema.create([
             AcuerdoActoNormativo: [],
             Requisitoria: [],
             Autorizacion: [],
+            Decision: [],
             Pais: [],
             Nacionalidad: [],
             OrganismoInternacional: [],
@@ -831,6 +841,7 @@ Schema.create([
             AcuerdoActoNormativo: ["ActoNormativo", "Documento"],
             Requisitoria: ["ActoNormativo", "Documento"],
             Autorizacion: ["ActoNormativo", "Documento"],
+            Decision: ["ActoNormativo", "Documento"],
             Pais: [],
             Nacionalidad: [],
             OrganismoInternacional: [],
