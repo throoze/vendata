@@ -55,7 +55,9 @@ Schema.create([
             "Jubilacion",
             "Ley",
             "CreacionDeEmpresaEstatal",
-            "CreacionDeOrganismoPublico"
+            "CreacionDeOrganismoPublico",
+            "AprobacionDePresupuestoDeIngresosOGastos",
+            "AprobacionDePresupuestoParaElEjercicioFiscal"
         ],
         descriptions: {
             # Defaults field options:
@@ -362,11 +364,11 @@ Schema.create([
             },
             IntervencionDeInstitucion: {
                 classname: "IntervencionDeInstitucion",
-                human_readable: "Intervencion De Institucion",
+                human_readable: "Intervención De Institución",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
-                fields_order: ["institucion", "motivo"],
+                fields_order: ["fecha", "institucion", "motivo"],
                 fields: {
                     institucion: { type: "Institucion" },
                     motivo: { type: "string" }
@@ -374,13 +376,13 @@ Schema.create([
             },
             ProrrogaDeIntervencion: {
                 classname: "ProrrogaDeIntervencion",
-                human_readable: "Prorroga De Intervencion",
+                human_readable: "Prorroga De Intervención",
                 extends: ["Efecto"],
                 constant: false,
                 abstract: false,
-                fields_order: ["institucion", "motivo", "duracion", "motivo_prorroga"],
+                fields_order: ["fecha", "institucion", "motivo", "duracion", "motivo_prorroga"],
                 fields: {
-                    institucion: { type: "Institucion" },
+                    institucion: { type: "Institucion", label: "Institución" },
                     motivo: { type: "string" },
                     duracion: { type: "string" },
                     motivo_prorroga: { type: "string", label: "Motivo de la Prórroga" }
@@ -388,11 +390,11 @@ Schema.create([
             },
             Designacion: {
                 classname: "Designacion",
-                human_readable: "Designacion",
+                human_readable: "Designación",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
-                fields_order: ["ciudadano", "status", "cargo", "fecha_fin"],
+                fields_order: ["fecha", "ciudadano", "status", "cargo", "fecha_fin"],
                 fields: {
                     ciudadano: { type: "Ciudadano" },
                     status: {
@@ -408,11 +410,11 @@ Schema.create([
             },
             Expropiacion: {
                 classname: "Expropiacion",
-                human_readable: "Expropiacion",
+                human_readable: "Expropiación",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
-                fields_order: ["terreno", "ubicacion", "motivo", "nuevo_uso"],
+                fields_order: ["fecha", "terreno", "ubicacion", "motivo", "nuevo_uso"],
                 fields: {
                     terreno: { type: "string" },
                     ubicacion: { type: "string" },
@@ -422,11 +424,11 @@ Schema.create([
             },
             CreditoAdicional: {
                 classname: "CreditoAdicional",
-                human_readable: "Credito Adicional",
+                human_readable: "Crédito Adicional",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
-                fields_order: ["beneficiario", "monto", "destino"],
+                fields_order: ["fecha", "beneficiario", "monto", "destino"],
                 fields: {
                     beneficiario: { type: "Institucion" },
                     monto: { type: "number" },
@@ -440,6 +442,7 @@ Schema.create([
                 abstract: false,
                 extends: ["Efecto"],
                 fields_order: [
+                    "fecha", 
                     "ciudadanos",
                     "graduacion",
                     "rango_nuevo",
@@ -468,11 +471,16 @@ Schema.create([
             },
             LicenciaDeExploracionYExplotacion: {
                 classname: "LicenciaDeExploracionYExplotacion",
-                human_readable: "Licencia De Exploracion Y Explotacion",
+                human_readable: "Licencia De Exploración Y Explotación",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
-                fields_order: ["fecha"]
+                fields_order: ["fecha", "tipo", "actividades_a_desarrollar", "empresa_beneficiaria"],
+                fields: {
+                    tipo: { type: "string", options: ["Revocación", "Concesión"] },
+                    actividades_a_desarrollar: { type: "string" },
+                    empresa_beneficiaria: { type: "Empresa" }
+                }
             },
             Acuerdo: {
                 classname: "Acuerdo",
@@ -497,7 +505,7 @@ Schema.create([
             },
             AcuerdoMarcoDeCooperacion: {
                 classname: "AcuerdoMarcoDeCooperacion",
-                human_readable: "Acuerdo Marco De Cooperacion",
+                human_readable: "Acuerdo Marco De Cooperación",
                 constant: false,
                 abstract: false,
                 extends: ["Acuerdo", "Efecto"],
@@ -505,7 +513,7 @@ Schema.create([
             },
             AcuerdoComplementarioAlAcuerdoMarcoDeCooperacion: {
                 classname: "AcuerdoComplementarioAlAcuerdoMarcoDeCooperacion",
-                human_readable: "Acuerdo Complementario Al Acuerdo Marco De Cooperacion",
+                human_readable: "Acuerdo Complementario Al Acuerdo Marco De Cooperación",
                 constant: false,
                 abstract: false,
                 extends: ["Acuerdo", "Efecto"],
@@ -513,7 +521,7 @@ Schema.create([
             },
             AcuerdoComplementarioDeCooperacion: {
                 classname: "AcuerdoComplementarioDeCooperacion",
-                human_readable: "Acuerdo Complementario De Cooperacion",
+                human_readable: "Acuerdo Complementario De Cooperación",
                 constant: false,
                 abstract: false,
                 extends: ["Acuerdo", "Efecto"],
@@ -521,7 +529,7 @@ Schema.create([
             },
             EstablecimientoDeSedeDiplomatica: {
                 classname: "EstablecimientoDeSedeDiplomatica",
-                human_readable: "Establecimiento De Sede Diplomatica",
+                human_readable: "Establecimiento De Sede Diplomática",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
@@ -532,7 +540,7 @@ Schema.create([
             },
             DelegacionDeFunciones: {
                 classname: "DelegacionDeFunciones",
-                human_readable: "Delegacion De Funciones",
+                human_readable: "Delegación De Funciones",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
@@ -545,7 +553,7 @@ Schema.create([
             },
             OrdenDeAprehension: {
                 classname: "OrdenDeAprehension",
-                human_readable: "Orden De Aprehension",
+                human_readable: "Orden De Aprehensión",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
@@ -558,7 +566,7 @@ Schema.create([
             },
             Jubilacion: {
                 classname: "Jubilacion",
-                human_readable: "Jubilacion",
+                human_readable: "Jubilación",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
@@ -581,7 +589,7 @@ Schema.create([
                 fields_order: ["fecha", "titulo", "fecha_de_aprobacion", "tipo", "contenido"],
                 fields: {
                     titulo: { type: "string", label: "Título" },
-                    fecha_de_aprobacion: { type: "date" },
+                    fecha_de_aprobacion: { type: "date", label: "Fecha De Aprobación" },
                     tipo: {
                         type: "string",
                         options: [
@@ -600,7 +608,7 @@ Schema.create([
             },
             CreacionDeEmpresaEstatal: {
                 classname: "CreacionDeEmpresaEstatal",
-                human_readable: "Creacion De Empresa Estatal",
+                human_readable: "Creación De Empresa Estatal",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
@@ -611,7 +619,7 @@ Schema.create([
             },
             CreacionDeOrganismoPublico: {
                 classname: "CreacionDeOrganismoPublico",
-                human_readable: "Creacion De Organismo Publico",
+                human_readable: "Creación De Organismo Público",
                 constant: false,
                 abstract: false,
                 extends: ["Efecto"],
@@ -622,6 +630,32 @@ Schema.create([
                         type: "Organismo",
                         nullable: true
                     }
+                }
+            },
+            AprobacionDePresupuestoDeIngresosOGastos: {
+                classname: "AprobacionDePresupuestoDeIngresosOGastos",
+                human_readable: "Aprobación De Presupuesto De Ingresos O Gastos",
+                extends: ["Efecto"],
+                constant: false,
+                abstract: false,
+                fields_order: ["fecha", "empresa_beneficiaria", "monto_aprobado", "fecha_de_aprobacion"],
+                fields: {
+                    empresa_beneficiaria: { type: "EmpresaEstatal" },
+                    monto_aprobado: { type: "number" },
+                    fecha_de_aprobacion: { type: "date", label: "Fecha De Aprobación" }
+                }
+            },
+            AprobacionDePresupuestoParaElEjercicioFiscal: {
+                classname: "AprobacionDePresupuestoParaElEjercicioFiscal",
+                human_readable: "Aprobación De Presupuesto Para El Ejercicio Fiscal",
+                extends: ["Efecto"],
+                constant: false,
+                abstract: false,
+                fields_order: ["fecha", "beneficiario", "monto_aprobado", "fecha_de_aprobacion"],
+                fields: {
+                    beneficiario: { type: "string" },
+                    monto_aprobado: { type: "number" },
+                    fecha_de_aprobacion: { type: "date", label: "Fecha De Aprobación" }
                 }
             }
         },
@@ -749,7 +783,9 @@ Schema.create([
                 "Jubilacion",
                 "Ley",
                 "CreacionDeEmpresaEstatal",
-                "CreacionDeOrganismoPublico"
+                "CreacionDeOrganismoPublico",
+                "AprobacionDePresupuestoDeIngresosOGastos",
+                "AprobacionDePresupuestoParaElEjercicioFiscal"
             ],
             Cargo: [],
             Rango: [],
@@ -776,7 +812,9 @@ Schema.create([
             Jubilacion: [],
             Ley: [],
             CreacionDeEmpresaEstatal: [],
-            CreacionDeOrganismoPublico: []
+            CreacionDeOrganismoPublico: [],
+            AprobacionDePresupuestoDeIngresosOGastos: [],
+            AprobacionDePresupuestoParaElEjercicioFiscal: []
         },
         inheritance: {
             # Keys are the possible collections, and values are the
@@ -826,6 +864,8 @@ Schema.create([
             Ley: ["Efecto"],
             CreacionDeEmpresaEstatal: ["Efecto"],
             CreacionDeOrganismoPublico: ["Efecto"],
+            AprobacionDePresupuestoDeIngresosOGastos: ["Efecto"],
+            AprobacionDePresupuestoParaElEjercicioFiscal: ["Efecto"]
         }
     }
 ])
