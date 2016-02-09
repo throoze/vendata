@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20151106235759) do
     t.integer  "source_id"
     t.integer  "source_latest_id"
     t.string   "document_id"
-    t.text     "sub_documents"
+    t.text     "documents"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
@@ -83,6 +83,8 @@ ActiveRecord::Schema.define(version: 20151106235759) do
     t.integer  "user_id"
     t.integer  "source_id"
     t.integer  "scraping_id"
+    t.string   "message"
+    t.boolean  "positive",    null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end

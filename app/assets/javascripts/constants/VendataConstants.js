@@ -108,6 +108,7 @@ module.exports = {
         SUBMIT:                    "Enviar",
         DELETE:                    "Eliminar",
         ADD:                       "Agregar",
+        ADD_NEW_OPT:               "Agregar nueva opción...",
         CLOSE:                     "Cerrar",
         CREATED:                   "Creado!",
         SUCCESSFULLY_CREATED:      "La entidad ha sido creada con éxito!",
