@@ -1,4 +1,4 @@
-// ./components/scraping/Scraping.js.jsx
+// ./components/scraping/Validation.js.jsx
 var ScrapingActionCreators  = require('../../actions/ScrapingActionCreators');
 var ScrapingStore           = require('../../stores/ScrapingStore');
 var BS                      = require('react-bootstrap');
@@ -9,7 +9,7 @@ var ButtonToolbar           = BS.ButtonToolbar,
 var DocumentVisor           = require('./DocumentVisor');
 var ScrapingForm            = require('./ScrapingForm');
 
-var ScrapingToolbar = React.createClass({
+var ValidationToolbar = React.createClass({
 
     _onAskNewDocForScraping: function(callback) {
         ScrapingActionCreators.loadDocumentForScraping();
@@ -26,15 +26,12 @@ var ScrapingToolbar = React.createClass({
     },
 
     render : function() {
-        var scrapNew           = VendataConstants.Strings.SCRAP_NEW;
-        var scrapNewHandler    = this._onAskNewDocForScraping;
         var validateNew        = VendataConstants.Strings.VALIDATE_NEW;
         var validateNewHandler = this._onAskNewDocForValidating;
         var clearDoc           = VendataConstants.Strings.CLEAR_DOC;
         return (
             <ButtonToolbar>
                 <ButtonGroup>
-                    <LoadingButton clickHandler={scrapNewHandler}>{scrapNew}</LoadingButton>
                     <LoadingButton disabled clickHandler={validateNewHandler}>{validateNew}</LoadingButton>
                     <Button disabled={!this.props.enableClear} onClick={this._onClearDoc}>{clearDoc}</Button>
                 </ButtonGroup>
@@ -43,7 +40,7 @@ var ScrapingToolbar = React.createClass({
     }
 });
 
-var Scraping = React.createClass({
+var Validation = React.createClass({
 
     contextTypes: {
         router: React.PropTypes.func
@@ -83,7 +80,7 @@ var Scraping = React.createClass({
         if (this.props.isLoggedIn) {
             return (
                 <div id="scraping" className="scraping">
-                    <ScrapingToolbar enableClear={this.state.hasDoc}/>
+                    <ValidationToolbar enableClear={this.state.hasDoc}/>
                     <div className="scraping-container">
                         <DocumentVisor className="document-visor" />
                         <ScrapingForm {...this.props} schemata={this.state.schemata} className="scraping-form" />
@@ -94,4 +91,4 @@ var Scraping = React.createClass({
     }
 });
 
-module.exports = Scraping;
+module.exports = Validation;
