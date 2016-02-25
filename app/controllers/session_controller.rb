@@ -3,4 +3,8 @@ class SessionController < ApplicationController
 
     def index
     end
+
+    def all_users
+        @users = User.all() 
+    end
 end

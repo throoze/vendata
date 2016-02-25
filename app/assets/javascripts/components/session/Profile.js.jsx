@@ -9,6 +9,7 @@ var NavigationBar = require('../../components/layouts/NavigationBar.js.jsx');
 var BS            = require('react-bootstrap');
 var Create        = require('./Create');
 var Update        = require('./Update');
+var ListaUsuarios = require('./ListaUsuarios');
 var Input         = BS.Input,
     Panel         = BS.Panel,
     ListGroup     = BS.ListGroup,
@@ -27,11 +28,6 @@ function getStateFromStores() {
         access_token:SessionStore.getAccessToken(),
         client:SessionStore.getClient(),
         expiry:SessionStore.getExpiry(),
-
-      // t.string :nickname
-      // t.string :image
-      // t.string :email
-      // t.string :role
     };
 }
 
@@ -60,6 +56,14 @@ Profile = React.createClass({
 
     _openUpdate: function(){
         this.setState({openUpdate: !this.state.openUpdate});
+    },
+
+    _openStatistics: function(){
+        this.setState({openStatistics: !this.state.openStatistics});
+    },
+
+    _openManageUsers: function(){
+        this.setState({openManageUsers: !this.state.openManageUsers});
     },
 
     _checkStateValue: function(e) {
@@ -95,6 +99,18 @@ Profile = React.createClass({
                         </Panel>
                     </div>
                 </Collapse>
+                <Button bsStyle="primary" onClick={this._openStatistics}>{Strings.MY_STATISTICS}</Button>
+                <Collapse in={this.state.openStatistics}>
+                    <div>
+                    Aqui van las estadisticas
+                    </div>
+                </Collapse>
+                <Button bsStyle="primary" onClick={this._openManageUsers}>{Strings.MANAGE_USERS_STATISTICS}</Button>
+                <Collapse in={this.state.openManageUsers}>
+                    <div>
+                    <ListaUsuarios></ListaUsuarios>
+                    </div>
+                </Collapse>
             </div>
             ):(
             <div>
@@ -112,6 +128,11 @@ Profile = React.createClass({
                             uRole           = {this.state.user.role}
                           ></Update>
                         </Panel>
+                    </div>
+                </Collapse>
+                <Button bsStyle="primary" onClick={this._openStatistics}>{Strings.MY_STATISTICS}</Button>
+                <Collapse in={this.state.openStatistics}>
+                    <div>
                     </div>
                 </Collapse>
             </div> 

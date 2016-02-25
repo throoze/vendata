@@ -179,6 +179,17 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       SessionStore.emitChange();
       break;
 
+    case ActionTypes.RECEIVE_ALL_USERS:
+
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else {
+        _errors = "";
+      };
+
+      SessionStore.emitChange();
+
     default:
   }
   return true;

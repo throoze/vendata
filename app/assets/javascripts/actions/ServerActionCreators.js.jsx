@@ -60,6 +60,14 @@ module.exports = {
     });
   },
 
+  receiveAllUsers: function(json, errors){
+    VendataAppDispatcher.handleServerAction({
+      type:ActionTypes.RECEIVE_ALL_USERS,
+      json: json,
+      errors: errors 
+    });
+  },  
+
   receiveConstantClass: function(json, errors) {
     VendataAppDispatcher.handleServerAction({
       type: ActionTypes.RECEIVE_CONSTANT_CLASS,

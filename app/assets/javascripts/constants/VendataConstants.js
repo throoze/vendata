@@ -15,6 +15,7 @@ module.exports = {
         REGISTRATION: Root + "/auth/",
         LOGOUT:       Root + "/auth/sign_out",
         UPDATE:       Root + "/auth/",
+        GET_ALL_USERS:Root + "/all_users",
 
         // Schemata
         SCHEMATA:              Root + "/schemata",              // GET
@@ -55,7 +56,9 @@ module.exports = {
         UPDATE_REQUEST: null,
         UPDATE_RESPONSE: null,
         LOAD_USER: null,
+        LOAD_ALL_USERS:  null,
         RECEIVE_LOAD_USER: null,
+        RECEIVE_ALL_USERS: null, 
 
         // Routes
         REDIRECT: null,
@@ -131,6 +134,9 @@ module.exports = {
         EMAIL:                     "Email",
         UPDATE_ACTION:             "Actualizar Informacion",
         CREATE_ACTION:             "Crear Usuario",
+        FORM_NUMBER:               "Formularios LLenados",
+        VALIDATION_NUMBER:         "Validaciones Hechas",  
+        LAST_TIME_CONNECTED:       "Ultima Conexion", 
 
         ERROR:                     "Error!",
         ERROR_FORM:                "Errores al procesar el formulario!",

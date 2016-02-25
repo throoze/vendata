@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/v1/auth'
   root 'application#index'
 
+  get 'all_users' => 'session#all_users'
   get 'login' => 'session#index', as: 'login'
   get 'profile' => 'session#index', as: 'profile'
   get 'scraping' => 'scraping#index', as: 'scraping'

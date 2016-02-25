@@ -46,5 +46,11 @@ module.exports = {
     WebAPIUtils.loadUser();
   },
 
-
+  loadAllUsers: function(){
+    VendataAppDispatcher.handleViewAction({
+      type: ActionTypes.LOAD_ALL_USERS
+    });
+    WebAPIUtils.loadAllUsers();
+  },
+  
 };

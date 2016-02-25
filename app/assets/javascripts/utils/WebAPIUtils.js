@@ -102,6 +102,21 @@ module.exports = {
     ServerActionCreators.receiveLoadUser("OK",null);  
   },
 
+  loadAllUsers: function(){
+    request.get(APIEndpoints.GET_ALL_USERS)
+    .send()
+    .end(function(error,res){
+      if (res){
+        if (res.error){
+          //Retornar Error.
+        } else {
+          //Retornar Lista de Usuarios.
+        }
+      }
+    });
+    ServerActionCreators.receiveAllUsers("OK",null);  
+  },
+
   loadSchemata: function(){
       var json      = null;
       var errorMsgs = null;
