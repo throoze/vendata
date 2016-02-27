@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'api/v1/auth'
+  mount_devise_token_auth_for 'User',at: 'api/v1/auth', :controllers => { :confirmations => 'confirmations' }
   root 'application#index'
 
   get 'login' => 'session#index', as: 'login'
   get 'profile' => 'session#index', as: 'profile'
   get 'scraping' => 'scraping#index', as: 'scraping'
+
+  devise_scope :user do
+    get '/confirm/:confirmation_token', :to => "devise/confirmations#show", :as => "user_confirm", :only_path => false
+  end
 
   namespace :api do
     namespace :v1 do
