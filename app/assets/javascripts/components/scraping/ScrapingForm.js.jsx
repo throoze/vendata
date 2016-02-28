@@ -1115,7 +1115,9 @@ var ScrapingForm = React.createClass({
                     level: 'error'
                 });
             };
+            ScrapingActionCreators.scrap(payload, success, error);
         } catch(errors) {
+            console.log(errors); 
             var formatted_errors = Utils.reformat(errors); 
             var message = []; 
             Object.keys(formatted_errors).forEach( function(element, index) {
