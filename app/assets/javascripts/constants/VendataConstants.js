@@ -15,7 +15,7 @@ module.exports = {
         REGISTRATION: Root + "/auth/",
         LOGOUT:       Root + "/auth/sign_out",
         UPDATE:       Root + "/auth/",
-        GET_ALL_USERS:Root + "/all_users",
+        USERS_STATISTICS: "/users_statistics", //GET
 
         // Schemata
         SCHEMATA:              Root + "/schemata",              // GET
@@ -56,10 +56,9 @@ module.exports = {
         UPDATE_REQUEST: null,
         UPDATE_RESPONSE: null,
         LOAD_USER: null,
-        LOAD_ALL_USERS:  null,
+        LOAD_USERS_STATISTICS: null,
         RECEIVE_LOAD_USER: null,
-        RECEIVE_ALL_USERS: null, 
-
+        RECEIVE_USERS_STATISTICS: null,
         // Routes
         REDIRECT: null,
 

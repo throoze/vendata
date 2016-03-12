@@ -9,12 +9,14 @@ var CHANGE_EVENT         = VendataConstants.Events.CHANGE;
 // Load an access token from the session storage, you might want to implement
 // a 'remember me' using localSgorage
 var _accessToken = sessionStorage.getItem('accessToken');
-var _email = sessionStorage.getItem('email');
-var _client = sessionStorage.getItem('client');
-var _user = sessionStorage.getItem('user');
-var _expiry = sessionStorage.getItem('expiry');
-var _errors = [];
-var _resCreate = "";
+var _email       = sessionStorage.getItem('email');
+var _client      = sessionStorage.getItem('client');
+var _user        = sessionStorage.getItem('user');
+var _expiry      = sessionStorage.getItem('expiry');
+var _token_type  = sessionStorage.getItem('token-type');
+var _errors      = [];
+var _resCreate   = "";
+var _userList    = [];
 
 var SessionStore = assign({}, EventEmitter.prototype, {
 
@@ -49,6 +51,10 @@ var SessionStore = assign({}, EventEmitter.prototype, {
             'expiry': _expiry,
             'token-type': 'Bearer'
           };
+  },
+
+  getUserStatistics: function() {
+    return _userList;
   },
 
   isLoggedIn: function() {
@@ -179,14 +185,17 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
       SessionStore.emitChange();
       break;
 
-    case ActionTypes.RECEIVE_ALL_USERS:
+    case ActionTypes.RECEIVE_USERS_STATISTICS:
 
-      if (action.errors) {
-        _errors = action.errors;
-      }
-      else {
+      if (action.json) {
+        _userList = action.json; 
+      }; 
+
+      if (action.erros) {
+        _errors = action.erros; 
+      }else {
         _errors = "";
-      };
+      }
 
       SessionStore.emitChange();
 

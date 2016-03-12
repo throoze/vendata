@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'login' => 'session#index', as: 'login'
   get 'profile' => 'session#index', as: 'profile'
   get 'scraping' => 'scraping#index', as: 'scraping'
+  get 'users_statistics' => 'session#scrapingsNum', as:'users_statistics'
 
   namespace :api do
     namespace :v1 do

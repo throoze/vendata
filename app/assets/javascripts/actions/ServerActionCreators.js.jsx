@@ -60,7 +60,15 @@ module.exports = {
     });
   },
 
-  receiveAllUsers: function(json, errors){
+  receiveUsersStatistics: function(json, errors){
+    VendataAppDispatcher.handleServerAction({
+      type: ActionTypes.RECEIVE_USERS_STATISTICS,
+      json: json,
+      errors: errors
+    });
+  },
+
+  receiveConstantClass: function(json, errors) {
     VendataAppDispatcher.handleServerAction({
       type:ActionTypes.RECEIVE_ALL_USERS,
       json: json,

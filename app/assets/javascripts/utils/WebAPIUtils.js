@@ -102,19 +102,19 @@ module.exports = {
     ServerActionCreators.receiveLoadUser("OK",null);  
   },
 
-  loadAllUsers: function(){
-    request.get(APIEndpoints.GET_ALL_USERS)
-    .send()
+  loadUserStatistics: function() {
+    request.get(APIEndpoints.USERS_STATISTICS)
     .end(function(error,res){
-      if (res){
-        if (res.error){
-          //Retornar Error.
+      if (res) {
+        var errorMsgs = _getErrors(res); 
+        if (res.error) {
+          ServerActionCreators.receiveUsersStatistics(null,errorMsgs);
         } else {
-          //Retornar Lista de Usuarios.
+          json = JSON.parse(res.text);
+          ServerActionCreators.receiveUsersStatistics(json,null);
         }
       }
     });
-    ServerActionCreators.receiveAllUsers("OK",null);  
   },
 
   loadSchemata: function(){

@@ -16,14 +16,44 @@ var ButtonInput           = BS.ButtonInput,
 
 function getStateFromStores() {
     return {
-        Users: SessionActionCreators.loadAllUsers()
+        users_statistics: SessionStore.getUserStatistics()
     };
 }
+
+// var blah = <Table responsive>
+//                     <thead>
+//                         <tr>
+//                             <th>#</th>
+//                             <th>Strings.NAME</th>
+//                             <th>Strings.FORM_NUMBER</th>
+//                             <th>Strings.VALIDATION_NUMBER</th>
+//                             <th>Strings.LAST_TIME_CONNECTED</th>
+//                             <th>Strings.ROLE</th>
+//                             <th>Strings.EMAIL</th>
+//                         </tr>
+//                     </thead>
+//                     <tbody>
+//                         {this.state.Users.map(function(usuario){
+//                             return (
+//                                 <tr>
+//                                     <td>1</td>
+//                                     <td>Table cell</td>
+//                                     <td>Table cell</td>
+//                                     <td>Table cell</td>
+//                                     <td>Table cell</td>
+//                                     <td>Table cell</td>
+//                                     <td>Table cell</td>
+//                                 </tr>
+//                             );
+//                         })}
+//                     </tbody>
+//                 </Table>
 
 
 var ListaUsuarios = React.createClass({
 
     getInitialState: function() {
+        SessionActionCreators.loadUserStatistics()
         return getStateFromStores();
     },
 
@@ -42,34 +72,7 @@ var ListaUsuarios = React.createClass({
     render: function() {
         return (
             <div>
-                <Table responsive>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Strings.NAME</th>
-                            <th>Strings.FORM_NUMBER</th>
-                            <th>Strings.VALIDATION_NUMBER</th>
-                            <th>Strings.LAST_TIME_CONNECTED</th>
-                            <th>Strings.ROLE</th>
-                            <th>Strings.EMAIL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.Users.map(function(usuario){
-                            return (
-                                <tr>
-                                    <td>1</td>
-                                    <td>Table cell</td>
-                                    <td>Table cell</td>
-                                    <td>Table cell</td>
-                                    <td>Table cell</td>
-                                    <td>Table cell</td>
-                                    <td>Table cell</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </Table>
+                {this.state.users_statistics}
             </div>
         );
     }
