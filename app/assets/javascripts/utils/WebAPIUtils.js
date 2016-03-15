@@ -27,8 +27,10 @@ module.exports = {
       .send({email: email, password: password, password_confirmation: password_confirmation})
       .end(function(error, res){
         if (res) {
+          console.log(res.text);
           if (res.error) {
-            var errorMsgs = _getErrors(res);
+            var json = JSON.parse(res.text); 
+            var errorMsgs = json.errors.full_messages;
             ServerActionCreators.receiveCreate(null, errorMsgs);
           } else {
             json = JSON.parse(res.text);

@@ -97,14 +97,10 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
   switch(action.type) {
 
     case ActionTypes.CREATE_RESPONSE:
-      console.log("respuesta ok");
       if (action.errors) {
-        console.log("hubo error");
-        console.log(action.errors+ " AQUI");
         _errors = action.errors;
       }
       else {
-        console.log("no hubo error");
         _errors = ["Exito!"];
       }
       SessionStore.emitChange();
