@@ -133,9 +133,14 @@ module.exports = {
         EMAIL:                     "Email",
         UPDATE_ACTION:             "Actualizar Informacion",
         CREATE_ACTION:             "Crear Usuario",
-        FORM_NUMBER:               "Formularios LLenados",
-        VALIDATION_NUMBER:         "Validaciones Hechas",  
+        SCRAPING_NUMBER:           "# Scrapings",
+        VALIDATION_NUMBER:         "# Validaciones",  
         LAST_TIME_CONNECTED:       "Ultima Conexion", 
+        MY_STATISTICS:             "Mis Estadisticas",
+        MANAGE_USERS_STATISTICS:   "Estadisticas Globales",
+        CONNECTION_NUMBER:         "# Conexiones",
+
+
 
         ERROR:                     "Error!",
         ERROR_FORM:                "Errores al procesar el formulario!",

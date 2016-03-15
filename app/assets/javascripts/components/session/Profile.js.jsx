@@ -9,7 +9,7 @@ var NavigationBar = require('../../components/layouts/NavigationBar.js.jsx');
 var BS            = require('react-bootstrap');
 var Create        = require('./Create');
 var Update        = require('./Update');
-var ListaUsuarios = require('./ListaUsuarios');
+var Estadisticas = require('./Estadisticas');
 var Input         = BS.Input,
     Panel         = BS.Panel,
     ListGroup     = BS.ListGroup,
@@ -73,7 +73,7 @@ Profile = React.createClass({
     },
 
     render: function() {
-        var PossibleActions = this.state.user.role === "Admin" ? (
+        var PossibleActions = this.state.user.role === "admin" ? (
             <div>
                 <Button bsStyle="primary" onClick={this._openCreate}>{Strings.CREATE_ACTION}</Button>
                 <Collapse in={this.state.openCreate}>
@@ -102,13 +102,13 @@ Profile = React.createClass({
                 <Button bsStyle="primary" onClick={this._openStatistics}>{Strings.MY_STATISTICS}</Button>
                 <Collapse in={this.state.openStatistics}>
                     <div>
-                    Aqui van las estadisticas
+                        <Estadisticas uEmail={this.state.email}></Estadisticas>
                     </div>
                 </Collapse>
                 <Button bsStyle="primary" onClick={this._openManageUsers}>{Strings.MANAGE_USERS_STATISTICS}</Button>
                 <Collapse in={this.state.openManageUsers}>
                     <div>
-                    <ListaUsuarios></ListaUsuarios>
+                    <Estadisticas uEmail= "null" ></Estadisticas>
                     </div>
                 </Collapse>
             </div>
@@ -133,6 +133,7 @@ Profile = React.createClass({
                 <Button bsStyle="primary" onClick={this._openStatistics}>{Strings.MY_STATISTICS}</Button>
                 <Collapse in={this.state.openStatistics}>
                     <div>
+                        <Estadisticas uEmail={this.state.email}></Estadisticas>
                     </div>
                 </Collapse>
             </div> 

@@ -18,6 +18,7 @@ class SessionController < ApplicationController
             user_dic['name'] = u.name
             user_dic['email'] = u.email 
             user_dic['role'] = u.role
+            user_dic['id'] = u.id
             res.push(user_dic)
         end
         

@@ -83,7 +83,6 @@ var Update = React.createClass({
         e.preventDefault();
         this.setState({ errors: [] });
         var email = this.state.emailValue.trim();
-        var role = this.state.roleValue.trim();
         var password = this.state.passValue.trim();
         var confirm = this.state.passConfirmationValue.trim();
         var name = this.state.nameValue.trim();
@@ -104,7 +103,6 @@ var Update = React.createClass({
           <div>
             <form onSubmit={this._onSubmit}>
               <Input type="text"  value={this.state.emailValue} label="Email" onChange={this._emailChange}/>
-              <Input type="text"  value={this.state.roleValue} label="Rol" onChange={this._roleChange}/>
               <Input type="text"  value={this.state.nickValue} label="Apodo" onChange={this._nickChange}/>
               <Input type="text"  value={this.state.nameValue} label="Nombre" onChange={this._nameChange}/>
               <Input type="password"  value={this.state.passValue} label="Clave" onChange={this._passChange}/>
