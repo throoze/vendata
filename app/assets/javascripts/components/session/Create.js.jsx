@@ -43,7 +43,6 @@ var Create = React.createClass({
         this.setState({ errors: SessionStore.getErrors() });
         if ((this.state.errors.length) !== 0) {
           this.setState({ alertVisible:true });
-          console.log(this.state.alertVisible);
         };
     },
 

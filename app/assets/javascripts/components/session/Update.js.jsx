@@ -89,7 +89,6 @@ var Update = React.createClass({
         var nickname = this.state.nickValue.trim();
         body = {
             "email":email,
-            "role":role,
             "password":password,
             "name":name,
             "nickname":nickname,
