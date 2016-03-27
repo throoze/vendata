@@ -25,6 +25,6 @@ DeviseTokenAuth.setup do |config|
   # attribute updates. Set it to :password if you want it to be checked only if
   # password is updated.
   # config.check_current_password_before_update = :attributes
-  config.default_confirm_success_url = "http://localhost:3000/"
+  config.default_confirm_success_url = "http://"+ENV['VENDATA_HOST']+"/"
   change_headers_on_each_request = false
 end

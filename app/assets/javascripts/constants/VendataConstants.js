@@ -1,7 +1,7 @@
 // constants/SmallConstants.js
-var keyMirror = require('keymirror');
-
-var APIRoot    = "http://localhost:3000/api/";
+var keyMirror  = require('keymirror');
+// var APIRoot    = "http://"+VENDATA_HOST+"/api/";
+var APIRoot    = "/api/";
 var APIVersion = "v1";
 var Root       = APIRoot + APIVersion;
 
@@ -110,6 +110,7 @@ module.exports = {
         SUBMIT:                    "Enviar",
         DELETE:                    "Eliminar",
         ADD:                       "Agregar",
+        ADD_NEW_OPT:               "Agregar nueva opción...",
         CLOSE:                     "Cerrar",
         CREATED:                   "Creado!",
         SUCCESSFULLY_CREATED:      "La entidad ha sido creada con éxito!",

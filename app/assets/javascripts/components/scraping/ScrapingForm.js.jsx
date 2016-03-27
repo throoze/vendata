@@ -601,7 +601,7 @@ var Constant = React.createClass({
                     searchingText={Strings.SEARCHING}
                     onChange={this._update}
                     extra={null} />
-                <Button className="add-new" bsStyle="success" onClick={this._add_new_constant}>{Strings.ADD}</Button>
+                <Button className="add-new" bsStyle="success" onClick={this._add_new_constant}>{Strings.ADD_NEW_OPT}</Button>
                 {this.props.extra}
             </Panel>
             );
@@ -746,22 +746,11 @@ var ConstantCreator = React.createClass({
         var type = this.props.type;
         var schema = this._findSchema(this.props);
         var schemata = this.props.schemata;
-        var fields = [];
         var self = this;
 
         var showLabel = null;
         var childrenShowLabel = this.props.showLabel;
-        var fields = [];
-        for (var key in schema.fields) {
-            if (schema.fields.hasOwnProperty(key)) {
-                var hidden = schema.fields[key].hidden !== null &&
-                             schema.fields[key].hidden !== undefined ?
-                             schema.fields[key].hidden : false;
-                if (!hidden)
-                    fields.push(key);
-            }
-        }
-        fields.sort();
+        var fields = schema.description.fields_order;
         if (this.props.showLabel) {
             showLabel = <label>{Utils.labelify(this.props.fieldname.toString())}</label>;
         } else {
@@ -818,7 +807,7 @@ var Entity = React.createClass({
         var self = this;
         var errors = [];
         var schema = this._findSchema(this.props);
-        var fields = Object.keys(schema.fields);
+        var fields = schema.description.fields_order;
         var fieldname = this.props.fieldname;
         if (this._is_abstract_or_constant()) {
             try {
@@ -892,7 +881,7 @@ var Entity = React.createClass({
 
     _update: function(){
         var schema = this._findSchema(this.props);
-        var fields = Object.keys(schema.fields);
+        var fields = schema.description.fields_order;
         var callback = this.props.onChange;
         if (this._is_abstract_or_constant()) {
             this.setState({ value: this.refs.entity.getValue() }, callback);
@@ -917,7 +906,6 @@ var Entity = React.createClass({
         var abstract = (schema.description.abstract !== undefined) && 
                        (schema.description.abstract !== null)? schema.description.abstract : false;
         var is_constant = schema.description.constant;
-        var fields = [];
         var self = this;
 
         if (abstract) {
@@ -928,17 +916,7 @@ var Entity = React.createClass({
             } else {
                 var showLabel = null;
                 var childrenShowLabel = this.props.showLabel;
-                var fields = [];
-                for (var key in schema.fields) {
-                    if (schema.fields.hasOwnProperty(key)) {
-                        var hidden = schema.fields[key].hidden !== null &&
-                                     schema.fields[key].hidden !== undefined ?
-                                     schema.fields[key].hidden : false;
-                        if (!hidden)
-                            fields.push(key);
-                    }
-                }
-                fields.sort();
+                var fields = schema.description.fields_order;
                 if (this.props.showLabel) {
                     showLabel = <label>{Utils.labelify(this.props.fieldname.toString())}</label>;
                 } else {
@@ -1137,7 +1115,9 @@ var ScrapingForm = React.createClass({
                     level: 'error'
                 });
             };
+            ScrapingActionCreators.scrap(payload, success, error);
         } catch(errors) {
+            console.log(errors); 
             var formatted_errors = Utils.reformat(errors); 
             var message = []; 
             Object.keys(formatted_errors).forEach( function(element, index) {

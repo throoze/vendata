@@ -25,7 +25,7 @@ Rails.application.configure do
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  # config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -80,4 +80,19 @@ Rails.application.configure do
   # React
   config.react.variant = :production
   config.react.addons  = true
+
+  # Mailer
+  config.action_mailer.default_url_options = { :host => ENV['VENDATA_HOST'] }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      :address              => "smtp.sendgrid.net",
+      :port                 => 587,
+      :domain               => "vendata.org",
+      :user_name            => ENV['VENDATA_SMTP_USER'],
+      :password             => ENV['VENDATA_SMTP_PASSWORD'],
+      :authentication       => :plain,
+      :enable_starttls_auto => true
+  }
+
 end
+
