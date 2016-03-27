@@ -15,6 +15,7 @@ module.exports = {
         REGISTRATION: Root + "/auth/",
         LOGOUT:       Root + "/auth/sign_out",
         UPDATE:       Root + "/auth/",
+        USERS_STATISTICS: "/users_statistics", //GET
 
         // Schemata
         SCHEMATA:              Root + "/schemata",              // GET
@@ -63,8 +64,9 @@ module.exports = {
         UPDATE_REQUEST: null,
         UPDATE_RESPONSE: null,
         LOAD_USER: null,
+        LOAD_USERS_STATISTICS: null,
         RECEIVE_LOAD_USER: null,
-
+        RECEIVE_USERS_STATISTICS: null,
         // Routes
         REDIRECT: null,
 
@@ -140,6 +142,14 @@ module.exports = {
         EMAIL:                     "Email",
         UPDATE_ACTION:             "Actualizar Informacion",
         CREATE_ACTION:             "Crear Usuario",
+        SCRAPING_NUMBER:           "# Scrapings",
+        VALIDATION_NUMBER:         "# Validaciones",  
+        LAST_TIME_CONNECTED:       "Ultima Conexion", 
+        MY_STATISTICS:             "Mis Estadisticas",
+        MANAGE_USERS_STATISTICS:   "Estadisticas Globales",
+        CONNECTION_NUMBER:         "# Conexiones",
+
+
 
         ERROR:                     "Error!",
         ERROR_FORM:                "Errores al procesar el formulario!",

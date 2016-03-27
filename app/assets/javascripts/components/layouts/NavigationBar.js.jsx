@@ -80,8 +80,8 @@ NavigationBar = React.createClass({
                 </MenuItem>
             </NavDropdown>
             ) : (
-            <Dropdown className="login-button" open={this.state.open} id="dropdown" >
-              <DropdownToggle bsRole="toggle" onClick={this._setOpen}>
+            <Dropdown className="login-button" open={this.state.open} onToggle={this._setOpen} id="dropdown" >
+              <DropdownToggle bsRole="toggle">
                 Entrar
               </DropdownToggle>
 

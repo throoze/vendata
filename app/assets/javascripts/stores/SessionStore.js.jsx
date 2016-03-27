@@ -16,6 +16,8 @@ var _expiry      = sessionStorage.getItem('expiry');
 var _token_type  = sessionStorage.getItem('token-type');
 var _errors      = [];
 var _resCreate   = "";
+var _userList    = [];
+
 
 var SessionStore = assign({}, EventEmitter.prototype, {
 
@@ -52,6 +54,10 @@ var SessionStore = assign({}, EventEmitter.prototype, {
             'expiry': _expiry,
             'token-type': _token_type
           };
+  },
+
+  getUserStatistics: function() {
+    return _userList;
   },
 
   isLoggedIn: function() {
@@ -94,14 +100,10 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
   switch(action.type) {
 
     case ActionTypes.CREATE_RESPONSE:
-      console.log("respuesta ok");
       if (action.errors) {
-        console.log("hubo error");
-        console.log(action.errors+ " AQUI");
         _errors = action.errors;
       }
       else {
-        console.log("no hubo error");
         _errors = ["Exito!"];
       }
       SessionStore.emitChange();
@@ -181,6 +183,20 @@ SessionStore.dispatchToken = VendataAppDispatcher.register(function(payload) {
 
       SessionStore.emitChange();
       break;
+
+    case ActionTypes.RECEIVE_USERS_STATISTICS:
+
+      if (action.json) {
+        _userList = action.json; 
+      }; 
+
+      if (action.erros) {
+        _errors = action.erros; 
+      }else {
+        _errors = "";
+      }
+
+      SessionStore.emitChange();
 
     default:
   }

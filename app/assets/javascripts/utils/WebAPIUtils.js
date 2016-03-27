@@ -28,7 +28,12 @@ module.exports = {
       .end(function(error, res){
         if (res) {
           if (res.error) {
-            var errorMsgs = _getErrors(res);
+            var json = JSON.parse(res.text); 
+            var errorList = json.errors.full_messages;
+            var errorMsgs = "";
+            for (e in errorList) {
+              errorMsgs += errorList[e] + ", "; 
+            };
             ServerActionCreators.receiveCreate(null, errorMsgs);
           } else {
             json = JSON.parse(res.text);
@@ -100,6 +105,21 @@ module.exports = {
   
   loadUser: function(){
     ServerActionCreators.receiveLoadUser("OK",null);  
+  },
+
+  loadUserStatistics: function() {
+    request.get(APIEndpoints.USERS_STATISTICS)
+    .end(function(error,res){
+      if (res) {
+        var errorMsgs = _getErrors(res); 
+        if (res.error) {
+          ServerActionCreators.receiveUsersStatistics(null,errorMsgs);
+        } else {
+          json = JSON.parse(res.text);
+          ServerActionCreators.receiveUsersStatistics(json,null);
+        }
+      }
+    });
   },
 
   loadSchemata: function(){
