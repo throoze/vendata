@@ -1,0 +1,250 @@
+# Look in seeds.rb for a mongoized, more structured, version.
+
+Documento
+| numero : int
+| fecha : date
+| tipo : ["ordinario", "extraordinario"]
+| listo : boolean
+
+Gaceta << Documento
+| documentos : [ActoNormativo]
+
+
+Restricciones: {
+    Efectos : {
+        AprobacionDeLey : [Ley],
+        Decreto : [
+            CreacionDeEmpresaEstatal,
+            CreacionDeOrganismoPublico,
+            Designacion,
+            Expropiacion,
+            CreditoAdicional
+        ],
+        Resolucion : [
+            CreacionDeOrganismoPublico,
+            Designacion,
+            IntervencionDeInstitucion,
+            ProrrogaDeIntervencion,
+            AscensoMilitar,
+            LicenciaDeExploracionYExplotacion,
+            Jubilacion
+        ],
+        LeyAprobatoria : [
+            AcuerdoBilateral,
+            AcuerdoMarcoDeCooperacion,
+            AcuerdoComplementarioAlAcuerdoMarcoDeCooperacion,
+            AcuerdoComplementarioDeCooperacion,
+            EstablecimientoDeSedeDiplomatica
+        ],
+        Providencia : [
+            Designacion,
+            DelegacionDeFunciones,
+            Jubilacion
+        ],
+        Acuerdo : [
+            CreditoAdicional,
+            Designacion
+        ],
+        Requisitoria : [
+            OrdenDeAprehension
+        ],
+        Autorizacion : [
+            CreacionDeEmpresaEstatal
+        ]
+    }
+}
+
+
+ActoNormativo << Documento
+| emisor : Organismo
+| efecto : Efecto
+
+Pais
+| nombre : string
+| nacionalidad : string
+
+Nacionalidad
+| nacionalidad : string
+| pais : string
+
+
+Ciudadano
+| nombre : string
+| cedula : string
+| militar : boolean : default:false
+| lugar_de_nacimiento : Pais : nullable
+| nacionalidad : Nacionalidad : nullable
+| direccion : string : nullable
+
+
+Institucion
+| nombre : string
+| acronimo : string
+
+
+OrganismoInternacional
+| nombre : string
+| acronimo : string
+
+
+Organismo << Institucion
+| dependiente_de : Organismo : nullable
+
+
+Empresa << Institucion
+
+
+EmpresaPrivada << Empresa
+| registro_mercantil : string
+
+
+EmpresaEstatal << Empresa
+| capital_inicial : number
+| duracion : string
+| accionista : [Empresa]
+| adscrita_a : Organismo : nullable
+
+
+CuerpoPolicial << Institucion
+
+
+EntidadBancaria << Institucion
+
+
+Efecto
+| fecha : date
+
+
+Cargo
+| nombre : string
+
+Rango
+| nombre : string
+
+
+IntervencionDeInstitucion << Efecto
+| institucion : Institucion
+| motivo : string
+
+
+ProrrogaDeIntervencion << Efecto
+| institucion : Institucion
+| motivo : string
+| duracion : string
+| motivo_prorroga : string : nullable
+
+
+Designacion << Efecto
+| ciudadano : Ciudadano
+| status : ["fijo", "encargado", "ratificado"]
+| cargo : Cargo
+| fecha_fin : date : nullable if status == "encargado"
+
+
+Expropiacion << Efecto
+| terreno : string
+| ubicacion : string
+| motivo : string
+| nuevo_uso : string
+
+
+CreditoAdicional << Efecto
+| beneficiario : Institucion
+| monto : number
+| destino : string
+
+
+AscensoMilitar << Efecto
+| ciudadano : [Ciudadano]
+| graduacion : boolean
+| cargo_nuevo : Cargo
+| cargo_anterior : Cargo
+| promocion : string : nullable
+| componente_militar : ["Fuerzas Armadas", "Aviacion", "Naval", "Guardia Nacional", "Milicia", "Guardia de Honor"]
+
+
+LicenciaDeExploracionYExplotacion << Efecto
+
+
+Acuerdo << Efecto
+| paises_firmantes : [Pais]
+| ambito : string
+| duracion : string
+
+
+AcuerdoBilateral << Acuerdo
+
+
+AcuerdoMarcoDeCooperacion << Acuerdo
+
+
+AcuerdoComplementarioAlAcuerdoMarcoDeCooperacion << Acuerdo
+
+
+AcuerdoComplementarioDeCooperacion << Acuerdo
+
+
+EstablecimientoDeSedeDiplomatica << Efecto
+| organismo : OrganismoInternacional
+
+
+DelegacionDeFunciones << Efecto
+| ciudadano : Ciudadano
+| cargo : Cargo
+| atribuciones : string
+
+
+OrdenDeAprehension << Efecto
+| ciudadano : Ciudadano
+| tribunal : Institucion
+| delito : string
+
+
+
+Jubilacion << Efecto
+| ciudadano : Ciudadano
+| cargo : Cargo
+| anos_de_servicio : number
+| institucion : Institucion
+
+
+Ley << Efecto
+| titulo : string
+| fecha_de_aprobacion : date
+| tipo : ["organica", "ordinaria", "decreto ley", "ley habilitante"]
+| contenido : string : blank
+
+
+CreacionDeEmpresaEstatal << Efecto
+| empresa : Empresa
+
+
+CreacionDeOrganismoPublico << Efecto
+| organismo : Organismo
+| sustituye_a : Organismo : nullable
+
+
+AprobacionDeLey << ActoNormativo
+| aprueba : Ley
+| deroga_a : Ley : nullable
+
+
+Decreto << ActoNormativo
+
+
+Resolucion << ActoNormativo
+
+
+LeyAprobatoria << ActoNormativo
+
+
+Providencia << ActoNormativo
+
+
+Acuerdo << ActoNormativo
+
+
+Requisitoria << ActoNormativo
+
+
+Autorizacion << ActoNormativo

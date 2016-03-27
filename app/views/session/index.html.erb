@@ -1,0 +1,2 @@
+<%# react_component 'Login', {},  prerender: params[:noprerender].nil? %>
+<%= react_router 'Router', 'HistoryLocation', {}, { prerender: params[:noprerender].nil?, prerender_location: login_path } %>

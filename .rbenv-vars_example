@@ -1,0 +1,37 @@
+# Create a file called '.env' for setting general application environment
+# variables. Also, Create a file called '.env.<specific_environment_name>'
+# for setting environment variables specific for a certain environment
+# (i.e. development, test or production).
+
+# Host
+VENDATA_HOST="localhost:3000"
+
+# Secret hash
+SECRET_KEY_BASE=your_generated_secret
+
+# Database
+# Development. If commented, falls back to sqlite3 
+#
+# VENDATA_DEV_DATABASE_ADAPTER=dev_db_adapter
+# VENDATA_DEV_DATABASE_HOST=dev_db_host
+# VENDATA_DEV_DATABASE_PORT=dev_db_port
+# VENDATA_DEV_DATABASE_USER=dev_db_user
+# VENDATA_DEV_DATABASE_PASSWORD=prod_db_password
+#
+# Production:
+#
+VENDATA_DATABASE_HOST=prod_db_host
+VENDATA_DATABASE_PORT=prod_db_port
+VENDATA_DATABASE_USER=prod_db_user
+VENDATA_DATABASE_PASSWORD=prod_db_password
+
+# DocumentCloud authentication
+DOCUMENTCLOUD_EMAIL='your DocumentCloud email'
+DOCUMENTCLOUD_PASSWORD='your DocumentCloud password'
+
+# Debugging ExecJS
+# EXECJS_DEBUG=true
+
+# MongoDB password:
+VENDATA_MONGODB_USER=your_mongo_user
+VENDATA_MONGODB_PASSWORD=your_mongo_passwd

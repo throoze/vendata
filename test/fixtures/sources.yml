@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  dc_id: MyString
+  extraordinary: false
+  status: MyString
+
+two:
+  dc_id: MyString
+  extraordinary: false
+  status: MyString

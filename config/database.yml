@@ -1,0 +1,44 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+default: &default
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+
+development:
+  <% if ENV['VENDATA_DEV_DATABASE_ADAPTER'] %>
+  encoding: utf8
+  adapter: <%= ENV['VENDATA_DEV_DATABASE_ADAPTER'] %>
+  database: vendata_development
+  pool: 5
+  timeout: 5000
+  host:     <%= ENV['VENDATA_DEV_DATABASE_HOST'] %>
+  port:     <%= ENV['VENDATA_DEV_DATABASE_PORT'] %>
+  username: <%= ENV['VENDATA_DEV_DATABASE_USER'] %>
+  password: <%= ENV['VENDATA_DEV_DATABASE_PASSWORD'] %>
+  <% else %>
+  <<: *default
+  database: db/development.sqlite3
+  <% end %>
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: db/test.sqlite3
+
+production:
+  encoding: utf8
+  adapter: postgresql
+  database: vendata_production
+  pool: 5
+  timeout: 5000
+  host: <%= ENV['VENDATA_DATABASE_HOST'] %>
+  port: <%= ENV['VENDATA_DATABASE_PORT'] %>
+  username: <%= ENV['VENDATA_DATABASE_USER'] %>
+  password: <%= ENV['VENDATA_DATABASE_PASSWORD'] %>
