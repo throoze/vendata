@@ -5,11 +5,22 @@ var SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx'
     ErrorNotice           = require('../common/ErrorNotice.js.jsx');
 var Input                 = BS.Input;
 var ButtonInput           = BS.ButtonInput;
+    Panel                 = BS.Panel,
+    Collapse              = BS.Collapse,
+    Alert                 = BS.Alert;
 
 var Create = React.createClass({
 
     getInitialState: function() {
-        return { errors: [] , emailValue:'', passValue:'', passConfirmationValue:'', roleValue:''};
+        return { errors: [] , emailValue:'', passValue:'', passConfirmationValue:'', roleValue:'', alertVisible:false};
+    },
+
+    componentDidMount: function() {
+        SessionStore.addChangeListener(this._onChange);
+    },
+
+    componentWillUnmount: function() {
+        SessionStore.removeChangeListener(this._onChange);
     },
 
     _emailChange: function(e) {
@@ -26,6 +37,13 @@ var Create = React.createClass({
 
     _roleChange: function(e) {
         this.setState({roleValue: e.target.value});
+    },
+
+    _onChange: function() {
+        this.setState({ errors: SessionStore.getErrors() });
+        if ((this.state.errors.length) !== 0) {
+          this.setState({ alertVisible:true });
+        };
     },
 
     _onSubmit: function(e) {
@@ -51,6 +69,13 @@ var Create = React.createClass({
               <Input type="password" placeholder="Password" value={this.state.passValue} onChange={this._passChange}/>
               <Input type="password" placeholder="Pass Confirmation" value={this.state.passConfirmationValue} onChange={this._confChange}/>
               <ButtonInput bsStyle="primary" type="submit" value="Create"/>
+              <Collapse in={this.state.alertVisible}>
+                <div>
+                  <Alert bsStyle="info">
+                    {this.state.errors}
+                  </Alert>
+                </div>
+              </Collapse>
             </form>
           </div>
         );

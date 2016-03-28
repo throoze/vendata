@@ -46,5 +46,12 @@ module.exports = {
     WebAPIUtils.loadUser();
   },
 
+  loadUserStatistics: function(){
+    VendataAppDispatcher.handleViewAction({
+      type: ActionTypes.LOAD_USERS_STATISTICS
+    });
+    WebAPIUtils.loadUserStatistics();
+  },
+
 
 };

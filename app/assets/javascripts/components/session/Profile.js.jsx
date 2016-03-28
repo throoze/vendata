@@ -2,14 +2,15 @@ var React         = require('react');
 
 var SessionActionCreators = require('../../actions/SessionActionCreators.js.jsx');
 
-var Strings = require('../../constants/VendataConstants.js').Strings;
-var Roles   = require('../../constants/VendataConstants.js').Roles;
+var Strings = VendataConstants.Strings;
+var Roles   = VendataConstants.Roles;
 
 var SessionStore  = require('../../stores/SessionStore.js.jsx');
 var NavigationBar = require('../../components/layouts/NavigationBar.js.jsx');
 var BS            = require('react-bootstrap');
 var Create        = require('./Create');
 var Update        = require('./Update');
+var Estadisticas = require('./Estadisticas');
 var Input         = BS.Input,
     Panel         = BS.Panel,
     ListGroup     = BS.ListGroup,
@@ -28,11 +29,6 @@ function getStateFromStores() {
         access_token:SessionStore.getAccessToken(),
         client:SessionStore.getClient(),
         expiry:SessionStore.getExpiry(),
-
-      // t.string :nickname
-      // t.string :image
-      // t.string :email
-      // t.string :role
     };
 }
 
@@ -61,6 +57,14 @@ Profile = React.createClass({
 
     _openUpdate: function(){
         this.setState({openUpdate: !this.state.openUpdate});
+    },
+
+    _openStatistics: function(){
+        this.setState({openStatistics: !this.state.openStatistics});
+    },
+
+    _openManageUsers: function(){
+        this.setState({openManageUsers: !this.state.openManageUsers});
     },
 
     _checkStateValue: function(e) {
@@ -96,6 +100,18 @@ Profile = React.createClass({
                         </Panel>
                     </div>
                 </Collapse>
+                <Button bsStyle="primary" onClick={this._openStatistics}>{Strings.MY_STATISTICS}</Button>
+                <Collapse in={this.state.openStatistics}>
+                    <div>
+                        <Estadisticas uEmail={this.state.email}></Estadisticas>
+                    </div>
+                </Collapse>
+                <Button bsStyle="primary" onClick={this._openManageUsers}>{Strings.MANAGE_USERS_STATISTICS}</Button>
+                <Collapse in={this.state.openManageUsers}>
+                    <div>
+                    <Estadisticas uEmail= "null" ></Estadisticas>
+                    </div>
+                </Collapse>
             </div>
             ):(
             <div>
@@ -113,6 +129,12 @@ Profile = React.createClass({
                             uRole           = {this.state.user.role}
                           ></Update>
                         </Panel>
+                    </div>
+                </Collapse>
+                <Button bsStyle="primary" onClick={this._openStatistics}>{Strings.MY_STATISTICS}</Button>
+                <Collapse in={this.state.openStatistics}>
+                    <div>
+                        <Estadisticas uEmail={this.state.email}></Estadisticas>
                     </div>
                 </Collapse>
             </div> 

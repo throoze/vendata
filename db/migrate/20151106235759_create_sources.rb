@@ -16,7 +16,7 @@ class CreateSources < ActiveRecord::Migration
       t.belongs_to :source, index: true, foreign_key: true
       t.integer    :source_latest_id, index: true, foreign_key: true
       t.string     :document_id, default: nil
-      t.text       :sub_documents, default: nil
+      t.text       :documents, default: nil
 
       t.timestamps null: false
     end
@@ -25,6 +25,8 @@ class CreateSources < ActiveRecord::Migration
       t.belongs_to :user, index: true, foreign_key: true
       t.belongs_to :source, index: true, foreign_key: true
       t.belongs_to :scraping, index: true, foreign_key: true
+      t.string     :message, null: true
+      t.boolean    :positive, null: false
 
       t.timestamps null: false
     end

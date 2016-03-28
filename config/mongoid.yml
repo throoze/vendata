@@ -135,3 +135,16 @@ test:
         read:
           mode: :primary
         max_pool_size: 1
+
+production:
+  clients:
+    default:
+      database: vendata_production
+      hosts:
+        - localhost:27017
+      options:
+        user: vendata
+        password: <%= ENV["VENDATA_MONGODB_PASSWORD"] %>
+        read:
+          mode: :primary
+        max_pool_size: 1
