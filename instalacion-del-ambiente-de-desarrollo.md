@@ -8,7 +8,7 @@ Los requisitos para la ejecución de la aplicación son los siguientes:
 * Ruby on Rails - Framework para el backend 
 * Node.js 0.12.7 - Permite gestionar módulos empleados en el frontend ([React](https://facebook.github.io/react/))
 * MongoDB - Almacena la información sobre las gacetas.
-* Sqlite o PostgreSQL - Se usa para guardare información sobre los usuarios, la especificación de los documentos y todo lo relativo al control de la carga de información (bitácora de acciones). 
+* Sqlite o PostgreSQL - Se usa para guardar información sobre los usuarios, la especificación de los documentos y todo lo relativo al control de la carga de información (bitácora de acciones). 
 
 ## Instalar pre-requisitos
 
