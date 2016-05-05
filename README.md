@@ -1,4 +1,4 @@
-[Logo Vendata](https://github.com/throoze/vendata/blob/develop/logo.png)
+![Logo Vendata](https://github.com/throoze/vendata/blob/develop/logo.png)
 
 # Sobre el proyecto: 
 
