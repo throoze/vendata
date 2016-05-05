@@ -14,7 +14,7 @@ Los requisitos para la ejecución de la aplicación son los siguientes:
 
     $ sudo aptitude clean
     $ sudo aptitude update
-    $ sudo aptitude install build-essential libpq-dev git curl zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev mongodb-server
+    $ sudo aptitude -y install build-essential libpq-dev git curl zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev mongodb-server
     
 Iniciar el servicio de mongodb
 
@@ -27,8 +27,8 @@ Para verificar podemos ejecutar el siguiente comando:
 
 Habilitar el inicio de mongodb por defecto en el sistema operativo (**opcional**):
 
-    $ update-rc.d mongodb defaults
-    $ update-rc.d mongodb start
+    $ sudo update-rc.d mongodb defaults
+    $ sudo update-rc.d mongodb start
 
 ## Instalar Ruby on Rails
 
