@@ -27,7 +27,7 @@ Para verificar podemos ejecutar el siguiente comando:
 
 Habilitar el inicio de mongodb por defecto en el sistema operativo (**opcional**):
 
-    $ update-rc.d mongodb-server defaults
+    $ update-rc.d mongodb defaults
     $ update-rc.d mongodb start
 
 ## Instalar Ruby on Rails
