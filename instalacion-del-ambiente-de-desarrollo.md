@@ -105,7 +105,7 @@ La instalación se realiza manualmente por que la versiones superiores generan p
     # Creamos un enlace simbólico al directorio nodejs de para facilitar la
     # actualización de la versión nodejs. El PATH quedaría igual
     $ cd
-    $ ln -s $HOME/node-v0.12.7/ ~/nodejs/ 
+    $ ln -s $HOME/node-v0.12.7/ $HOME/nodejs/ 
 
 Luego de instalado nodejs es necesario colocar el directorio `/bin/` en el `PATH`. Para ello debemos agregar lo siguiente esto al final del archivo `~/.profile`
 
