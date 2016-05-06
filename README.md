@@ -24,7 +24,7 @@ Actualmente nos encontramos en la segunda etapa, realizando la carga de informac
 
 ## ¿Cómo participar?
 
-Vendata se encuentra en su fase de ejecución por lo que IPYS Venezuela (http://ipysvenezuela.org/) está buscando voluntarios para ayudar a vaciar y organizar los datos. El puede ser realizado a distancia y requiere de acceso a Internet. También buscamos desarrolladores que nos apoyen a mejorar la aplicación.
+Vendata se encuentra en su fase de ejecución por lo que IPYS Venezuela (http://ipysvenezuela.org/) está buscando voluntarios para ayudar a vaciar y organizar los datos. El trabajo puede ser realizado a distancia y requiere de acceso a Internet. También buscamos desarrolladores que nos apoyen a mejorar la aplicación.
 
 ### Periodistas e interesados en liberar datos
 
