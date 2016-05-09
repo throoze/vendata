@@ -73,7 +73,7 @@ Deshabilitar la generación de documentación por gema instalada (**opcional**):
 
  Instalamos el framework para desarrollo:
  
-     $ gem install rails
+     $ gem install rails -v 4.2.6
     
 > **Nota importante:** En caso de instalar una nueva versión de ruby o una gema que provea comandos, deberías correr el subcomando `rehash`. Esto instalará `shims` para todos los ejecutables de Ruby conocidos para rbenv, lo cual te permitirá usar dichos ejecutables. [Fuente (en inglés)](https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-with-rbenv-on-ubuntu-14-04)
 
