@@ -1,54 +1,45 @@
-Vendata
-=======
+![Logo Vendata](https://github.com/throoze/vendata/blob/develop/logo.png)
 
-A platform for a hosted repository and the interfaces to help people ask
-information from it.
+# Sobre el proyecto: 
 
-## Important!
+En Venezuela, un país en donde las restricciones a la prensa están a la orden del día y el acceso a la información pública no está garantizado en la ley, estar informado sobre las decisiones del gobierno puede ser problemático. Por eso, el Instituto Prensa y Sociedad (IPYS) Venezuela junto a Transparencia Venezuela están lanzando Vendata, una plataforma en línea que busca ofrecer de manera sencilla la información contenida en la Gaceta Oficial.
 
-Use `nodejs` engine version less than `v0.12.7`. This is due to a dependency
-on the `jquery` CommonJS Package, that won't work while running on the server
-side, unless it uses `jsdom@3.1.2` which depends on `contextify` which will
-only compile with the mentioned `nodejs` engine, since its `node-gyp` package
-is the only one able to compile it.
+La Gaceta, el medio de comunicación a través del cual el Estado publica sus normas, resoluciones, órdenes administrativas y actos. Es el único imperativo con el que deben cumplir diariamente quienes gobiernan.
 
-## Install rbenv-vars
+El objetivo principal del equipo Vendata es hacer de ella la plataforma de datos abiertos más importante de Venezuela. Para ello, el equipo está creando un motor de búsqueda y una enorme base de datos abiertos disponible para periodistas, investigadores y público en general, presentada de tal manera que la información pueda ser comprendida y reutilizada,. La plataforma web tendrá también una API (application program interface) pública que permitirá que la información contenida en Vendata pueda ser leída y cruzada con otras bases de datos
 
-```
-cd ~/.rbenv/plugins
-git clone https://github.com/sstephenson/rbenv-vars.git
-```
+En el siguiente vídeo se muestra el funcionamiento el módulo de colaboración y carga de información:
+https://www.youtube.com/watch?v=S0FJu4CbbGk
 
-## Install rbenv-sudo
 
-```
-$ git clone git://github.com/dcarley/rbenv-sudo.git ~/.rbenv/plugins/rbenv-sudo
-```
+## Ejecución del proyecto:
 
-Usage:  Prefix your use of sudo with the `rbenv` command:
+El proceso de construcción de Vendata está dividido en tres etapas: 
 
-```
-$ rbenv sudo passenger-install-nginx-module
-```
+1. Análisis de las Gacetas Oficiales y creación del formulario de vaciado.
+2. Activación de la plataforma interna de colaboración y vaciado de información.
+3. Verificación de los datos y montaje de la plataforma de búsqueda online para uso de los usuarios.
 
-## Getting Started
+Actualmente nos encontramos en la segunda etapa, realizando la carga de información. A la par se está realizando la implementación de la plataforma tecnológica. 
 
-- Clone this repository
-- `cd` to the repo's root folder
-- `$ npm install`
-- `$ bundle`
-- `$ bundle exec rails server`
+## ¿Cómo participar?
 
-## Roadmap (in Spanish)
+Vendata se encuentra en su fase de ejecución por lo que IPYS Venezuela (http://ipysvenezuela.org/) está buscando voluntarios para ayudar a vaciar y organizar los datos. El trabajo puede ser realizado a distancia y requiere de acceso a Internet. También buscamos desarrolladores que nos apoyen a mejorar la aplicación.
 
-- Flaguear gacetas en caso de nuevas entidades, con comentario adjunto.
-- Añadir hints a la descripción de los campos complicados.
-- Varios efectos por Acto Normativo?
-- Método de carga de Organismos
-- Revisar la info requerida de los créditos adicionales
-- Feedback y ayuda
-- Mensajes de los administradores a los scrapers
-- Mostrar estadisticas personales (progress bar y porcentajes)
-- Botón de ayuda en el toolbar (link a página de ayuda)
-- Calendario a los campos de fecha
-- Campo clave para las constantes
+### Periodistas e interesados en liberar datos
+
+Escríbenos a escueladedatosvenezuela@gmail.com y te damos más detalles.
+
+### Desarrolladores
+
+La aplicación emplea las siguientes tecnologías: 
+
+* Ruby on Rails - Framework para el backend 
+* Node.js - Permite gestionar módulos empleados en el frontend 
+* ReactJS - Framework en JavaScript para el frontend
+* MongoDB - Almacena la información sobre los documentos
+* PostgreSQL - Se usa para guardar información sobre los usuarios, la especificación de los documentos y todo lo relativo al control de la carga de información (bitácora de acciones)
+* ElasticSearch - Motor de indexado y búsquedas 
+
+El siguiente enlace tiene todos los pasos para instalar la aplicación en un ambiente de desarrollo:
+https://github.com/throoze/vendata/blob/develop/instalacion-del-ambiente-de-desarrollo.md
