@@ -267,7 +267,7 @@ Schema.create([
                 abstract: false,
                 to_str: ["cedula", "nombre"],
                 key: ["cedula"],
-                fields_order: ["nombre", "cedula", "es_militar", "pais_de_nacimiento", "nacionalidad","direccion"],
+                fields_order: ["nombre", "cedula", "RIF", "es_militar", "pais_de_nacimiento", "nacionalidad","direccion"],
                 fields: {
                     cedula: { type: "string", nullable: true },
                     RIF: { type: "string", label: "RIF", nullable: true },
