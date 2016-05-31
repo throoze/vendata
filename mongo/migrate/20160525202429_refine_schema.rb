@@ -823,6 +823,7 @@ Schema.create([
             OrganismoInternacional: [],
             Ciudadano: [],
             Institucion: [
+                "Ciudadano",
                 "Organismo",
                 "Empresa",
                 "CuerpoPolicial",
@@ -901,7 +902,7 @@ Schema.create([
             Pais: [],
             Nacionalidad: [],
             OrganismoInternacional: [],
-            Ciudadano: [],
+            Ciudadano: ["Institucion"],
             Institucion: [],
             Organismo: ["Institucion"],
             Empresa: ["Institucion"],
