@@ -146,7 +146,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["numero", "fecha", "emisor", "efecto", "deroga"],
+                fields_order: ["numero", "fecha", "emisor", "efectos", "deroga"],
                 fields: {
                     deroga: { type: "Ley", nullable: true }
                 }
@@ -157,7 +157,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["numero", "fecha", "emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efectos"]
             },
             Decreto: {
                 classname: "Decreto",
@@ -165,7 +165,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["numero", "fecha", "emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efectos"]
             },
             Resolucion: {
                 classname: "Resolucion",
@@ -173,7 +173,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["numero", "fecha", "emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efectos"]
             },
             LeyAprobatoria: {
                 classname: "LeyAprobatoria",
@@ -181,7 +181,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["numero", "fecha", "emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efectos"]
             },
             Providencia: {
                 classname: "Providencia",
@@ -189,7 +189,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["numero", "fecha", "emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efectos"]
             },
             AcuerdoActoNormativo: {
                 classname: "AcuerdoActoNormativo",
@@ -197,7 +197,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["numero", "fecha", "emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efectos"]
             },
             Requisitoria: {
                 classname: "Requisitoria",
@@ -205,7 +205,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["numero", "fecha", "emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efectos"]
             },
             Autorizacion: {
                 classname: "Autorizacion",
@@ -213,7 +213,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["numero", "fecha", "emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efectos"]
             },
             Decision: {
                 classname: "Decision",
@@ -221,7 +221,7 @@ Schema.create([
                 constant: false,
                 abstract: false,
                 extends: ["ActoNormativo", "Documento"],
-                fields_order: ["numero", "fecha", "emisor", "efecto"]
+                fields_order: ["numero", "fecha", "emisor", "efectos"]
             },
             Pais: {
                 classname: "Pais",
@@ -726,12 +726,12 @@ Schema.create([
         },
         constraints: {
             AprobacionDeLey: {
-                efecto: {
+                efectos: {
                     typeIn: ["Ley"]
                 }
             },
             Decreto: {
-                efecto: {
+                efectos: {
                     typeIn: [
                         "CreacionDeEmpresaEstatal",
                         "CreacionDeOrganismoPublico",
@@ -742,7 +742,7 @@ Schema.create([
                 }
             },
             Resolucion: {
-                efecto: {
+                efectos: {
                     typeIn: [
                         "CreacionDeOrganismoPublico",
                         "Designacion",
@@ -755,7 +755,7 @@ Schema.create([
                 }
             },
             LeyAprobatoria: {
-                efecto: {
+                efectos: {
                     typeIn: [
                         "AcuerdoBilateral",
                         "AcuerdoMarcoDeCooperacion",
@@ -766,7 +766,7 @@ Schema.create([
                 }
             },
             Providencia: {
-                efecto: {
+                efectos: {
                     typeIn: [
                         "Designacion",
                         "DelegacionDeFunciones",
@@ -775,7 +775,7 @@ Schema.create([
                 }
             },
             AcuerdoActoNormativo: {
-                efecto: {
+                efectos: {
                     typeIn: [
                         "CreditoAdicional",
                         "Designacion"
@@ -783,12 +783,12 @@ Schema.create([
                 }
             },
             Requisitoria: {
-                efecto: {
+                efectos: {
                     typeIn: ["OrdenDeAprehension"]
                 }
             },
             Autorizacion: {
-                efecto: {
+                efectos: {
                     typeIn: ["CreacionDeEmpresaEstatal"]
                 }
             }
