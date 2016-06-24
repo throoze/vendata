@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   mount_devise_token_auth_for 'User',at: 'api/v1/auth', :controllers => { :confirmations => 'confirmations' }
   root 'application#index'
 
@@ -14,6 +15,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :search, only: [] do
+        collection do
+          get '/:q', action: 'search', as: 'simple_search'
+        end
+      end
       resources :schemata, only: [:index] do
         collection do
           post 'collections/new', action: 'add_collection', as: 'add_collection_to_schema'
