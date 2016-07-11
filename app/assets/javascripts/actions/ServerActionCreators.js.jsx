@@ -90,5 +90,13 @@ module.exports = {
       json: json,
       errors: errors
     });
+  },
+
+  receiveSearchResults: function(json, errors) {
+    VendataAppDispatcher.handleServerAction({
+      type: ActionTypes.RECEIVE_SEARCH_RESULTS,
+      json: json,
+      errors: errors
+    });
   }
 };

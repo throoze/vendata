@@ -1,4 +1,4 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
+    // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
 // Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
@@ -12,6 +12,7 @@
 //
 //  require jquery
 //  require jquery_ujs
+//  require images
 //= require turbolinks
 //  require react
 //  require react_ujs
@@ -20,7 +21,6 @@
 //  require react_router_ujs
 //= require_self
 //= require bootstrap-sprockets
-
 
 $ = jQuery = global.$ = global.jQuery = window.$ = window.jQuery = require('jquery');
 

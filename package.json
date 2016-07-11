@@ -30,7 +30,9 @@
     "babel": "^6.0.15",
     "browserify": "~9.0.8",
     "browserify-incremental": "^3.0.0",
-    "reactify": "^1.1.0"
+    "reactify": "^1.1.0",
+    "urify": "^2.0.2",
+    "urify-emitter": "^1.1.2"
   },
   "repository": {
     "type": "git",

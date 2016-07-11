@@ -42,7 +42,7 @@ var Vendata = React.createClass({
     //var isLoggedIn = this.state === null ? false : this.state.isLoggedIn;
    // var email = this.state.user !== null? this.state.user.email : "";
     return (
-      <div className="app">
+      <div className="vendata">
         <NavigationBar isLoggedIn={this.state.isLoggedIn} email={this.state.email} {...this.props}/>
         <div style={{height: 50 + 'px', clear: 'both'}}></div>
         <RouteHandler notificationSystem={this.state.notificationSystem} isLoggedIn={this.state.isLoggedIn} user={this.state.user} {...this.props}/>

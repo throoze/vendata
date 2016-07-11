@@ -4,10 +4,13 @@ Rails.application.routes.draw do
   root 'application#index'
 
   get 'all_users' => 'session#all_users'
-  get 'login' => 'session#index', as: 'login'
-  get 'profile' => 'session#index', as: 'profile'
-  get 'scraping' => 'scraping#index', as: 'scraping'
+  get 'platform' => 'application#index', as: 'welcome' 
+  get 'platform/login' => 'session#index', as: 'login'
+  get 'platform/profile' => 'session#index', as: 'profile'
+  get 'platform/scraping' => 'scraping#index', as: 'scraping'
+  get 'platform/search' => 'search#index', as: 'search'
   get 'users_statistics' => 'session#scrapingsNum', as:'users_statistics'
+
 
   devise_scope :user do
     get '/confirm/:confirmation_token', :to => "devise/confirmations#show", :as => "user_confirm", :only_path => false
@@ -17,7 +20,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :search, only: [] do
         collection do
-          get '/:q', action: 'search', as: 'simple_search'
+          get '/', action: 'search', as: 'simple_search'
         end
       end
       resources :schemata, only: [:index] do
