@@ -1,7 +1,6 @@
 // Tell react-rails where our components are
 //= require_self
 //= require_tree ./components
-
 window.React = require('react');
 window.ReactRouter = require('react-router');
 window.VENDATA_HOST = '';
@@ -18,9 +17,11 @@ window.VendataConstants = require('./constants/VendataConstants.js');
 window.timeoutReference = null;
 
 // Components:
-window.Vendata       = require('./components/Vendata');
-window.Login         = require('./components/session/Login');
-window.Scraping      = require('./components/scraping/Scraping');
+window.Vendata  = require('./components/Vendata');
+window.Login    = require('./components/session/Login');
+window.Scraping = require('./components/scraping/Scraping');
+window.Search   = require('./components/search/Search');
+window.Home     = require('./components/home');
 // Routing
 window.Router  = require('./routes');
 

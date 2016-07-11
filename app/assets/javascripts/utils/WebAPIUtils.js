@@ -5,6 +5,7 @@ var request              = require('superagent');
 var APIEndpoints         = VendataConstants.APIEndpoints;
 var DocumentCloud        = VendataConstants.DocumentCloud;
 var SessionStore         = require('../stores/SessionStore');
+var SearchStore          = require('../stores/SearchStore');
 
 function _getErrors(res) {
     var errorMsgs = ["Se produjo un error, por favor intente de nuevo"];
@@ -236,6 +237,25 @@ module.exports = {
                       result.classname = json.classname;
                       ServerActionCreators.receiveScraping(result, null);
                       success();
+                  }
+              }
+          });
+  },
+
+  search: function(query) {
+      request.get(APIEndpoints.SIMPLE_SEARCH)
+          .query({ q: query })
+          .set(SessionStore.getHeaders())
+          .set('Accept', 'application/json')
+          .end(function(error, res){
+              if (res) {
+                  SessionStore.update(res.header);
+                  if (res.error) {
+                      var errorMsgs = _getErrors(res);
+                      ServerActionCreators.receiveSearchResults(null, errorMsgs);
+                  } else {
+                      json = res.body;
+                      ServerActionCreators.receiveSearchResults(json, null);
                   }
               }
           });

@@ -73,6 +73,7 @@ gem 'cancan', '>= 1.6.10'
 gem 'react-rails', '~> 1.4.2'
 gem 'react-router-rails', '~>0.13.3.1'
 gem 'browserify-rails', '~> 0.9.1'
+# gem 'react-rails-img'
 
 # DocumentCloud
 gem 'documentcloud', '>= 0.3.1'
@@ -86,3 +87,4 @@ gem 'autoprefixer-rails'
 
 # MongoDB ODM:
 gem 'mongoid', '~> 5.0.0'
+

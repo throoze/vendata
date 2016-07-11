@@ -1,12 +1,16 @@
 Rails.application.routes.draw do
+
   mount_devise_token_auth_for 'User',at: 'api/v1/auth', :controllers => { :confirmations => 'confirmations' }
   root 'application#index'
 
   get 'all_users' => 'session#all_users'
-  get 'login' => 'session#index', as: 'login'
-  get 'profile' => 'session#index', as: 'profile'
-  get 'scraping' => 'scraping#index', as: 'scraping'
+  get 'platform' => 'application#index', as: 'welcome' 
+  get 'platform/login' => 'session#index', as: 'login'
+  get 'platform/profile' => 'session#index', as: 'profile'
+  get 'platform/scraping' => 'scraping#index', as: 'scraping'
+  get 'platform/search' => 'search#index', as: 'search'
   get 'users_statistics' => 'session#scrapingsNum', as:'users_statistics'
+
 
   devise_scope :user do
     get '/confirm/:confirmation_token', :to => "devise/confirmations#show", :as => "user_confirm", :only_path => false
@@ -14,6 +18,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :search, only: [] do
+        collection do
+          get '/', action: 'search', as: 'simple_search'
+        end
+      end
       resources :schemata, only: [:index] do
         collection do
           post 'collections/new', action: 'add_collection', as: 'add_collection_to_schema'

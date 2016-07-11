@@ -31,7 +31,10 @@ module.exports = {
         SCRAPING_GET_DOC_FOR_VALIDATING: Root + "/scraping/validate/new.json", // GET
         SCRAPING_POST_VALIDATED_DOC:     Root + "/scraping/validate/new",      // POST
         SCRAPING_LOAD_CONSTANT_CLASS:    Root + "/scraping/constant",          // GET
-        SCRAPING_CREATE_CONSTANT_CLASS:  Root + "/scraping/constant"           // POST
+        SCRAPING_CREATE_CONSTANT_CLASS:  Root + "/scraping/constant",          // POST
+
+        // Search
+        SIMPLE_SEARCH: Root + "/search" // GET
     },
 
     Roles: {
@@ -85,7 +88,11 @@ module.exports = {
         RECEIVE_CLEAR_DOC: null,
         LOAD_CONSTANT_CLASS: null,
         RECEIVE_CONSTANT_CLASS: null,
-        CREATE_CONSTANT_CLASS: null
+        CREATE_CONSTANT_CLASS: null,
+
+        // Search
+        LOAD_SEARCH_RESULTS: null,
+        RECEIVE_SEARCH_RESULTS: null
 
     }),
 
@@ -108,6 +115,7 @@ module.exports = {
         LOADING:                   "Cargando...",
         SEARCHING:                 "Buscando...",
         SUBMIT:                    "Enviar",
+        SEARCH:                    "Buscar",
         DELETE:                    "Eliminar",
         ADD:                       "Agregar",
         ADD_NEW_OPT:               "Agregar nueva opción...",
@@ -120,6 +128,7 @@ module.exports = {
         PLACEHOLDER_DATE:          "Introduzca la fecha: dd-mm-aaaa",
         PLACEHOLDER_NUMBER:        "Introduzca el número",
         PLACEHOLDER_CHOOSE:        "Seleccione",
+        PLACEHOLDER_SEARCH:        "Introduzca su búsqueda",
         HELP:                      "Ayuda",
         FAQ:                       "Preguntas Frecuentes",
         SUPPORT:                   "Soporte técnico",
